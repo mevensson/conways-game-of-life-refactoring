@@ -51,7 +51,7 @@ Use the flag **-?** to display usage help.
 >        -q              Quiet mode. Only outputs the last step in a simulation. Ignores time delay.
   
 	
-The following set of arguments would result in a 1000 steps simulation, detecting loops of max length 200, with view port size of 70x40, using UTF8 blocks for displaying cells and using a 150 ms delay between each step.
+The following set of arguments would result in a 1000 steps simulation, detecting loops of max length 200, with view port size of 70x40, using UTF8 blocks for displaying cells and using a 150 ms delay between each simulation step.
 
 >    **`$ java gol.GameOfLife -s 1000 -l 200 -w 70 -h 40 -b -t 150`**
 
@@ -59,7 +59,7 @@ The default values also work fine. If running from the project root folder, use 
 
 >   **`$ java -cp bin/ gol.GameOfLife`**
 
-There are some example start states in the **examples**-folder in the project root. One of these are a 100-steps oscillator called *centinal*.
+There are some example start states in the **examples**-folder in the project root. One of these is a 100-steps oscillator called *centinal*.
 
 >   **`$ java -cp bin/ gol.GameOfLife -f examples/centinal -t 100 -c`**
 
