@@ -6,7 +6,7 @@ This is a Java refactoring practice project. It is a *Conway's-game-of-life-on-c
 
 It is written in such a way that it really needs some refactoring. Feature by feature has been added without ever improving on the existing code base. Real world bad practice&trade;.
 
-Luckily this project has a quite god test suite of jUnit4 tests. Further, the test cases do test the GameOfLife program as a whole, so the internal design of the production code is not locked down by the test cases. Very handy when the production code is a mess.
+Luckily this project has a quite good test suite of jUnit 4 tests. Further, the test cases do test the GameOfLife program as a whole, so the internal design of the production code is not locked down by the test cases. That happens to be very handy when the production code is a major mess.
 
 
 ## Using the code
@@ -51,7 +51,7 @@ Use the flag **-?** to display usage help.
 >        -q              Quiet mode. Only outputs the last step in a simulation. Ignores time delay.
   
 	
-The following set of arguments would result in a 1000 steps simulation, detecting loops of max length 200, with view port size of 70x40, using UTF8 blocks for displaying cell and using a 150 ms delay between each step.
+The following set of arguments would result in a 1000 steps simulation, detecting loops of max length 200, with view port size of 70x40, using UTF8 blocks for displaying cells and using a 150 ms delay between each step.
 
 >    **`$ java gol.GameOfLife -s 1000 -l 200 -w 70 -h 40 -b -t 150`**
 
