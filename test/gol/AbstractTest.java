@@ -33,8 +33,8 @@ public abstract class AbstractTest {
 	}
 
 	protected void executionTimeMustBeInRange(final int min, final int max) {
-		expectation.executionTimeMin = min; // 4 * 200
-		expectation.executionTimeMax = max; // 20% time window
+		expectation.executionTimeMin = min;
+		expectation.executionTimeMax = max;
 	}
 
 	protected void givenProgramArgs(final String args) {

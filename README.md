@@ -2,14 +2,14 @@
 
 # What? 
 
-This is a refactoring practice project. It is a ~500 lines of production code Conways-game-of-life-on-command-line-program. It is written in such a way, that it really needs some refactoring. It is hard to read and hard to maintain. Inspiration to some of the bad practices in this implementation come from real world projects.
+This is a Java refactoring practice project. It is a *Conway's-game-of-life-on-command-line-program*. The production code is hard to read and hard to maintain, weighing in on around 500 LOC. 
 
-Luckily this project has a quite god test suite of JUnit4 tests. Further, the test cases do test the GameOfLife program as a whole, so the internal design of the production code is not locked down by the test cases. Very handy when the production code is a mess.
+It is written in such a way, that it really needs some refactoring. Feature by feature has been added without ever improving on the existing code base. Real world bad practice&trade;.
+
+Luckily this project has a quite god test suite of jUnit4 tests. Further, the test cases do test the GameOfLife program as a whole, so the internal design of the production code is not locked down by the test cases. Very handy when the production code is a mess.
 
 
-
-
-## How to refactor the code
+## Using the code
 
 The code to improve is in the **src**-folder. The tests are in the **test**-folder.
 
