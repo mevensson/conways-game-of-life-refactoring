@@ -6,7 +6,7 @@ This is a Java refactoring practice project. It is a *Conway's-game-of-life-on-c
 
 It is written in such a way that it really needs some refactoring. Feature by feature has been added without ever improving on the existing code base. Real world bad practice&trade;.
 
-Luckily this project has a quite good test suite of jUnit 4 tests. Further, the test cases do test the GameOfLife program as a whole, so the internal design of the production code is not locked down by the test cases. This happens to be very handy when the production code is a major mess.
+Luckily this project has a quite good test suite of jUnit 4 tests. Further, the test cases do test the GameOfLife program as a whole, so the internal design of the production code is not locked down by the test cases - very convenient when the production code is a major mess.
 
 
 ## Using the code
