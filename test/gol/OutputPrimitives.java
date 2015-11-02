@@ -16,8 +16,8 @@ public class OutputPrimitives {
 		out.ln("   -w <WIDTH>      Width of simulation view port. Default is 20.");
 		out.ln("   -h <HEIGHT>     Height of simulation view port. Default is 15.");
 		out.ln("   -f <FILE_PATH>  File with start state. Default is a random start state.");
-		out.ln("   -b              Use UTF8 block characters █ and ░ instead of default # and -.");
-		out.ln("   -c              Use UTF8 circle characters ● and ◌ instead of default # and -.");
+		out.ln("   -@              Use spaced '@' and '.' instead of default '#' and '-'.");
+		out.ln("   -O              Use 'O' instead of default '#'.");
 		out.ln("   -s <STEPS>      Number of maximum generation steps. Default is 100.");
 		out.ln("   -l <X>          Detect loops of maximum length x. Default is 0 - no loop detection.");
 		out.ln("   -t <MS>         Time delay (ms) to wait between each step. Default is 0 ms.");

@@ -144,17 +144,17 @@ public class GameOfLife {
 								.length();
 				} else if ("-?".equals(arg)) {
 					throw new Exception("Help requested");
-				} else if ("-b".equals(arg)) {
-					GameOfLifeUtf8 newGame = new GameOfLifeUtf8();
-					newGame.isBlocks = true;
+				} else if ("-@".equals(arg)) {
+					GameOfLifeSpecialOutputFormat newGame = new GameOfLifeSpecialOutputFormat();
+					newGame.isAtSigns = true;
 					newGame.world = game.world;
 					newGame.height = game.height;
 					newGame.width = game.width;
 					newGame.steps = game.steps;
 					game = newGame;
-				} else if ("-c".equals(arg)) {
-					GameOfLifeUtf8 newGame = new GameOfLifeUtf8();
-					newGame.isBlocks = false;
+				} else if ("-O".equals(arg)) {
+					GameOfLifeSpecialOutputFormat newGame = new GameOfLifeSpecialOutputFormat();
+					newGame.isAtSigns = false;
 					newGame.world = game.world;
 					newGame.height = game.height;
 					newGame.width = game.width;
@@ -210,8 +210,8 @@ public class GameOfLife {
 			line("   -w <WIDTH>      Width of simulation view port. Default is 20.");
 			line("   -h <HEIGHT>     Height of simulation view port. Default is 15.");
 			line("   -f <FILE_PATH>  File with start state. Default is a random start state.");
-			line("   -b              Use UTF8 block characters █ and ░ instead of default # and -.");
-			line("   -c              Use UTF8 circle characters ● and ◌ instead of default # and -.");
+			line("   -@              Use spaced '@' and '.' instead of default '#' and '-'.");
+			line("   -O              Use 'O' instead of default '#'.");
 			line("   -s <STEPS>      Number of maximum generation steps. Default is 100.");
 			line("   -l <X>          Detect loops of maximum length x. Default is 0 - no loop detection.");
 			line("   -t <MS>         Time delay (ms) to wait between each step. Default is 0 ms.");
