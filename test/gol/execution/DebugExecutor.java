@@ -1,6 +1,7 @@
-package gol.util;
+package gol.execution;
 
 import gol.GameOfLife;
+import gol.util.Expectation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,7 +29,7 @@ import java.util.Scanner;
 public class DebugExecutor implements Executor {
 
 	@Override
-	public void executeProgram(String args) {
+	public void executeProgram(String args, Result result) {
 		GameOfLife.main(tokenize(args));
 	}
 
@@ -45,8 +46,4 @@ public class DebugExecutor implements Executor {
 		return list.toArray(new String[0]);
 	}
 
-	@Override
-	public void assertExpectations(Expectation expects) {
-		// do nothing
-	}
 }

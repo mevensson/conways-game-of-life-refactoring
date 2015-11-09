@@ -1,11 +1,13 @@
 package gol;
 
-import gol.util.DebugExecutor;
-import gol.util.Executor;
+import gol.execution.DebugExecutor;
+import gol.execution.Executor;
+import gol.execution.Result;
+import gol.execution.SeparateProcessExecutor;
+import gol.execution.TimedExecutor;
 import gol.util.Expectation;
-import gol.util.SeparateProcessExecutor;
+import gol.util.OutputVerifier;
 import gol.util.Text;
-import gol.util.TimedExecutor;
 
 import java.util.function.Consumer;
 
@@ -64,16 +66,20 @@ public abstract class AbstractTest {
 	public void after() {
 		expectation.output = output.text;
 		Executor executor = getExecutor();
-		executor.executeProgram(args);
-		executor.assertExpectations(expectation);
+		Result result = new Result.Empty();
+		OutputVerifier verifier = new OutputVerifier();
+
+		executor.executeProgram(args, result);
+		verifier.verify(expectation, result);
 	}
 
 	protected Executor getExecutor() {
 		if (DEBUG_MODE) {
 			System.err.println("Warning! Running test in debug mode.");
-			System.err.println("Alter with variable gol.AbstractTest.DEBUG_MODE.");
+			System.err
+					.println("Alter with variable gol.AbstractTest.DEBUG_MODE.");
 			System.err.println("");
-			
+
 			return new DebugExecutor();
 		} else
 			return new TimedExecutor(new SeparateProcessExecutor());

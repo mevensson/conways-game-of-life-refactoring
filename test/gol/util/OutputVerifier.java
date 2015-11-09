@@ -1,16 +1,14 @@
 package gol.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import gol.execution.Result;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class OutputVerifier {
 
-	private static class OutputData {
+	private static class OutputMetrics {
 		int stepsCount = 0;
 		int height = 0;
 		int width = 0;
@@ -19,8 +17,21 @@ public class OutputVerifier {
 	private static final Pattern STEP_PATTERN = Pattern.compile("step \\d+.*");
 	private static final Pattern START_PATTERN = Pattern.compile("start");
 
-	public void verify(Expectation expects, List<String> outputLines,
-			List<String> errorLines) {
+	public void verify(Expectation expectation, Result result) {
+
+		assertEquals(0, result.getExitValue());
+
+		if (expectation.executionTimeMin != Expectation.IGNORE) {
+			verifyExecutionTimeIsInRange(expectation, result);
+		}
+
+		verify(expectation, result.getOutputLines(), result.getErrorLines());
+
+	}
+
+	private void verify(Expectation expects, Iterable<String> outputLines,
+			Iterable<String> errorLines) {
+
 		String errorText = toSingleString(errorLines);
 		assertEquals(Expectation.NOTHING, errorText);
 
@@ -29,23 +40,14 @@ public class OutputVerifier {
 			assertEquals("Output missmatch", expects.output, outText);
 		}
 
-		OutputData actual = interpretOutput(outputLines);
+		OutputMetrics actual = interpretOutput(outputLines);
 		assertNonIgnored("Step count", expects.stepCount, actual.stepsCount);
 		assertNonIgnored("Viewport width", expects.width, actual.width);
 		assertNonIgnored("Viewport height", expects.height, actual.height);
 	}
 
-	public List<String> consumeStream(InputStream stream) {
-		Scanner scanner = new Scanner(stream);
-		List<String> result = new ArrayList<>();
-		while (scanner.hasNextLine())
-			result.add(scanner.nextLine());
-		scanner.close();
-		return result;
-	}
-
-	private String toSingleString(List<String> lines) {
-		if (lines.isEmpty())
+	private String toSingleString(Iterable<String> lines) {
+		if (!lines.iterator().hasNext())
 			return Expectation.NOTHING;
 
 		StringBuilder sb = new StringBuilder();
@@ -57,23 +59,23 @@ public class OutputVerifier {
 		return sb.toString();
 	}
 
-	private OutputData interpretOutput(List<String> lines) {
+	private OutputMetrics interpretOutput(Iterable<String> lines) {
 
-		OutputData data = new OutputData();
+		OutputMetrics metrics = new OutputMetrics();
 
 		for (String line : lines)
-			data.stepsCount += isStepLine(line) ? 1 : 0;
+			metrics.stepsCount += isStepLine(line) ? 1 : 0;
 
 		for (String line : lines) {
 			boolean isStartLine = isStartLine(line);
 			if (isStartLine)
 				break;
 
-			data.width = line.length();
-			data.height++;
+			metrics.width = line.length();
+			metrics.height++;
 		}
 
-		return data;
+		return metrics;
 	}
 
 	private boolean isStartLine(String line) {
@@ -87,5 +89,20 @@ public class OutputVerifier {
 	private void assertNonIgnored(String message, int expected, int actual) {
 		if (expected != Expectation.IGNORE)
 			assertEquals(message, expected, actual);
+	}
+
+
+
+	private void verifyExecutionTimeIsInRange(Expectation expectation,
+			Result result) {
+		long actual = result.getExecutionTimeMillis();
+		long expectedMin = expectation.executionTimeMin;
+		long expectedMax = expectation.executionTimeMax;
+
+		assertTrue("Expected execution time >= " + expectedMin
+				+ " ms, but was " + actual, actual >= expectedMin);
+
+		assertTrue("Expected execution time < " + expectedMax + " ms, but was "
+				+ actual, actual < expectedMax);
 	}
 }
