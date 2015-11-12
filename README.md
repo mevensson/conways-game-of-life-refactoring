@@ -4,7 +4,7 @@
 
 This is a Java refactoring practice project. It is a *Conway's-game-of-life-on-command-line-program*.
 
-It is written in such a way that it really needs some refactoring. Feature by feature has been added without ever improving on the existing code base. The production code is hard to read and hard to maintain. Real world bad practice&trade;.
+It is written in such a way that it really needs some refactoring. The production code is hard to read and hard to maintain. Feature by feature has been added without ever improving on the existing code base. Real world bad practice&trade;.
 
 Luckily this project has a quite good test suite of jUnit 4 tests. Further, the test cases do test the GameOfLife program as a whole, so the internal design of the production code is not locked down by the test cases.
 
@@ -24,6 +24,13 @@ The code to improve is in the **src**-folder. The tests are in the **test**-fold
 2. Import into Eclipse or squeeze it into your favorite IDE.
 3. Practice your refactoring magic.
 
+### Other practice scenario A
+
+Improve performance. Do you know your performance profiler? Is it possible to improve the performance by a factor 10? There are some performance tests in class *gol.performance.PerformanceTest*. 
+
+### Other practice scenario B
+
+Add new features to the program. A new feature could be to read and write [the RLE-format](http://www.conwaylife.com/wiki/Run_Length_Encoded) or [some other file format](http://www.conwaylife.com/wiki/Category:File_formats).
 
 
 

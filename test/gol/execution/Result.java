@@ -115,9 +115,9 @@ public interface Result {
 		}
 	}
 	
-	static class IgnoreOutAndErrorLinesResult extends AbstractDecoratorResult {
+	static class IgnoreLinesResult extends AbstractDecoratorResult {
 
-		IgnoreOutAndErrorLinesResult(Result inner) {
+		public IgnoreLinesResult(Result inner) {
 			super(inner);
 		}
 
