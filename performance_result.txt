@@ -1,0 +1,19 @@
+Quiet Long Simulation
+12619 ms (baseline 13210.0 ms)
+Performance factor 1.0 compared to baseline
+
+Extreme Read
+4507 ms (baseline 4552.0 ms)
+Performance factor 1.0 compared to baseline
+
+Generating Random Start State
+12931 ms (baseline 14339.0 ms)
+Performance factor 1.1 compared to baseline
+
+Many Steps Output Performance
+14113 ms (baseline 15657.0 ms)
+Performance factor 1.1 compared to baseline
+
+Extreme Read Write
+8843 ms (baseline 9245.0 ms)
+Performance factor 1.0 compared to baseline
