@@ -36,7 +36,7 @@ public class ArgumentParser {
 		return n;
 	}
 
-	public void parse(GameOfLife game) {
+	public boolean parse(GameOfLife game) {
 		try {
 			while (argList.size() > 0) {
 				String arg = argList.get(0);
@@ -130,7 +130,6 @@ public class ArgumentParser {
 		} catch (Exception e) {
 			line(e.getMessage());
 
-			GameOfLife.dorun = "no";
 			line("");
 			line("Usage");
 			line(" java gol.GameOfLife [ARGUMENTS...]");
@@ -146,6 +145,8 @@ public class ArgumentParser {
 			line("   -l <X>          Detect loops of maximum length x. Default is 0 - no loop detection.");
 			line("   -t <MS>         Time delay (ms) to wait between each step. Default is 0 ms.");
 			line("   -q              Quiet mode. Only outputs the last step in a simulation. Ignores time delay.");
+			return false;
 		}
+		return true;
 	}
 }

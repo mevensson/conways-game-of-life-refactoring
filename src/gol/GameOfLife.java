@@ -62,7 +62,6 @@ public class GameOfLife {
 	private int widthOffset = 0;
 	private static long computationTimeStart;
 	static int stepCount = 0;
-	static String dorun = "yes";
 	int historyLength;
 	int stepDelay = -1;
 	boolean quietMode = false;
@@ -72,14 +71,11 @@ public class GameOfLife {
 	public static void main(String[] args) {
 		GameOfLife game = new GameOfLife();
 
-		dorun = "yes";
-
 		computationTimeStart = System.currentTimeMillis();
 
 		ArgumentParser parser = new ArgumentParser(args);
-		parser.parse(game);
 
-		if (dorun.equals("yes"))
+		if (parser.parse(game))
 			game.runSimulation();
 	}
 
