@@ -96,6 +96,13 @@ public class GameOfLife {
 
 		computationTimeStart = System.currentTimeMillis();
 
+		parseArguments(args, game);
+
+		if (dorun.equals("yes"))
+			game.runSimulation();
+	}
+
+	private static void parseArguments(String[] args, GameOfLife game) {
 		try {
 			List<String> argList = new LinkedList<String>(Arrays.asList(args));
 			while (argList.size() > 0) {
@@ -207,9 +214,6 @@ public class GameOfLife {
 			line("   -t <MS>         Time delay (ms) to wait between each step. Default is 0 ms.");
 			line("   -q              Quiet mode. Only outputs the last step in a simulation. Ignores time delay.");
 		}
-
-		if (dorun.equals("yes"))
-			game.runSimulation();
 	}
 
 	void printWorldLine(String line) {
