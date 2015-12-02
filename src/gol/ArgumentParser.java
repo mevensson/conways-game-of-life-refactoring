@@ -19,46 +19,49 @@ public class ArgumentParser {
 	public boolean parse(GameOfLife game) {
 		try {
 			while (argList.size() > 0) {
-				String arg = getArg();
-				switch (arg) {
-				case "-s":
-					game.steps = getIntArg();
-					break;
-				case "-f":
-					game.parseFile(getArg());
-					break;
-				case "-?":
-					throw new Exception("Help requested");
-				case "-@":
-					game.isAtSigns = true;
-					break;
-				case "-O":
-					game.isOSigns = true;
-					break;
-				case "-w":
-					game.width = getIntArg();
-					break;
-				case "-h":
-					game.height = getIntArg();
-					break;
-				case "-l":
-					game.historyLength = getIntArg();
-					break;
-				case "-t":
-					game.stepDelay = getIntArg();
-					break;
-				case "-q":
-					game.quietMode = true;
-					break;
-				default:
-					throw new Exception("Unknown argument " + arg);
-				}
+				parseArgument(game, getArg());
 			}
 		} catch (Exception e) {
 			usage(e.getMessage());
 			return false;
 		}
 		return true;
+	}
+
+	private void parseArgument(GameOfLife game, String arg) throws Exception {
+		switch (arg) {
+		case "-s":
+			game.steps = getIntArg();
+			break;
+		case "-f":
+			game.parseFile(getArg());
+			break;
+		case "-?":
+			throw new Exception("Help requested");
+		case "-@":
+			game.isAtSigns = true;
+			break;
+		case "-O":
+			game.isOSigns = true;
+			break;
+		case "-w":
+			game.width = getIntArg();
+			break;
+		case "-h":
+			game.height = getIntArg();
+			break;
+		case "-l":
+			game.historyLength = getIntArg();
+			break;
+		case "-t":
+			game.stepDelay = getIntArg();
+			break;
+		case "-q":
+			game.quietMode = true;
+			break;
+		default:
+			throw new Exception("Unknown argument " + arg);
+		}
 	}
 	private String getArg() {
 		String arg = argList.get(0);
