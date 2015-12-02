@@ -69,4 +69,16 @@ public class World {
 			result += '-';
 		return result;
 	}
+
+	public void addMargins() {
+		world.add(emptyLine());
+		world.add(0, emptyLine());
+		heightOffset--;
+	
+		for (int i = 0; i < height(); i++) {
+			String line = world.get(i);
+			world.set(i, '-' + line + '-');
+		}
+		widthOffset--;
+	}
 }
