@@ -140,29 +140,7 @@ public class GameOfLife {
 
 				world.addMargins();
 
-				List<String> newWorld = new ArrayList<>();
-				int newHeightOffset = world.heightOffset;
-				int newWidthtOffset = world.widthOffset;
-
-				for (int h = 0; h < world.height(); h++) {
-					String line = "";
-					for (int w = 0; w < world.world.get(0).length(); w++) {
-						int n = world.countAliveNeighbors(h, w);
-
-						char cell = '-';
-
-						if (world.isAlive(w, h)) {
-							if (n == 2 || n == 3)
-								cell = '#';
-						} else {
-							if (n == 3)
-								cell = '#';
-						}
-
-						line += cell;
-					}
-					newWorld.add(line);
-				}
+				World newWorld = stepWorld();
 
 				world.stripMargins();
 
@@ -170,9 +148,7 @@ public class GameOfLife {
 				if (history.size() == historyLength + 1)
 					history.remove(historyLength);
 
-				world.world = newWorld;
-				world.heightOffset = newHeightOffset;
-				world.widthOffset = newWidthtOffset;
+				world = newWorld;
 
 				world.stripMargins();
 			}
@@ -265,6 +241,32 @@ public class GameOfLife {
 				break;
 			}
 		}
+	}
+
+	private World stepWorld() {
+		World newWorld = new World(new ArrayList<>(),
+				world.heightOffset, world.widthOffset);
+
+		for (int h = 0; h < world.height(); h++) {
+			String line = "";
+			for (int w = 0; w < world.world.get(0).length(); w++) {
+				int n = world.countAliveNeighbors(h, w);
+
+				char cell = '-';
+
+				if (world.isAlive(w, h)) {
+					if (n == 2 || n == 3)
+						cell = '#';
+				} else {
+					if (n == 3)
+						cell = '#';
+				}
+
+				line += cell;
+			}
+			newWorld.world.add(line);
+		}
+		return newWorld;
 	}
 
 	private void printWorldLine(String line) {
