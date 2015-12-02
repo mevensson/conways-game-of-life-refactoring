@@ -314,18 +314,9 @@ public class GameOfLife {
 			return false;
 	}
 
-	private String emptyLine() {
-		if (data.world.isEmpty())
-			return "";
-		String result = "";
-		while (result.length() < data.world.get(0).length())
-			result += '-';
-		return result;
-	}
-
 	private void addMarginsToWorld() {
-		data.world.add(emptyLine());
-		data.world.add(0, emptyLine());
+		data.world.add(data.emptyLine());
+		data.world.add(0, data.emptyLine());
 		data.heightOffset--;
 
 		for (int i = 0; i < data.height(); i++) {
@@ -345,12 +336,12 @@ public class GameOfLife {
 	}
 
 	private void stripMarginsFromWorld() {
-		while (!data.world.isEmpty() && data.world.get(0).equals(emptyLine())) {
+		while (!data.world.isEmpty() && data.world.get(0).equals(data.emptyLine())) {
 			data.world.remove(0);
 			data.heightOffset++;
 		}
 		while (!data.world.isEmpty()
-				&& data.world.get(data.world.size() - 1).equals(emptyLine())) {
+				&& data.world.get(data.height() - 1).equals(data.emptyLine())) {
 			data.world.remove(data.height() - 1);
 		}
 

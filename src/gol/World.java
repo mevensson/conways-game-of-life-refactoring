@@ -60,4 +60,13 @@ public class World {
 	public int width() {
 		return world.isEmpty() ? 0 : world.get(0).length();
 	}
+
+	String emptyLine() {
+		if (world.isEmpty())
+			return "";
+		String result = "";
+		while (result.length() < world.get(0).length())
+			result += '-';
+		return result;
+	}
 }
