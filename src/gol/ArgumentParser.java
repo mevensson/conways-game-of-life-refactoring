@@ -111,29 +111,6 @@ public class ArgumentParser {
 					throw new Exception("Unknown argument " + arg);
 				}
 			}
-
-			if (game.world == null) {
-				game.world = new ArrayList<String>();
-
-				game.height = game.height == -1 ? 15 : game.height;
-				game.width = game.width == -1 ? 20 : game.width;
-
-				Random rand = new Random();
-				for (int h = 0; h < game.height; h++) {
-					String line = "";
-					for (int w = 0; w < game.width; w++) {
-
-						line += rand.nextBoolean() ? '#' : '-';
-					}
-					game.world.add(line);
-
-				}
-
-			}
-
-			if (game.steps == -1)
-				game.steps = 100;
-
 		} catch (Exception e) {
 			usage(e.getMessage());
 			return false;
