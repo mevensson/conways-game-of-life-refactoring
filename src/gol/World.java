@@ -117,4 +117,13 @@ public class World {
 		}
 		return true;
 	}
+
+	boolean isAlive(int x, int y) {
+		char c = world.get(y).charAt(x);
+	
+		if (c == '#')
+			return true;
+		else
+			return false;
+	}
 }
