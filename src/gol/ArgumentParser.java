@@ -6,28 +6,14 @@ import java.util.List;
 
 public class ArgumentParser {
 
-	List<String> argList;
-
-	public ArgumentParser(String[] args) {
-		argList = new LinkedList<String>(Arrays.asList(args));
-	}
-
 	static void line(String s) {
 		System.out.println(s);
 	}
 
-	private String getArg() {
-		String arg = argList.get(0);
-		argList.remove(0);
-		return arg;
-	}
+	List<String> argList;
 
-	private int getIntArg() {
-		String arg = getArg();
-		int n = Integer.parseInt(arg);
-		if (n < 0)
-			throw new RuntimeException("Invalid argument value " + n);
-		return n;
+	public ArgumentParser(String[] args) {
+		argList = new LinkedList<String>(Arrays.asList(args));
 	}
 
 	public boolean parse(GameOfLife game) {
@@ -73,6 +59,19 @@ public class ArgumentParser {
 			return false;
 		}
 		return true;
+	}
+	private String getArg() {
+		String arg = argList.get(0);
+		argList.remove(0);
+		return arg;
+	}
+
+	private int getIntArg() {
+		String arg = getArg();
+		int n = Integer.parseInt(arg);
+		if (n < 0)
+			throw new RuntimeException("Invalid argument value " + n);
+		return n;
 	}
 
 	private void usage(String message) {
