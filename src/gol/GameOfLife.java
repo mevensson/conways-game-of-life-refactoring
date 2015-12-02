@@ -22,8 +22,8 @@ public class GameOfLife {
 		ArgumentParser parser = new ArgumentParser(args);
 
 		if (parser.parse(game)) {
-			if (game.world == null) {
-				game.world = new ArrayList<String>();
+			if (game.data.world == null) {
+				game.data.world = new ArrayList<String>();
 
 				game.height = game.height == -1 ? 15 : game.height;
 				game.width = game.width == -1 ? 20 : game.width;
@@ -35,7 +35,7 @@ public class GameOfLife {
 
 						line += rand.nextBoolean() ? '#' : '-';
 					}
-					game.world.add(line);
+					game.data.world.add(line);
 				}
 			}
 
@@ -92,10 +92,8 @@ public class GameOfLife {
 	private boolean isOSigns = false;
 	private int historyLength;
 
-	private List<String> world = null;
-	private int heightOffset = 0;
+	private World data = new World(null, 0, 0);
 	private List<History> history = new LinkedList<History>();
-	private int widthOffset = 0;
 	private int stepCount = 0;
 
 	public void setHeight(int height) {
@@ -133,7 +131,7 @@ public class GameOfLife {
 	public void parseFile(String filePath) throws FileNotFoundException {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(new File(filePath));
-		world = new ArrayList<String>();
+		data.world = new ArrayList<String>();
 		int lineNumber = 1;
 		int maxWidth = 0;
 		while (scanner.hasNextLine()) {
@@ -149,21 +147,21 @@ public class GameOfLife {
 
 			maxWidth = Math.max(maxWidth, line.length());
 
-			world.add(line);
+			data.world.add(line);
 			lineNumber++;
 		}
-		for (int i = 0; i < world.size(); ++i) {
-			String line = world.get(i);
+		for (int i = 0; i < data.world.size(); ++i) {
+			String line = data.world.get(i);
 
 			while (line.length() < maxWidth)
 				line += '-';
 
-			world.set(i, line);
+			data.world.set(i, line);
 		}
 		if (height == -1)
-			height = world.size();
+			height = data.world.size();
 		if (width == -1)
-			width = world.isEmpty() ? 0 : world.get(0).length();
+			width = data.world.isEmpty() ? 0 : data.world.get(0).length();
 	}
 
 	public void runSimulation() {
@@ -175,12 +173,12 @@ public class GameOfLife {
 				addMarginsToWorld();
 
 				List<String> newWorld = new ArrayList<>();
-				int newHeightOffset = heightOffset;
-				int newWidthtOffset = widthOffset;
+				int newHeightOffset = data.heightOffset;
+				int newWidthtOffset = data.widthOffset;
 
-				for (int h = 0; h < world.size(); h++) {
+				for (int h = 0; h < data.world.size(); h++) {
 					String line = "";
-					for (int w = 0; w < world.get(0).length(); w++) {
+					for (int w = 0; w < data.world.get(0).length(); w++) {
 						int n = countAliveNeighbors(h, w);
 
 						char cell = '-';
@@ -200,21 +198,21 @@ public class GameOfLife {
 
 				stripMarginsFromWorld();
 
-				history.add(0, new History(world, heightOffset, widthOffset));
+				history.add(0, new History(data.world, data.heightOffset, data.widthOffset));
 				if (history.size() == historyLength + 1)
 					history.remove(historyLength);
 
-				world = newWorld;
-				heightOffset = newHeightOffset;
-				widthOffset = newWidthtOffset;
+				data.world = newWorld;
+				data.heightOffset = newHeightOffset;
+				data.widthOffset = newWidthtOffset;
 
 				stripMarginsFromWorld();
 			}
 			
 			String loopDetection = "";
 
-			int index = history.indexOf(new History(world, heightOffset,
-					widthOffset));
+			int index = history.indexOf(new History(data.world, data.heightOffset,
+					data.widthOffset));
 			if (index != -1) {
 				loopDetection = " - loop of length " + (index + 1)
 						+ " detected";
@@ -222,21 +220,21 @@ public class GameOfLife {
 
 			String linePrefix = "";
 
-			for (int i = 0; i < widthOffset; i++) {
+			for (int i = 0; i < data.widthOffset; i++) {
 				linePrefix += '-';
 			}
 
 			String lineSuffix = "";
 
-			int worldWidth = world.isEmpty() ? 0 : world.get(0).length();
-			for (int i = 0; i < width - worldWidth - widthOffset; i++) {
+			int worldWidth = data.world.isEmpty() ? 0 : data.world.get(0).length();
+			for (int i = 0; i < width - worldWidth - data.widthOffset; i++) {
 				lineSuffix += '-';
 			}
 
 			int printHeight = 0;
 
 			if (!quietMode || stepCount == steps || !loopDetection.isEmpty()) {
-				for (int i = 0; i < Math.min(heightOffset, height); i++) {
+				for (int i = 0; i < Math.min(data.heightOffset, height); i++) {
 					String line = "";
 					while (line.length() < width) {
 						line += '-';
@@ -245,16 +243,16 @@ public class GameOfLife {
 					printHeight++;
 				}
 
-				for (int i = Math.max(0, -heightOffset); i < world.size(); i++) {
+				for (int i = Math.max(0, -data.heightOffset); i < data.world.size(); i++) {
 
 					if (printHeight == height)
 						break;
-					String line = world.get(i);
+					String line = data.world.get(i);
 
 					line = linePrefix + line + lineSuffix;
 
-					if (widthOffset < 0)
-						line = line.substring(-widthOffset);
+					if (data.widthOffset < 0)
+						line = line.substring(-data.widthOffset);
 
 					if (line.length() > width)
 						line = line.substring(0, width);
@@ -308,23 +306,23 @@ public class GameOfLife {
 			n++;
 		if (h != 0 && isAlive(w, h - 1))
 			n++;
-		if (h != 0 && w != world.get(0).length() - 1
+		if (h != 0 && w != data.world.get(0).length() - 1
 				&& isAlive(w + 1, h - 1))
 			n++;
 
 		if (w != 0 && isAlive(w - 1, h))
 			n++;
 
-		if (w != world.get(0).length() - 1 && isAlive(w + 1, h))
+		if (w != data.world.get(0).length() - 1 && isAlive(w + 1, h))
 			n++;
 
-		if (h != world.size() - 1 && w != 0
+		if (h != data.world.size() - 1 && w != 0
 				&& isAlive(w - 1, h + 1))
 			n++;
-		if (h != world.size() - 1 && isAlive(w, h + 1))
+		if (h != data.world.size() - 1 && isAlive(w, h + 1))
 			n++;
-		if (h != world.size() - 1
-				&& w != world.get(0).length() - 1
+		if (h != data.world.size() - 1
+				&& w != data.world.get(0).length() - 1
 				&& isAlive(w + 1, h + 1))
 			n++;
 		return n;
@@ -340,7 +338,7 @@ public class GameOfLife {
 	}
 
 	private boolean isAlive(int x, int y) {
-		char c = world.get(y).charAt(x);
+		char c = data.world.get(y).charAt(x);
 
 		if (c == '#')
 			return true;
@@ -349,59 +347,59 @@ public class GameOfLife {
 	}
 
 	private String emptyLine() {
-		if (world.isEmpty())
+		if (data.world.isEmpty())
 			return "";
 		String result = "";
-		while (result.length() < world.get(0).length())
+		while (result.length() < data.world.get(0).length())
 			result += '-';
 		return result;
 	}
 
 	private void addMarginsToWorld() {
-		world.add(emptyLine());
-		world.add(0, emptyLine());
-		heightOffset--;
+		data.world.add(emptyLine());
+		data.world.add(0, emptyLine());
+		data.heightOffset--;
 
-		for (int i = 0; i < world.size(); i++) {
-			String line = world.get(i);
-			world.set(i, '-' + line + '-');
+		for (int i = 0; i < data.world.size(); i++) {
+			String line = data.world.get(i);
+			data.world.set(i, '-' + line + '-');
 		}
-		widthOffset--;
+		data.widthOffset--;
 	}
 
 	private boolean isColumnEmpty(int column) {
 
-		for (int i = 0; i < world.size(); i++) {
-			if (world.get(i).charAt(column) == '#')
+		for (int i = 0; i < data.world.size(); i++) {
+			if (data.world.get(i).charAt(column) == '#')
 				return false;
 		}
 		return true;
 	}
 
 	private void stripMarginsFromWorld() {
-		while (!world.isEmpty() && world.get(0).equals(emptyLine())) {
-			world.remove(0);
-			heightOffset++;
+		while (!data.world.isEmpty() && data.world.get(0).equals(emptyLine())) {
+			data.world.remove(0);
+			data.heightOffset++;
 		}
-		while (!world.isEmpty()
-				&& world.get(world.size() - 1).equals(emptyLine())) {
-			world.remove(world.size() - 1);
+		while (!data.world.isEmpty()
+				&& data.world.get(data.world.size() - 1).equals(emptyLine())) {
+			data.world.remove(data.world.size() - 1);
 		}
 
-		while (!world.isEmpty() && world.get(0).length() != 0
+		while (!data.world.isEmpty() && data.world.get(0).length() != 0
 				&& isColumnEmpty(0)) {
-			for (int i = 0; i < world.size(); i++) {
-				String line = world.get(i);
-				world.set(i, line.substring(1));
+			for (int i = 0; i < data.world.size(); i++) {
+				String line = data.world.get(i);
+				data.world.set(i, line.substring(1));
 			}
-			widthOffset++;
+			data.widthOffset++;
 		}
 
-		while (!world.isEmpty() && world.get(0).length() != 0
-				&& isColumnEmpty(world.get(0).length() - 1)) {
-			for (int i = 0; i < world.size(); i++) {
-				String line = world.get(i);
-				world.set(i, line.substring(0, world.get(i).length() - 1));
+		while (!data.world.isEmpty() && data.world.get(0).length() != 0
+				&& isColumnEmpty(data.world.get(0).length() - 1)) {
+			for (int i = 0; i < data.world.size(); i++) {
+				String line = data.world.get(i);
+				data.world.set(i, line.substring(0, data.world.get(i).length() - 1));
 			}
 		}
 	}
