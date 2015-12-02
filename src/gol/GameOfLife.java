@@ -164,7 +164,7 @@ public class GameOfLife {
 					newWorld.add(line);
 				}
 
-				stripMarginsFromWorld();
+				data.stripMargins();
 
 				history.add(0, new History(data.world, data.heightOffset, data.widthOffset));
 				if (history.size() == historyLength + 1)
@@ -174,7 +174,7 @@ public class GameOfLife {
 				data.heightOffset = newHeightOffset;
 				data.widthOffset = newWidthtOffset;
 
-				stripMarginsFromWorld();
+				data.stripMargins();
 			}
 			
 			String loopDetection = "";
@@ -312,33 +312,5 @@ public class GameOfLife {
 			return true;
 		else
 			return false;
-	}
-
-	private void stripMarginsFromWorld() {
-		while (!data.world.isEmpty() && data.world.get(0).equals(data.emptyLine())) {
-			data.world.remove(0);
-			data.heightOffset++;
-		}
-		while (!data.world.isEmpty()
-				&& data.world.get(data.height() - 1).equals(data.emptyLine())) {
-			data.world.remove(data.height() - 1);
-		}
-
-		while (!data.world.isEmpty() && data.world.get(0).length() != 0
-				&& data.isColumnEmpty(0)) {
-			for (int i = 0; i < data.height(); i++) {
-				String line = data.world.get(i);
-				data.world.set(i, line.substring(1));
-			}
-			data.widthOffset++;
-		}
-
-		while (!data.world.isEmpty() && data.world.get(0).length() != 0
-				&& data.isColumnEmpty(data.world.get(0).length() - 1)) {
-			for (int i = 0; i < data.height(); i++) {
-				String line = data.world.get(i);
-				data.world.set(i, line.substring(0, data.world.get(i).length() - 1));
-			}
-		}
 	}
 }
