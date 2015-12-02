@@ -151,7 +151,7 @@ public class GameOfLife {
 
 						char cell = '-';
 
-						if (isAlive(w, h)) {
+						if (data.isAlive(w, h)) {
 							if (n == 2 || n == 3)
 								cell = '#';
 						} else {
@@ -270,28 +270,28 @@ public class GameOfLife {
 	private int countAliveNeighbors(int h, int w) {
 		int n = 0;
 
-		if (h != 0 && w != 0 && isAlive(w - 1, h - 1))
+		if (h != 0 && w != 0 && data.isAlive(w - 1, h - 1))
 			n++;
-		if (h != 0 && isAlive(w, h - 1))
+		if (h != 0 && data.isAlive(w, h - 1))
 			n++;
 		if (h != 0 && w != data.world.get(0).length() - 1
-				&& isAlive(w + 1, h - 1))
+				&& data.isAlive(w + 1, h - 1))
 			n++;
 
-		if (w != 0 && isAlive(w - 1, h))
+		if (w != 0 && data.isAlive(w - 1, h))
 			n++;
 
-		if (w != data.world.get(0).length() - 1 && isAlive(w + 1, h))
+		if (w != data.world.get(0).length() - 1 && data.isAlive(w + 1, h))
 			n++;
 
 		if (h != data.height() - 1 && w != 0
-				&& isAlive(w - 1, h + 1))
+				&& data.isAlive(w - 1, h + 1))
 			n++;
-		if (h != data.height() - 1 && isAlive(w, h + 1))
+		if (h != data.height() - 1 && data.isAlive(w, h + 1))
 			n++;
 		if (h != data.height() - 1
 				&& w != data.world.get(0).length() - 1
-				&& isAlive(w + 1, h + 1))
+				&& data.isAlive(w + 1, h + 1))
 			n++;
 		return n;
 	}
@@ -303,14 +303,5 @@ public class GameOfLife {
 			System.out.println(line.replace("#", "O"));
 		else
 			System.out.println(line);
-	}
-
-	private boolean isAlive(int x, int y) {
-		char c = data.world.get(y).charAt(x);
-
-		if (c == '#')
-			return true;
-		else
-			return false;
 	}
 }
