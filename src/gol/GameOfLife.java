@@ -121,7 +121,6 @@ public class GameOfLife {
 			}
 			
 			String loopDetection = "";
-
 			int index = history.indexOf(world);
 			if (index != -1) {
 				loopDetection = " - loop of length " + (index + 1)
@@ -177,8 +176,6 @@ public class GameOfLife {
 					}
 					printWorldLine(line);
 				}
-
-			
 
 				if (stepCount == 0) {
 					System.out.println("start");
