@@ -52,4 +52,12 @@ public class World {
 		this.heightOffset = heightOffset;
 		this.widthOffset = widthOffset;
 	}
+
+	public int height() {
+		return world.size();
+	}
+
+	public int width() {
+		return world.isEmpty() ? 0 : world.get(0).length();
+	}
 }

@@ -127,9 +127,9 @@ public class GameOfLife {
 	public void parseFile(String filePath) throws FileNotFoundException {
 		data = new World(filePath);
 		if (height == -1)
-			height = data.world.size();
+			height = data.height();
 		if (width == -1)
-			width = data.world.isEmpty() ? 0 : data.world.get(0).length();
+			width = data.width();
 	}
 
 	public void runSimulation() {
@@ -144,7 +144,7 @@ public class GameOfLife {
 				int newHeightOffset = data.heightOffset;
 				int newWidthtOffset = data.widthOffset;
 
-				for (int h = 0; h < data.world.size(); h++) {
+				for (int h = 0; h < data.height(); h++) {
 					String line = "";
 					for (int w = 0; w < data.world.get(0).length(); w++) {
 						int n = countAliveNeighbors(h, w);
@@ -194,7 +194,7 @@ public class GameOfLife {
 
 			String lineSuffix = "";
 
-			int worldWidth = data.world.isEmpty() ? 0 : data.world.get(0).length();
+			int worldWidth = data.width();
 			for (int i = 0; i < width - worldWidth - data.widthOffset; i++) {
 				lineSuffix += '-';
 			}
@@ -211,7 +211,7 @@ public class GameOfLife {
 					printHeight++;
 				}
 
-				for (int i = Math.max(0, -data.heightOffset); i < data.world.size(); i++) {
+				for (int i = Math.max(0, -data.heightOffset); i < data.height(); i++) {
 
 					if (printHeight == height)
 						break;
@@ -284,12 +284,12 @@ public class GameOfLife {
 		if (w != data.world.get(0).length() - 1 && isAlive(w + 1, h))
 			n++;
 
-		if (h != data.world.size() - 1 && w != 0
+		if (h != data.height() - 1 && w != 0
 				&& isAlive(w - 1, h + 1))
 			n++;
-		if (h != data.world.size() - 1 && isAlive(w, h + 1))
+		if (h != data.height() - 1 && isAlive(w, h + 1))
 			n++;
-		if (h != data.world.size() - 1
+		if (h != data.height() - 1
 				&& w != data.world.get(0).length() - 1
 				&& isAlive(w + 1, h + 1))
 			n++;
@@ -328,7 +328,7 @@ public class GameOfLife {
 		data.world.add(0, emptyLine());
 		data.heightOffset--;
 
-		for (int i = 0; i < data.world.size(); i++) {
+		for (int i = 0; i < data.height(); i++) {
 			String line = data.world.get(i);
 			data.world.set(i, '-' + line + '-');
 		}
@@ -337,7 +337,7 @@ public class GameOfLife {
 
 	private boolean isColumnEmpty(int column) {
 
-		for (int i = 0; i < data.world.size(); i++) {
+		for (int i = 0; i < data.height(); i++) {
 			if (data.world.get(i).charAt(column) == '#')
 				return false;
 		}
@@ -351,12 +351,12 @@ public class GameOfLife {
 		}
 		while (!data.world.isEmpty()
 				&& data.world.get(data.world.size() - 1).equals(emptyLine())) {
-			data.world.remove(data.world.size() - 1);
+			data.world.remove(data.height() - 1);
 		}
 
 		while (!data.world.isEmpty() && data.world.get(0).length() != 0
 				&& isColumnEmpty(0)) {
-			for (int i = 0; i < data.world.size(); i++) {
+			for (int i = 0; i < data.height(); i++) {
 				String line = data.world.get(i);
 				data.world.set(i, line.substring(1));
 			}
@@ -365,7 +365,7 @@ public class GameOfLife {
 
 		while (!data.world.isEmpty() && data.world.get(0).length() != 0
 				&& isColumnEmpty(data.world.get(0).length() - 1)) {
-			for (int i = 0; i < data.world.size(); i++) {
+			for (int i = 0; i < data.height(); i++) {
 				String line = data.world.get(i);
 				data.world.set(i, line.substring(0, data.world.get(i).length() - 1));
 			}
