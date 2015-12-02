@@ -1,14 +1,8 @@
 package gol;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ArgumentParser {
 
@@ -45,44 +39,7 @@ public class ArgumentParser {
 					game.steps = getIntArg();
 					break;
 				case "-f":
-					String filePath = getArg();
-					File file = new File(filePath);
-					@SuppressWarnings("resource")
-					Scanner scanner = new Scanner(file);
-					ArrayList<String> world = new ArrayList<String>();
-					game.world = world;
-					int lineNumber = 1;
-					int maxWidth = 0;
-					while (scanner.hasNextLine()) {
-						String line = scanner.nextLine();
-						Pattern pattern = Pattern.compile("[^#-]");
-						Matcher matcher = pattern.matcher(line);
-						if (matcher.find()) {
-							scanner.close();
-							throw new RuntimeException("Invalid character '"
-									+ matcher.group() + "' on line "
-									+ lineNumber + " in file " + filePath);
-						}
-
-						maxWidth = Math.max(maxWidth, line.length());
-
-						world.add(line);
-						game.world = world;
-						lineNumber++;
-					}
-					for (int i = 0; i < world.size(); ++i) {
-						String line = world.get(i);
-
-						while (line.length() < maxWidth)
-							line += '-';
-
-						world.set(i, line);
-					}
-					if (game.height == -1)
-						game.height = world.size();
-					if (game.width == -1)
-						game.width = world.isEmpty() ? 0 : world.get(0)
-								.length();
+					game.parseFile(getArg());
 					break;
 				case "-?":
 					throw new Exception("Help requested");
