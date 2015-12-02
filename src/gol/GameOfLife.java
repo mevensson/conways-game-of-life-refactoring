@@ -83,9 +83,9 @@ public class GameOfLife {
 	private static long computationTimeStart;
 	static int stepCount = 0;
 	static String dorun = "yes";
-	private static int historyLength;
-	private static int stepDelay = -1;
-	private static boolean quietMode = false;
+	int historyLength;
+	int stepDelay = -1;
+	boolean quietMode = false;
 
 	public static void main(String[] args) {
 		GameOfLife game = new GameOfLife();
@@ -165,11 +165,11 @@ public class GameOfLife {
 				} else if ("-h".equals(arg))
 					game.height = getIntArg(argList);
 				else if ("-l".equals(arg))
-					historyLength = getIntArg(argList);
+					game.historyLength = getIntArg(argList);
 				else if ("-t".equals(arg))
-					stepDelay = getIntArg(argList);
+					game.stepDelay = getIntArg(argList);
 				else if ("-q".equals(arg)) {
-					quietMode = true;
+					game.quietMode = true;
 
 				} else
 					throw new Exception("Unknown argument " + arg);
