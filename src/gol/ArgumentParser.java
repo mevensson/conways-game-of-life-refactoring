@@ -12,34 +12,39 @@ import java.util.regex.Pattern;
 
 public class ArgumentParser {
 
+	List<String> argList;
+
+	public ArgumentParser(String[] args) {
+		argList = new LinkedList<String>(Arrays.asList(args));
+	}
+
 	static void line(String s) {
 		System.out.println(s);
 	}
 
-	static String getArg(List<String> argList) {
+	private String getArg() {
 		String arg = argList.get(0);
 		argList.remove(0);
 		return arg;
 	}
 
-	static int getIntArg(List<String> argList) {
-		String arg = getArg(argList);
+	private int getIntArg() {
+		String arg = getArg();
 		int n = Integer.parseInt(arg);
 		if (n < 0)
 			throw new RuntimeException("Invalid argument value " + n);
 		return n;
 	}
 
-	public static void parseArguments(String[] args, GameOfLife game) {
+	public void parse(GameOfLife game) {
 		try {
-			List<String> argList = new LinkedList<String>(Arrays.asList(args));
 			while (argList.size() > 0) {
 				String arg = argList.get(0);
 				argList.remove(0);
 				if ("-s".equals(arg)) {
-					game.steps = getIntArg(argList);
+					game.steps = getIntArg();
 				} else if ("-f".equals(arg)) {
-					String filePath = getArg(argList);
+					String filePath = getArg();
 					File file = new File(filePath);
 					@SuppressWarnings("resource")
 					Scanner scanner = new Scanner(file);
@@ -86,13 +91,13 @@ public class ArgumentParser {
 				} else if ("-O".equals(arg)) {
 					game.isOSigns = true;
 				} else if (arg.equals("-w")) {
-					game.width = getIntArg(argList);
+					game.width = getIntArg();
 				} else if ("-h".equals(arg))
-					game.height = getIntArg(argList);
+					game.height = getIntArg();
 				else if ("-l".equals(arg))
-					game.historyLength = getIntArg(argList);
+					game.historyLength = getIntArg();
 				else if ("-t".equals(arg))
-					game.stepDelay = getIntArg(argList);
+					game.stepDelay = getIntArg();
 				else if ("-q".equals(arg)) {
 					game.quietMode = true;
 
