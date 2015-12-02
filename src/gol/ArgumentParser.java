@@ -39,11 +39,12 @@ public class ArgumentParser {
 	public boolean parse(GameOfLife game) {
 		try {
 			while (argList.size() > 0) {
-				String arg = argList.get(0);
-				argList.remove(0);
-				if ("-s".equals(arg)) {
+				String arg = getArg();
+				switch (arg) {
+				case "-s":
 					game.steps = getIntArg();
-				} else if ("-f".equals(arg)) {
+					break;
+				case "-f":
 					String filePath = getArg();
 					File file = new File(filePath);
 					@SuppressWarnings("resource")
@@ -69,7 +70,6 @@ public class ArgumentParser {
 						game.world = world;
 						lineNumber++;
 					}
-
 					for (int i = 0; i < world.size(); ++i) {
 						String line = world.get(i);
 
@@ -78,31 +78,38 @@ public class ArgumentParser {
 
 						world.set(i, line);
 					}
-
 					if (game.height == -1)
 						game.height = world.size();
 					if (game.width == -1)
 						game.width = world.isEmpty() ? 0 : world.get(0)
 								.length();
-				} else if ("-?".equals(arg)) {
+					break;
+				case "-?":
 					throw new Exception("Help requested");
-				} else if ("-@".equals(arg)) {
+				case "-@":
 					game.isAtSigns = true;
-				} else if ("-O".equals(arg)) {
+					break;
+				case "-O":
 					game.isOSigns = true;
-				} else if (arg.equals("-w")) {
+					break;
+				case "-w":
 					game.width = getIntArg();
-				} else if ("-h".equals(arg))
+					break;
+				case "-h":
 					game.height = getIntArg();
-				else if ("-l".equals(arg))
+					break;
+				case "-l":
 					game.historyLength = getIntArg();
-				else if ("-t".equals(arg))
+					break;
+				case "-t":
 					game.stepDelay = getIntArg();
-				else if ("-q".equals(arg)) {
+					break;
+				case "-q":
 					game.quietMode = true;
-
-				} else
+					break;
+				default:
 					throw new Exception("Unknown argument " + arg);
+				}
 			}
 
 			if (game.world == null) {
