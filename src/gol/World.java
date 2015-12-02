@@ -53,6 +53,27 @@ public class World {
 		this.widthOffset = widthOffset;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		World other = (World) obj;
+		if (heightOffset != other.heightOffset)
+			return false;
+		if (widthOffset != other.widthOffset)
+			return false;
+		if (world == null) {
+			if (other.world != null)
+				return false;
+		} else if (!world.equals(other.world))
+			return false;
+		return true;
+	}
+
 	public int height() {
 		return world.size();
 	}
