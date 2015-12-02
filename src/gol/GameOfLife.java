@@ -12,6 +12,40 @@ import java.util.regex.Pattern;
 
 public class GameOfLife {
 
+	private static long computationTimeStart;
+
+	public static void main(String[] args) {
+		GameOfLife game = new GameOfLife();
+
+		computationTimeStart = System.currentTimeMillis();
+
+		ArgumentParser parser = new ArgumentParser(args);
+
+		if (parser.parse(game)) {
+			if (game.world == null) {
+				game.world = new ArrayList<String>();
+
+				game.height = game.height == -1 ? 15 : game.height;
+				game.width = game.width == -1 ? 20 : game.width;
+
+				Random rand = new Random();
+				for (int h = 0; h < game.height; h++) {
+					String line = "";
+					for (int w = 0; w < game.width; w++) {
+
+						line += rand.nextBoolean() ? '#' : '-';
+					}
+					game.world.add(line);
+				}
+			}
+
+			if (game.steps == -1)
+				game.steps = 100;
+
+			game.runSimulation();
+		}
+	}
+
 	static void line(String s) {
 		System.out.println(s);
 	}
@@ -66,123 +100,50 @@ public class GameOfLife {
 	int heightOffset = 0;
 	private List<History> history = new LinkedList<History>();
 	private int widthOffset = 0;
-	private static long computationTimeStart;
-	static int stepCount = 0;
+	int stepCount = 0;
 	int historyLength;
 	int stepDelay = -1;
 	boolean quietMode = false;
 	boolean isAtSigns = false;
 	boolean isOSigns = false;
 
-	public static void main(String[] args) {
-		GameOfLife game = new GameOfLife();
-
-		computationTimeStart = System.currentTimeMillis();
-
-		ArgumentParser parser = new ArgumentParser(args);
-
-		if (parser.parse(game)) {
-			if (game.world == null) {
-				game.world = new ArrayList<String>();
-
-				game.height = game.height == -1 ? 15 : game.height;
-				game.width = game.width == -1 ? 20 : game.width;
-
-				Random rand = new Random();
-				for (int h = 0; h < game.height; h++) {
-					String line = "";
-					for (int w = 0; w < game.width; w++) {
-
-						line += rand.nextBoolean() ? '#' : '-';
-					}
-					game.world.add(line);
-				}
+	public void parseFile(String filePath) throws FileNotFoundException {
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner(new File(filePath));
+		world = new ArrayList<String>();
+		int lineNumber = 1;
+		int maxWidth = 0;
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine();
+			Pattern pattern = Pattern.compile("[^#-]");
+			Matcher matcher = pattern.matcher(line);
+			if (matcher.find()) {
+				scanner.close();
+				throw new RuntimeException("Invalid character '"
+						+ matcher.group() + "' on line "
+						+ lineNumber + " in file " + filePath);
 			}
 
-			if (game.steps == -1)
-				game.steps = 100;
+			maxWidth = Math.max(maxWidth, line.length());
 
-			game.runSimulation();
+			world.add(line);
+			lineNumber++;
 		}
-	}
-
-	void printWorldLine(String line) {
-		if (isAtSigns)
-			System.out.println(line.replace("#", "@ ").replace("-", ". "));
-		else if (isOSigns)
-			System.out.println(line.replace("#", "O"));
-		else
-			System.out.println(line);
-	}
-
-	public boolean isAlive(int x, int y) {
-		char c = world.get(y).charAt(x);
-
-		if (c == '#')
-			return true;
-		else
-			return false;
-	}
-
-	String emptyLine() {
-		if (world.isEmpty())
-			return "";
-		String result = "";
-		while (result.length() < world.get(0).length())
-			result += '-';
-		return result;
-	}
-
-	void addMarginsToWorld() {
-		world.add(emptyLine());
-		world.add(0, emptyLine());
-		heightOffset--;
-
-		for (int i = 0; i < world.size(); i++) {
+		for (int i = 0; i < world.size(); ++i) {
 			String line = world.get(i);
-			world.set(i, '-' + line + '-');
+
+			while (line.length() < maxWidth)
+				line += '-';
+
+			world.set(i, line);
 		}
-		widthOffset--;
+		if (height == -1)
+			height = world.size();
+		if (width == -1)
+			width = world.isEmpty() ? 0 : world.get(0).length();
 	}
 
-	boolean isColumnEmpty(int column) {
-
-		for (int i = 0; i < world.size(); i++) {
-			if (world.get(i).charAt(column) == '#')
-				return false;
-		}
-		return true;
-	}
-
-	void stripMarginsFromWorld() {
-		while (!world.isEmpty() && world.get(0).equals(emptyLine())) {
-			world.remove(0);
-			heightOffset++;
-		}
-		while (!world.isEmpty()
-				&& world.get(world.size() - 1).equals(emptyLine())) {
-			world.remove(world.size() - 1);
-		}
-
-		while (!world.isEmpty() && world.get(0).length() != 0
-				&& isColumnEmpty(0)) {
-			for (int i = 0; i < world.size(); i++) {
-				String line = world.get(i);
-				world.set(i, line.substring(1));
-			}
-			widthOffset++;
-		}
-
-		while (!world.isEmpty() && world.get(0).length() != 0
-				&& isColumnEmpty(world.get(0).length() - 1)) {
-			for (int i = 0; i < world.size(); i++) {
-				String line = world.get(i);
-				world.set(i, line.substring(0, world.get(i).length() - 1));
-			}
-		}
-	}
-
-	private void runSimulation() {
+	public void runSimulation() {
 
 		while (stepCount <= steps) {
 
@@ -343,40 +304,80 @@ public class GameOfLife {
 			}
 		}
 	}
+	
+	private void printWorldLine(String line) {
+		if (isAtSigns)
+			System.out.println(line.replace("#", "@ ").replace("-", ". "));
+		else if (isOSigns)
+			System.out.println(line.replace("#", "O"));
+		else
+			System.out.println(line);
+	}
 
-	void parseFile(String filePath) throws FileNotFoundException {
-		@SuppressWarnings("resource")
-		Scanner scanner = new Scanner(new File(filePath));
-		world = new ArrayList<String>();
-		int lineNumber = 1;
-		int maxWidth = 0;
-		while (scanner.hasNextLine()) {
-			String line = scanner.nextLine();
-			Pattern pattern = Pattern.compile("[^#-]");
-			Matcher matcher = pattern.matcher(line);
-			if (matcher.find()) {
-				scanner.close();
-				throw new RuntimeException("Invalid character '"
-						+ matcher.group() + "' on line "
-						+ lineNumber + " in file " + filePath);
-			}
+	private boolean isAlive(int x, int y) {
+		char c = world.get(y).charAt(x);
 
-			maxWidth = Math.max(maxWidth, line.length());
+		if (c == '#')
+			return true;
+		else
+			return false;
+	}
 
-			world.add(line);
-			lineNumber++;
-		}
-		for (int i = 0; i < world.size(); ++i) {
+	private String emptyLine() {
+		if (world.isEmpty())
+			return "";
+		String result = "";
+		while (result.length() < world.get(0).length())
+			result += '-';
+		return result;
+	}
+
+	private void addMarginsToWorld() {
+		world.add(emptyLine());
+		world.add(0, emptyLine());
+		heightOffset--;
+
+		for (int i = 0; i < world.size(); i++) {
 			String line = world.get(i);
-
-			while (line.length() < maxWidth)
-				line += '-';
-
-			world.set(i, line);
+			world.set(i, '-' + line + '-');
 		}
-		if (height == -1)
-			height = world.size();
-		if (width == -1)
-			width = world.isEmpty() ? 0 : world.get(0).length();
+		widthOffset--;
+	}
+
+	private boolean isColumnEmpty(int column) {
+
+		for (int i = 0; i < world.size(); i++) {
+			if (world.get(i).charAt(column) == '#')
+				return false;
+		}
+		return true;
+	}
+
+	private void stripMarginsFromWorld() {
+		while (!world.isEmpty() && world.get(0).equals(emptyLine())) {
+			world.remove(0);
+			heightOffset++;
+		}
+		while (!world.isEmpty()
+				&& world.get(world.size() - 1).equals(emptyLine())) {
+			world.remove(world.size() - 1);
+		}
+
+		while (!world.isEmpty() && world.get(0).length() != 0
+				&& isColumnEmpty(0)) {
+			for (int i = 0; i < world.size(); i++) {
+				String line = world.get(i);
+				world.set(i, line.substring(1));
+			}
+			widthOffset++;
+		}
+
+		while (!world.isEmpty() && world.get(0).length() != 0
+				&& isColumnEmpty(world.get(0).length() - 1)) {
+			for (int i = 0; i < world.size(); i++) {
+				String line = world.get(i);
+				world.set(i, line.substring(0, world.get(i).length() - 1));
+			}
+		}
 	}
 }
