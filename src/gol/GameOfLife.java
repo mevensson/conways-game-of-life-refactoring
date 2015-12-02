@@ -46,39 +46,6 @@ public class GameOfLife {
 		System.out.println(s);
 	}
 
-	static class History {
-		List<String> world;
-		int heightOffset;
-		int widthOffset;
-
-		History(List<String> world, int heightOffset, int widthOffset) {
-			this.world = world;
-			this.heightOffset = heightOffset;
-			this.widthOffset = widthOffset;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			History other = (History) obj;
-			if (heightOffset != other.heightOffset)
-				return false;
-			if (widthOffset != other.widthOffset)
-				return false;
-			if (world == null) {
-				if (other.world != null)
-					return false;
-			} else if (!world.equals(other.world))
-				return false;
-			return true;
-		}
-	}
-
 	private int height = -1;
 	private int width = -1;
 	private int steps = -1;
@@ -89,7 +56,7 @@ public class GameOfLife {
 	private int historyLength;
 
 	private World world = new World(null, 0, 0);
-	private List<History> history = new LinkedList<History>();
+	private List<World> history = new LinkedList<World>();
 	private int stepCount = 0;
 
 	public void setHeight(int height) {
@@ -144,7 +111,7 @@ public class GameOfLife {
 
 				world.stripMargins();
 
-				history.add(0, new History(world.world, world.heightOffset, world.widthOffset));
+				history.add(0, world);
 				if (history.size() == historyLength + 1)
 					history.remove(historyLength);
 
@@ -155,8 +122,7 @@ public class GameOfLife {
 			
 			String loopDetection = "";
 
-			int index = history.indexOf(new History(world.world, world.heightOffset,
-					world.widthOffset));
+			int index = history.indexOf(world);
 			if (index != -1) {
 				loopDetection = " - loop of length " + (index + 1)
 						+ " detected";
