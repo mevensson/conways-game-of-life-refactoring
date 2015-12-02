@@ -86,6 +86,8 @@ public class GameOfLife {
 	int historyLength;
 	int stepDelay = -1;
 	boolean quietMode = false;
+	boolean isAtSigns = false;
+	boolean isOSigns = false;
 
 	public static void main(String[] args) {
 		GameOfLife game = new GameOfLife();
@@ -145,21 +147,9 @@ public class GameOfLife {
 				} else if ("-?".equals(arg)) {
 					throw new Exception("Help requested");
 				} else if ("-@".equals(arg)) {
-					GameOfLifeSpecialOutputFormat newGame = new GameOfLifeSpecialOutputFormat();
-					newGame.isAtSigns = true;
-					newGame.world = game.world;
-					newGame.height = game.height;
-					newGame.width = game.width;
-					newGame.steps = game.steps;
-					game = newGame;
+					game.isAtSigns = true;
 				} else if ("-O".equals(arg)) {
-					GameOfLifeSpecialOutputFormat newGame = new GameOfLifeSpecialOutputFormat();
-					newGame.isAtSigns = false;
-					newGame.world = game.world;
-					newGame.height = game.height;
-					newGame.width = game.width;
-					newGame.steps = game.steps;
-					game = newGame;
+					game.isOSigns = true;
 				} else if (arg.equals("-w")) {
 					game.width = getIntArg(argList);
 				} else if ("-h".equals(arg))
@@ -223,7 +213,12 @@ public class GameOfLife {
 	}
 
 	void printWorldLine(String line) {
-		System.out.println(line);
+		if (isAtSigns)
+			System.out.println(line.replace("#", "@ ").replace("-", ". "));
+		else if (isOSigns)
+			System.out.println(line.replace("#", "O"));
+		else
+			System.out.println(line);
 	}
 
 	public boolean isAlive(int x, int y) {
