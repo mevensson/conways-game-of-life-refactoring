@@ -118,16 +118,33 @@ public class World {
 		return true;
 	}
 
-	boolean isAlive(int x, int y) {
-		char c = world.get(y).charAt(x);
+	public World step() {
+		World newWorld = new World(new ArrayList<>(),
+				heightOffset, widthOffset);
 	
-		if (c == '#')
-			return true;
-		else
-			return false;
+		for (int h = 0; h < height(); h++) {
+			String line = "";
+			for (int w = 0; w < world.get(0).length(); w++) {
+				int n = countAliveNeighbors(h, w);
+	
+				char cell = '-';
+	
+				if (isAlive(w, h)) {
+					if (n == 2 || n == 3)
+						cell = '#';
+				} else {
+					if (n == 3)
+						cell = '#';
+				}
+	
+				line += cell;
+			}
+			newWorld.world.add(line);
+		}
+		return newWorld;
 	}
 
-	int countAliveNeighbors(int h, int w) {
+	private int countAliveNeighbors(int h, int w) {
 		int n = 0;
 	
 		if (h != 0 && w != 0 && isAlive(w - 1, h - 1))
@@ -154,5 +171,14 @@ public class World {
 				&& isAlive(w + 1, h + 1))
 			n++;
 		return n;
+	}
+
+	private boolean isAlive(int x, int y) {
+		char c = world.get(y).charAt(x);
+	
+		if (c == '#')
+			return true;
+		else
+			return false;
 	}
 }
