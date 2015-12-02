@@ -138,7 +138,7 @@ public class GameOfLife {
 
 			if (stepCount != 0) {
 
-				addMarginsToWorld();
+				data.addMargins();
 
 				List<String> newWorld = new ArrayList<>();
 				int newHeightOffset = data.heightOffset;
@@ -312,18 +312,6 @@ public class GameOfLife {
 			return true;
 		else
 			return false;
-	}
-
-	private void addMarginsToWorld() {
-		data.world.add(data.emptyLine());
-		data.world.add(0, data.emptyLine());
-		data.heightOffset--;
-
-		for (int i = 0; i < data.height(); i++) {
-			String line = data.world.get(i);
-			data.world.set(i, '-' + line + '-');
-		}
-		data.widthOffset--;
 	}
 
 	private boolean isColumnEmpty(int column) {
