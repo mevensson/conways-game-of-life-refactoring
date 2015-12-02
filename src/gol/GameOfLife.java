@@ -3,6 +3,7 @@ package gol;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class GameOfLife {
 
@@ -75,8 +76,29 @@ public class GameOfLife {
 
 		ArgumentParser parser = new ArgumentParser(args);
 
-		if (parser.parse(game))
+		if (parser.parse(game)) {
+			if (game.world == null) {
+				game.world = new ArrayList<String>();
+
+				game.height = game.height == -1 ? 15 : game.height;
+				game.width = game.width == -1 ? 20 : game.width;
+
+				Random rand = new Random();
+				for (int h = 0; h < game.height; h++) {
+					String line = "";
+					for (int w = 0; w < game.width; w++) {
+
+						line += rand.nextBoolean() ? '#' : '-';
+					}
+					game.world.add(line);
+				}
+			}
+
+			if (game.steps == -1)
+				game.steps = 100;
+
 			game.runSimulation();
+		}
 	}
 
 	void printWorldLine(String line) {
