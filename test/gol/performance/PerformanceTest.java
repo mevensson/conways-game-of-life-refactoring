@@ -45,7 +45,7 @@ public class PerformanceTest {
 		title = "Quiet Long Simulation";
 		arguments = " -s 1000 -q -w 0 -h 0 -l 1000 -f " + LARGE_FILE;
 
-		baselineMillis = 21322;
+		baselineMillis = 13210;
 	}
 
 	@Test
@@ -53,7 +53,7 @@ public class PerformanceTest {
 		title = "Many Steps Output Performance";
 		arguments = "-f examples/largeGlidersAndBlinkers -s 400";
 
-		baselineMillis = 20032;
+		baselineMillis = 15657;
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class PerformanceTest {
 		title = "Extreme Read";
 		arguments = "-s 0 -w 0 -h 0 -f " + EXTREME_FILE;
 
-		baselineMillis = 5326;
+		baselineMillis = 4552;
 	}
 
 	@Test
@@ -73,7 +73,7 @@ public class PerformanceTest {
 		title = "Extreme Read Write";
 		arguments = "-s 0 -f " + EXTREME_FILE;
 
-		baselineMillis = 9578;
+		baselineMillis = 9245;
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class PerformanceTest {
 		title = "Generating Random Start State";
 		arguments = "-w 4000 -h 4000 -s 0";
 
-		baselineMillis = 16791;
+		baselineMillis = 14339;
 	}
 
 	@After
