@@ -76,7 +76,8 @@ public class GameOfLife {
 
 		computationTimeStart = System.currentTimeMillis();
 
-		ArgumentParser.parseArguments(args, game);
+		ArgumentParser parser = new ArgumentParser(args);
+		parser.parse(game);
 
 		if (dorun.equals("yes"))
 			game.runSimulation();
