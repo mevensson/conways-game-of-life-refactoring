@@ -83,19 +83,52 @@ public class GameOfLife {
 		}
 	}
 
-	int steps = -1;
-	List<String> world = null;
-	int height = -1;
-	int width = -1;
-	int heightOffset = 0;
+	private int height = -1;
+	private int width = -1;
+	private int steps = -1;
+	private int stepDelay = -1;
+	private boolean quietMode = false;
+	private boolean isAtSigns = false;
+	private boolean isOSigns = false;
+	private int historyLength;
+
+	private List<String> world = null;
+	private int heightOffset = 0;
 	private List<History> history = new LinkedList<History>();
 	private int widthOffset = 0;
-	int stepCount = 0;
-	int historyLength;
-	int stepDelay = -1;
-	boolean quietMode = false;
-	boolean isAtSigns = false;
-	boolean isOSigns = false;
+	private int stepCount = 0;
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setSteps(int steps) {
+		this.steps = steps;
+	}
+
+	public void setStepDelay(int stepDelay) {
+		this.stepDelay = stepDelay;
+	}
+
+	public void setHistoryLength(int historyLength) {
+		this.historyLength = historyLength;
+	}
+
+	public void setQuietMode(boolean quietMode) {
+		this.quietMode = quietMode;
+	}
+
+	public void setAtSigns(boolean isAtSigns) {
+		this.isAtSigns = isAtSigns;
+	}
+
+	public void setOSigns(boolean isOSigns) {
+		this.isOSigns = isOSigns;
+	}
 
 	public void parseFile(String filePath) throws FileNotFoundException {
 		@SuppressWarnings("resource")

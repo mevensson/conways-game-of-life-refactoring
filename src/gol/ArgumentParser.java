@@ -31,7 +31,7 @@ public class ArgumentParser {
 	private void parseArgument(GameOfLife game, String arg) throws Exception {
 		switch (arg) {
 		case "-s":
-			game.steps = getIntArg();
+			game.setSteps(getIntArg());
 			break;
 		case "-f":
 			game.parseFile(getArg());
@@ -39,25 +39,25 @@ public class ArgumentParser {
 		case "-?":
 			throw new Exception("Help requested");
 		case "-@":
-			game.isAtSigns = true;
+			game.setAtSigns(true);
 			break;
 		case "-O":
-			game.isOSigns = true;
+			game.setOSigns(true);
 			break;
 		case "-w":
-			game.width = getIntArg();
+			game.setWidth(getIntArg());
 			break;
 		case "-h":
-			game.height = getIntArg();
+			game.setHeight(getIntArg());
 			break;
 		case "-l":
-			game.historyLength = getIntArg();
+			game.setHistoryLength(getIntArg());
 			break;
 		case "-t":
-			game.stepDelay = getIntArg();
+			game.setStepDelay(getIntArg());
 			break;
 		case "-q":
-			game.quietMode = true;
+			game.setQuietMode(true);
 			break;
 		default:
 			throw new Exception("Unknown argument " + arg);
