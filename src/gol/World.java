@@ -126,4 +126,33 @@ public class World {
 		else
 			return false;
 	}
+
+	int countAliveNeighbors(int h, int w) {
+		int n = 0;
+	
+		if (h != 0 && w != 0 && isAlive(w - 1, h - 1))
+			n++;
+		if (h != 0 && isAlive(w, h - 1))
+			n++;
+		if (h != 0 && w != world.get(0).length() - 1
+				&& isAlive(w + 1, h - 1))
+			n++;
+	
+		if (w != 0 && isAlive(w - 1, h))
+			n++;
+	
+		if (w != world.get(0).length() - 1 && isAlive(w + 1, h))
+			n++;
+	
+		if (h != height() - 1 && w != 0
+				&& isAlive(w - 1, h + 1))
+			n++;
+		if (h != height() - 1 && isAlive(w, h + 1))
+			n++;
+		if (h != height() - 1
+				&& w != world.get(0).length() - 1
+				&& isAlive(w + 1, h + 1))
+			n++;
+		return n;
+	}
 }

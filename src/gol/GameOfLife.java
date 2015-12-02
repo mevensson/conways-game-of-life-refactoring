@@ -147,7 +147,7 @@ public class GameOfLife {
 				for (int h = 0; h < data.height(); h++) {
 					String line = "";
 					for (int w = 0; w < data.world.get(0).length(); w++) {
-						int n = countAliveNeighbors(h, w);
+						int n = data.countAliveNeighbors(h, w);
 
 						char cell = '-';
 
@@ -267,35 +267,6 @@ public class GameOfLife {
 		}
 	}
 
-	private int countAliveNeighbors(int h, int w) {
-		int n = 0;
-
-		if (h != 0 && w != 0 && data.isAlive(w - 1, h - 1))
-			n++;
-		if (h != 0 && data.isAlive(w, h - 1))
-			n++;
-		if (h != 0 && w != data.world.get(0).length() - 1
-				&& data.isAlive(w + 1, h - 1))
-			n++;
-
-		if (w != 0 && data.isAlive(w - 1, h))
-			n++;
-
-		if (w != data.world.get(0).length() - 1 && data.isAlive(w + 1, h))
-			n++;
-
-		if (h != data.height() - 1 && w != 0
-				&& data.isAlive(w - 1, h + 1))
-			n++;
-		if (h != data.height() - 1 && data.isAlive(w, h + 1))
-			n++;
-		if (h != data.height() - 1
-				&& w != data.world.get(0).length() - 1
-				&& data.isAlive(w + 1, h + 1))
-			n++;
-		return n;
-	}
-	
 	private void printWorldLine(String line) {
 		if (isAtSigns)
 			System.out.println(line.replace("#", "@ ").replace("-", ". "));
