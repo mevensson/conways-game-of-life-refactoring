@@ -81,4 +81,12 @@ public class World {
 		}
 		widthOffset--;
 	}
+
+	boolean isColumnEmpty(int column) {
+		for (int i = 0; i < height(); i++) {
+			if (world.get(i).charAt(column) == '#')
+				return false;
+		}
+		return true;
+	}
 }

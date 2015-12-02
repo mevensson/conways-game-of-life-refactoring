@@ -314,15 +314,6 @@ public class GameOfLife {
 			return false;
 	}
 
-	private boolean isColumnEmpty(int column) {
-
-		for (int i = 0; i < data.height(); i++) {
-			if (data.world.get(i).charAt(column) == '#')
-				return false;
-		}
-		return true;
-	}
-
 	private void stripMarginsFromWorld() {
 		while (!data.world.isEmpty() && data.world.get(0).equals(data.emptyLine())) {
 			data.world.remove(0);
@@ -334,7 +325,7 @@ public class GameOfLife {
 		}
 
 		while (!data.world.isEmpty() && data.world.get(0).length() != 0
-				&& isColumnEmpty(0)) {
+				&& data.isColumnEmpty(0)) {
 			for (int i = 0; i < data.height(); i++) {
 				String line = data.world.get(i);
 				data.world.set(i, line.substring(1));
@@ -343,7 +334,7 @@ public class GameOfLife {
 		}
 
 		while (!data.world.isEmpty() && data.world.get(0).length() != 0
-				&& isColumnEmpty(data.world.get(0).length() - 1)) {
+				&& data.isColumnEmpty(data.world.get(0).length() - 1)) {
 			for (int i = 0; i < data.height(); i++) {
 				String line = data.world.get(i);
 				data.world.set(i, line.substring(0, data.world.get(i).length() - 1));
