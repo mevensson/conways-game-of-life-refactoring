@@ -18,8 +18,8 @@ public class GameOfLife {
 		ArgumentParser parser = new ArgumentParser(args);
 
 		if (parser.parse(game)) {
-			if (game.data.world == null) {
-				game.data.world = new ArrayList<String>();
+			if (game.world.world == null) {
+				game.world.world = new ArrayList<String>();
 
 				game.height = game.height == -1 ? 15 : game.height;
 				game.width = game.width == -1 ? 20 : game.width;
@@ -31,7 +31,7 @@ public class GameOfLife {
 
 						line += rand.nextBoolean() ? '#' : '-';
 					}
-					game.data.world.add(line);
+					game.world.world.add(line);
 				}
 			}
 
@@ -88,7 +88,7 @@ public class GameOfLife {
 	private boolean isOSigns = false;
 	private int historyLength;
 
-	private World data = new World(null, 0, 0);
+	private World world = new World(null, 0, 0);
 	private List<History> history = new LinkedList<History>();
 	private int stepCount = 0;
 
@@ -125,11 +125,11 @@ public class GameOfLife {
 	}
 
 	public void parseFile(String filePath) throws FileNotFoundException {
-		data = new World(filePath);
+		world = new World(filePath);
 		if (height == -1)
-			height = data.height();
+			height = world.height();
 		if (width == -1)
-			width = data.width();
+			width = world.width();
 	}
 
 	public void runSimulation() {
@@ -138,20 +138,20 @@ public class GameOfLife {
 
 			if (stepCount != 0) {
 
-				data.addMargins();
+				world.addMargins();
 
 				List<String> newWorld = new ArrayList<>();
-				int newHeightOffset = data.heightOffset;
-				int newWidthtOffset = data.widthOffset;
+				int newHeightOffset = world.heightOffset;
+				int newWidthtOffset = world.widthOffset;
 
-				for (int h = 0; h < data.height(); h++) {
+				for (int h = 0; h < world.height(); h++) {
 					String line = "";
-					for (int w = 0; w < data.world.get(0).length(); w++) {
-						int n = data.countAliveNeighbors(h, w);
+					for (int w = 0; w < world.world.get(0).length(); w++) {
+						int n = world.countAliveNeighbors(h, w);
 
 						char cell = '-';
 
-						if (data.isAlive(w, h)) {
+						if (world.isAlive(w, h)) {
 							if (n == 2 || n == 3)
 								cell = '#';
 						} else {
@@ -164,23 +164,23 @@ public class GameOfLife {
 					newWorld.add(line);
 				}
 
-				data.stripMargins();
+				world.stripMargins();
 
-				history.add(0, new History(data.world, data.heightOffset, data.widthOffset));
+				history.add(0, new History(world.world, world.heightOffset, world.widthOffset));
 				if (history.size() == historyLength + 1)
 					history.remove(historyLength);
 
-				data.world = newWorld;
-				data.heightOffset = newHeightOffset;
-				data.widthOffset = newWidthtOffset;
+				world.world = newWorld;
+				world.heightOffset = newHeightOffset;
+				world.widthOffset = newWidthtOffset;
 
-				data.stripMargins();
+				world.stripMargins();
 			}
 			
 			String loopDetection = "";
 
-			int index = history.indexOf(new History(data.world, data.heightOffset,
-					data.widthOffset));
+			int index = history.indexOf(new History(world.world, world.heightOffset,
+					world.widthOffset));
 			if (index != -1) {
 				loopDetection = " - loop of length " + (index + 1)
 						+ " detected";
@@ -188,21 +188,21 @@ public class GameOfLife {
 
 			String linePrefix = "";
 
-			for (int i = 0; i < data.widthOffset; i++) {
+			for (int i = 0; i < world.widthOffset; i++) {
 				linePrefix += '-';
 			}
 
 			String lineSuffix = "";
 
-			int worldWidth = data.width();
-			for (int i = 0; i < width - worldWidth - data.widthOffset; i++) {
+			int worldWidth = world.width();
+			for (int i = 0; i < width - worldWidth - world.widthOffset; i++) {
 				lineSuffix += '-';
 			}
 
 			int printHeight = 0;
 
 			if (!quietMode || stepCount == steps || !loopDetection.isEmpty()) {
-				for (int i = 0; i < Math.min(data.heightOffset, height); i++) {
+				for (int i = 0; i < Math.min(world.heightOffset, height); i++) {
 					String line = "";
 					while (line.length() < width) {
 						line += '-';
@@ -211,16 +211,16 @@ public class GameOfLife {
 					printHeight++;
 				}
 
-				for (int i = Math.max(0, -data.heightOffset); i < data.height(); i++) {
+				for (int i = Math.max(0, -world.heightOffset); i < world.height(); i++) {
 
 					if (printHeight == height)
 						break;
-					String line = data.world.get(i);
+					String line = world.world.get(i);
 
 					line = linePrefix + line + lineSuffix;
 
-					if (data.widthOffset < 0)
-						line = line.substring(-data.widthOffset);
+					if (world.widthOffset < 0)
+						line = line.substring(-world.widthOffset);
 
 					if (line.length() > width)
 						line = line.substring(0, width);
