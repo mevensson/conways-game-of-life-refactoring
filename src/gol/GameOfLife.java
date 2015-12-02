@@ -181,32 +181,7 @@ public class GameOfLife {
 				for (int h = 0; h < world.size(); h++) {
 					String line = "";
 					for (int w = 0; w < world.get(0).length(); w++) {
-						/* count alive neighbors */
-						int n = 0;
-
-						if (h != 0 && w != 0 && isAlive(w - 1, h - 1))
-							n++;
-						if (h != 0 && isAlive(w, h - 1))
-							n++;
-						if (h != 0 && w != world.get(0).length() - 1
-								&& isAlive(w + 1, h - 1))
-							n++;
-
-						if (w != 0 && isAlive(w - 1, h))
-							n++;
-
-						if (w != world.get(0).length() - 1 && isAlive(w + 1, h))
-							n++;
-
-						if (h != world.size() - 1 && w != 0
-								&& isAlive(w - 1, h + 1))
-							n++;
-						if (h != world.size() - 1 && isAlive(w, h + 1))
-							n++;
-						if (h != world.size() - 1
-								&& w != world.get(0).length() - 1
-								&& isAlive(w + 1, h + 1))
-							n++;
+						int n = countAliveNeighbors(h, w);
 
 						char cell = '-';
 
@@ -234,7 +209,6 @@ public class GameOfLife {
 				widthOffset = newWidthtOffset;
 
 				stripMarginsFromWorld();
-
 			}
 			
 			String loopDetection = "";
@@ -325,6 +299,35 @@ public class GameOfLife {
 				break;
 			}
 		}
+	}
+
+	private int countAliveNeighbors(int h, int w) {
+		int n = 0;
+
+		if (h != 0 && w != 0 && isAlive(w - 1, h - 1))
+			n++;
+		if (h != 0 && isAlive(w, h - 1))
+			n++;
+		if (h != 0 && w != world.get(0).length() - 1
+				&& isAlive(w + 1, h - 1))
+			n++;
+
+		if (w != 0 && isAlive(w - 1, h))
+			n++;
+
+		if (w != world.get(0).length() - 1 && isAlive(w + 1, h))
+			n++;
+
+		if (h != world.size() - 1 && w != 0
+				&& isAlive(w - 1, h + 1))
+			n++;
+		if (h != world.size() - 1 && isAlive(w, h + 1))
+			n++;
+		if (h != world.size() - 1
+				&& w != world.get(0).length() - 1
+				&& isAlive(w + 1, h + 1))
+			n++;
+		return n;
 	}
 	
 	private void printWorldLine(String line) {
