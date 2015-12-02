@@ -61,15 +61,6 @@ public class World {
 		return world.isEmpty() ? 0 : world.get(0).length();
 	}
 
-	String emptyLine() {
-		if (world.isEmpty())
-			return "";
-		String result = "";
-		while (result.length() < world.get(0).length())
-			result += '-';
-		return result;
-	}
-
 	public void addMargins() {
 		world.add(emptyLine());
 		world.add(0, emptyLine());
@@ -82,7 +73,44 @@ public class World {
 		widthOffset--;
 	}
 
-	boolean isColumnEmpty(int column) {
+	private String emptyLine() {
+		if (world.isEmpty())
+			return "";
+		String result = "";
+		while (result.length() < world.get(0).length())
+			result += '-';
+		return result;
+	}
+
+	public void stripMargins() {
+		while (!world.isEmpty() && world.get(0).equals(emptyLine())) {
+			world.remove(0);
+			heightOffset++;
+		}
+		while (!world.isEmpty()
+				&& world.get(height() - 1).equals(emptyLine())) {
+			world.remove(height() - 1);
+		}
+	
+		while (!world.isEmpty() && world.get(0).length() != 0
+				&& isColumnEmpty(0)) {
+			for (int i = 0; i < height(); i++) {
+				String line = world.get(i);
+				world.set(i, line.substring(1));
+			}
+			widthOffset++;
+		}
+	
+		while (!world.isEmpty() && world.get(0).length() != 0
+				&& isColumnEmpty(world.get(0).length() - 1)) {
+			for (int i = 0; i < height(); i++) {
+				String line = world.get(i);
+				world.set(i, line.substring(0, world.get(i).length() - 1));
+			}
+		}
+	}
+
+	private boolean isColumnEmpty(int column) {
 		for (int i = 0; i < height(); i++) {
 			if (world.get(i).charAt(column) == '#')
 				return false;
