@@ -19,25 +19,27 @@ public class OutputVerifier {
 
 	public void verify(Expectation expectation, Result result) {
 
-		assertEquals(0, result.getExitValue());
-
 		if (expectation.executionTimeMin != Expectation.IGNORE) {
 			verifyExecutionTimeIsInRange(expectation, result);
 		}
 
-		verify(expectation, result.getOutputLines(), result.getErrorLines());
+		verifyErrorStream(result.getErrorLines());
+		verifyOutputStream(result.getOutputLines(), expectation);
 
+		assertEquals(0, result.getExitValue());
 	}
 
-	private void verify(Expectation expects, Iterable<String> outputLines,
-			Iterable<String> errorLines) {
-
+	private void verifyErrorStream(Iterable<String> errorLines) {
 		String errorText = toSingleString(errorLines);
-		assertEquals(Expectation.NOTHING, errorText);
+		assertEquals("Program err-stream", Expectation.NOTHING, errorText);
+	}
+
+	private void verifyOutputStream(Iterable<String> outputLines,
+			Expectation expects) {
 
 		if (expects.output != Expectation.NOTHING) {
 			String outText = toSingleString(outputLines);
-			assertEquals("Output missmatch", expects.output, outText);
+			assertEquals("Program out-stream", expects.output, outText);
 		}
 
 		OutputMetrics actual = interpretOutput(outputLines);
@@ -90,8 +92,6 @@ public class OutputVerifier {
 		if (expected != Expectation.IGNORE)
 			assertEquals(message, expected, actual);
 	}
-
-
 
 	private void verifyExecutionTimeIsInRange(Expectation expectation,
 			Result result) {
