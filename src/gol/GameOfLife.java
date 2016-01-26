@@ -91,7 +91,7 @@ public class GameOfLife {
 	public void runSimulation() {
 		while (stepCount <= steps) {
 			stepWorld();
-			
+
 			String loopDetection = "";
 			int index = history.indexOf(world);
 			if (index != -1) {
@@ -99,55 +99,8 @@ public class GameOfLife {
 						+ " detected";
 			}
 
-			String linePrefix = "";
-
-			for (int i = 0; i < world.widthOffset; i++) {
-				linePrefix += '-';
-			}
-
-			String lineSuffix = "";
-
-			int worldWidth = world.width();
-			for (int i = 0; i < width - worldWidth - world.widthOffset; i++) {
-				lineSuffix += '-';
-			}
-
-			int printHeight = 0;
-
 			if (!quietMode || stepCount == steps || !loopDetection.isEmpty()) {
-				for (int i = 0; i < Math.min(world.heightOffset, height); i++) {
-					String line = "";
-					while (line.length() < width) {
-						line += '-';
-					}
-					printWorldLine(line);
-					printHeight++;
-				}
-
-				for (int i = Math.max(0, -world.heightOffset); i < world.height(); i++) {
-
-					if (printHeight == height)
-						break;
-					String line = world.world.get(i);
-
-					line = linePrefix + line + lineSuffix;
-
-					if (world.widthOffset < 0)
-						line = line.substring(-world.widthOffset);
-
-					if (line.length() > width)
-						line = line.substring(0, width);
-					printWorldLine(line);
-					printHeight++;
-				}
-
-				for (; printHeight < height; printHeight++) {
-					String line = "";
-					while (line.length() < width) {
-						line += '-';
-					}
-					printWorldLine(line);
-				}
+				printWorld();
 
 				if (stepCount == 0) {
 					System.out.println("start");
@@ -193,6 +146,53 @@ public class GameOfLife {
 			world = newWorld;
 
 			world.stripMargins();
+		}
+	}
+
+	private void printWorld() {
+		String linePrefix = "";
+		for (int i = 0; i < world.widthOffset; i++) {
+			linePrefix += '-';
+		}
+
+		String lineSuffix = "";
+		int worldWidth = world.width();
+		for (int i = 0; i < width - worldWidth - world.widthOffset; i++) {
+			lineSuffix += '-';
+		}
+
+		int printHeight = 0;
+		for (int i = 0; i < Math.min(world.heightOffset, height); i++) {
+			String line = "";
+			while (line.length() < width) {
+				line += '-';
+			}
+			printWorldLine(line);
+			printHeight++;
+		}
+
+		for (int i = Math.max(0, -world.heightOffset); i < world.height(); i++) {
+			if (printHeight == height)
+				break;
+			String line = world.world.get(i);
+
+			line = linePrefix + line + lineSuffix;
+
+			if (world.widthOffset < 0)
+				line = line.substring(-world.widthOffset);
+
+			if (line.length() > width)
+				line = line.substring(0, width);
+			printWorldLine(line);
+			printHeight++;
+		}
+
+		for (; printHeight < height; printHeight++) {
+			String line = "";
+			while (line.length() < width) {
+				line += '-';
+			}
+			printWorldLine(line);
 		}
 	}
 
