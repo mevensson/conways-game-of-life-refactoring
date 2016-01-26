@@ -89,25 +89,8 @@ public class GameOfLife {
 	}
 
 	public void runSimulation() {
-
 		while (stepCount <= steps) {
-
-			if (stepCount != 0) {
-
-				world.addMargins();
-
-				World newWorld = world.step();
-
-				world.stripMargins();
-
-				history.add(0, world);
-				if (history.size() == historyLength + 1)
-					history.remove(historyLength);
-
-				world = newWorld;
-
-				world.stripMargins();
-			}
+			stepWorld();
 			
 			String loopDetection = "";
 			int index = history.indexOf(world);
@@ -192,6 +175,24 @@ public class GameOfLife {
 			if (!loopDetection.isEmpty()) {
 				break;
 			}
+		}
+	}
+
+	private void stepWorld() {
+		if (stepCount != 0) {
+			world.addMargins();
+
+			World newWorld = world.step();
+
+			world.stripMargins();
+
+			history.add(0, world);
+			if (history.size() == historyLength + 1)
+				history.remove(historyLength);
+
+			world = newWorld;
+
+			world.stripMargins();
 		}
 	}
 
