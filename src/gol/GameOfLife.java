@@ -1,8 +1,6 @@
 package gol;
 
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
-import java.util.List;
 
 public class GameOfLife {
 
@@ -15,12 +13,11 @@ public class GameOfLife {
 	private int width;
 	private int steps;
 	private int stepDelay;
-	private int historyLength;
 	private OutputFormat outputFormat;
 	private boolean quietMode;
+	private History history;
 
 	private long computationTimeStart = System.currentTimeMillis();
-	private List<World> history = new LinkedList<World>();
 	private int stepCount = 0;
 
 	public GameOfLife(Arguments arguments) throws FileNotFoundException {
@@ -35,9 +32,9 @@ public class GameOfLife {
 		}
 		steps = arguments.getSteps();
 		stepDelay = arguments.getStepDelay();
-		historyLength = arguments.getHistoryLength();
 		outputFormat = arguments.getOutputFormat();
 		quietMode = arguments.isQuietMode();
+		history = new History(arguments);
 	}
 
 	public void runSimulation() {
@@ -91,9 +88,7 @@ public class GameOfLife {
 
 			world.stripMargins();
 
-			history.add(0, world);
-			if (history.size() == historyLength + 1)
-				history.remove(historyLength);
+			history.add(world);
 
 			world = newWorld;
 
