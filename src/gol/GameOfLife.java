@@ -1,10 +1,8 @@
 package gol;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 public class GameOfLife {
 
@@ -18,21 +16,11 @@ public class GameOfLife {
 		ArgumentParser parser = new ArgumentParser(args);
 
 		if (parser.parse(game)) {
-			if (game.world.world == null) {
-				game.world.world = new ArrayList<String>();
-
+			if (game.world == null) {
 				game.height = game.height == -1 ? 15 : game.height;
 				game.width = game.width == -1 ? 20 : game.width;
 
-				Random rand = new Random();
-				for (int h = 0; h < game.height; h++) {
-					String line = "";
-					for (int w = 0; w < game.width; w++) {
-
-						line += rand.nextBoolean() ? '#' : '-';
-					}
-					game.world.world.add(line);
-				}
+				game.world = new World(game.width, game.height);
 			}
 
 			game.runSimulation();
@@ -52,7 +40,7 @@ public class GameOfLife {
 	private boolean isOSigns = false;
 	private int historyLength;
 
-	private World world = new World(null, 0, 0);
+	private World world = null;
 	private List<World> history = new LinkedList<World>();
 	private int stepCount = 0;
 

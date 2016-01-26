@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,6 +48,20 @@ public class World {
 		}
 	}
 	
+	public World(int width, int height) {
+		world = new ArrayList<String>();
+
+		Random rand = new Random();
+		for (int h = 0; h < height; h++) {
+			String line = "";
+			for (int w = 0; w < width; w++) {
+
+				line += rand.nextBoolean() ? '#' : '-';
+			}
+			world.add(line);
+		}
+	}
+
 	public World(List<String> world, int heightOffset, int widthOffset) {
 		this.world = world;
 		this.heightOffset = heightOffset;
