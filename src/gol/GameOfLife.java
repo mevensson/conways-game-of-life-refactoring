@@ -16,6 +16,7 @@ public class GameOfLife {
 	private boolean quietMode;
 	private History history;
 	private StepDelayer stepDelayer;
+	private LoopDetector loopDetector;
 
 	private int stepCount = 0;
 
@@ -34,26 +35,20 @@ public class GameOfLife {
 		quietMode = arguments.isQuietMode();
 		history = new History(arguments);
 		stepDelayer = new StepDelayer(arguments);
+		loopDetector = new LoopDetector(history);
 	}
 
 	public void runSimulation() {
 		while (stepCount <= steps) {
 			stepWorld();
 
-			String loopDetection = "";
-			int index = history.indexOf(world);
-			if (index != -1) {
-				loopDetection = " - loop of length " + (index + 1)
-						+ " detected";
-			}
-
-			if (!quietMode || stepCount == steps || !loopDetection.isEmpty()) {
+			if (!quietMode || stepCount == steps || loopDetector.hasLoop(world)) {
 				printWorld();
 
 				if (stepCount == 0) {
 					System.out.println("start");
 				} else
-					line("step " + stepCount + loopDetection);
+					line("step " + stepCount + loopDetector.getLoopString(world));
 				System.out.println();
 			}
 
@@ -63,7 +58,7 @@ public class GameOfLife {
 				stepDelayer.delay();
 			}
 
-			if (!loopDetection.isEmpty()) {
+			if (loopDetector.hasLoop(world)) {
 				break;
 			}
 		}
