@@ -6,12 +6,8 @@ import java.util.List;
 
 public class GameOfLife {
 
-	private static long computationTimeStart;
-
 	public static void main(String[] args) {
 		GameOfLife game = new GameOfLife();
-
-		computationTimeStart = System.currentTimeMillis();
 
 		ArgumentParser parser = new ArgumentParser(args);
 
@@ -26,6 +22,7 @@ public class GameOfLife {
 		System.out.println(s);
 	}
 
+	private long computationTimeStart = System.currentTimeMillis();
 	private int height = -1;
 	private int width = -1;
 	private int steps = 100;
