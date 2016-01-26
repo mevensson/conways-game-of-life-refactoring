@@ -3,11 +3,6 @@ package gol;
 import java.io.FileNotFoundException;
 
 public class GameOfLife {
-
-	static void line(String s) {
-		System.out.println(s);
-	}
-
 	private World world;
 	private int height;
 	private int width;
@@ -134,5 +129,9 @@ public class GameOfLife {
 			System.out.println(line.replace("#", "O"));
 		else
 			System.out.println(line);
+	}
+
+	private void line(String s) {
+		System.out.println(s);
 	}
 }
