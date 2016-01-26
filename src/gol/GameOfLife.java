@@ -35,9 +35,6 @@ public class GameOfLife {
 				}
 			}
 
-			if (game.steps == -1)
-				game.steps = 100;
-
 			game.runSimulation();
 		}
 	}
@@ -48,7 +45,7 @@ public class GameOfLife {
 
 	private int height = -1;
 	private int width = -1;
-	private int steps = -1;
+	private int steps = 100;
 	private int stepDelay = -1;
 	private boolean quietMode = false;
 	private boolean isAtSigns = false;
