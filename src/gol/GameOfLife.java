@@ -16,12 +16,7 @@ public class GameOfLife {
 		ArgumentParser parser = new ArgumentParser(args);
 
 		if (parser.parse(game)) {
-			if (game.world == null) {
-				game.height = game.height == -1 ? 15 : game.height;
-				game.width = game.width == -1 ? 20 : game.width;
-
-				game.world = new World(game.width, game.height);
-			}
+			game.init();
 
 			game.runSimulation();
 		}
@@ -43,6 +38,15 @@ public class GameOfLife {
 	private World world = null;
 	private List<World> history = new LinkedList<World>();
 	private int stepCount = 0;
+
+	public void init() {
+		if (world == null) {
+			height = height == -1 ? 15 : height;
+			width = width == -1 ? 20 : width;
+
+			world = new World(width, height);
+		}
+	}
 
 	public void setHeight(int height) {
 		this.height = height;
