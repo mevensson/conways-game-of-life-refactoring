@@ -12,12 +12,11 @@ public class GameOfLife {
 	private int height;
 	private int width;
 	private int steps;
-	private int stepDelay;
 	private OutputFormat outputFormat;
 	private boolean quietMode;
 	private History history;
+	private StepDelayer stepDelayer;
 
-	private long computationTimeStart = System.currentTimeMillis();
 	private int stepCount = 0;
 
 	public GameOfLife(Arguments arguments) throws FileNotFoundException {
@@ -31,10 +30,10 @@ public class GameOfLife {
 			world = new World(width, height);
 		}
 		steps = arguments.getSteps();
-		stepDelay = arguments.getStepDelay();
 		outputFormat = arguments.getOutputFormat();
 		quietMode = arguments.isQuietMode();
 		history = new History(arguments);
+		stepDelayer = new StepDelayer(arguments);
 	}
 
 	public void runSimulation() {
@@ -60,19 +59,9 @@ public class GameOfLife {
 
 			stepCount++;
 
-			long computationTime = System.currentTimeMillis()
-					- computationTimeStart;
-
-			if (!quietMode && stepDelay - computationTime >= 0) {
-				try {
-
-					Thread.sleep(stepDelay - computationTime);
-				} catch (InterruptedException ex) {
-					Thread.currentThread().interrupt();
-				}
+			if (!quietMode) {
+				stepDelayer.delay();
 			}
-
-			computationTimeStart = System.currentTimeMillis();
 
 			if (!loopDetection.isEmpty()) {
 				break;
