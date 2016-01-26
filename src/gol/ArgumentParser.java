@@ -5,60 +5,52 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ArgumentParser {
-
-	static void line(String s) {
-		System.out.println(s);
-	}
-
 	List<String> argList;
 
 	public ArgumentParser(String[] args) {
 		argList = new LinkedList<String>(Arrays.asList(args));
 	}
 
-	public boolean parse(GameOfLife game) {
-		try {
-			while (argList.size() > 0) {
-				parseArgument(game, getArg());
-			}
-		} catch (Exception e) {
-			usage(e.getMessage());
-			return false;
+	public Arguments parse() throws Exception {
+		Arguments arguments = new Arguments();
+		while (argList.size() > 0) {
+			parseArgument(arguments);
 		}
-		return true;
+		return arguments;
 	}
 
-	private void parseArgument(GameOfLife game, String arg) throws Exception {
+	private void parseArgument(Arguments arguments) throws Exception {
+		final String arg = getArg();
 		switch (arg) {
-		case "-s":
-			game.setSteps(getIntArg());
-			break;
 		case "-f":
-			game.parseFile(getArg());
+			arguments.setFilename(getArg());
+			break;
+		case "-h":
+			arguments.setHeight(getIntArg());
+			break;
+		case "-w":
+			arguments.setWidth(getIntArg());
+			break;
+		case "-s":
+			arguments.setSteps(getIntArg());
+			break;
+		case "-t":
+			arguments.setStepDelay(getIntArg());
+			break;
+		case "-l":
+			arguments.setHistoryLength(getIntArg());
+			break;
+		case "-@":
+			arguments.setOutputFormat(OutputFormat.AT_SIGNS);
+			break;
+		case "-O":
+			arguments.setOutputFormat(OutputFormat.O_SIGNS);
+			break;
+		case "-q":
+			arguments.setQuietMode(true);
 			break;
 		case "-?":
 			throw new Exception("Help requested");
-		case "-@":
-			game.setAtSigns(true);
-			break;
-		case "-O":
-			game.setOSigns(true);
-			break;
-		case "-w":
-			game.setWidth(getIntArg());
-			break;
-		case "-h":
-			game.setHeight(getIntArg());
-			break;
-		case "-l":
-			game.setHistoryLength(getIntArg());
-			break;
-		case "-t":
-			game.setStepDelay(getIntArg());
-			break;
-		case "-q":
-			game.setQuietMode(true);
-			break;
 		default:
 			throw new Exception("Unknown argument " + arg);
 		}
@@ -77,7 +69,7 @@ public class ArgumentParser {
 		return n;
 	}
 
-	private void usage(String message) {
+	public void usage(String message) {
 		line(message);
 		line("");
 		line("Usage");
@@ -94,5 +86,9 @@ public class ArgumentParser {
 		line("   -l <X>          Detect loops of maximum length x. Default is 0 - no loop detection.");
 		line("   -t <MS>         Time delay (ms) to wait between each step. Default is 0 ms.");
 		line("   -q              Quiet mode. Only outputs the last step in a simulation. Ignores time delay.");
+	}
+
+	void line(String s) {
+		System.out.println(s);
 	}
 }

@@ -10,67 +10,34 @@ public class GameOfLife {
 		System.out.println(s);
 	}
 
-	private long computationTimeStart = System.currentTimeMillis();
-	private int height = -1;
-	private int width = -1;
-	private int steps = 100;
-	private int stepDelay = -1;
-	private boolean quietMode = false;
-	private boolean isAtSigns = false;
-	private boolean isOSigns = false;
+	private World world;
+	private int height;
+	private int width;
+	private int steps;
+	private int stepDelay;
 	private int historyLength;
+	private OutputFormat outputFormat;
+	private boolean quietMode;
 
-	private World world = null;
+	private long computationTimeStart = System.currentTimeMillis();
 	private List<World> history = new LinkedList<World>();
 	private int stepCount = 0;
 
-	public void init() {
-		if (world == null) {
-			height = height == -1 ? 15 : height;
-			width = width == -1 ? 20 : width;
-
+	public GameOfLife(Arguments arguments) throws FileNotFoundException {
+		if (arguments.getFilename().isPresent()) {
+			world = new World(arguments.getFilename().get());
+			height = arguments.getHeightOrElse(() -> world.height());
+			width = arguments.getWidthOrElse(() -> world.width());
+		} else {
+			height = arguments.getHeight();
+			width = arguments.getWidth();
 			world = new World(width, height);
 		}
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public void setSteps(int steps) {
-		this.steps = steps;
-	}
-
-	public void setStepDelay(int stepDelay) {
-		this.stepDelay = stepDelay;
-	}
-
-	public void setHistoryLength(int historyLength) {
-		this.historyLength = historyLength;
-	}
-
-	public void setQuietMode(boolean quietMode) {
-		this.quietMode = quietMode;
-	}
-
-	public void setAtSigns(boolean isAtSigns) {
-		this.isAtSigns = isAtSigns;
-	}
-
-	public void setOSigns(boolean isOSigns) {
-		this.isOSigns = isOSigns;
-	}
-
-	public void parseFile(String filePath) throws FileNotFoundException {
-		world = new World(filePath);
-		if (height == -1)
-			height = world.height();
-		if (width == -1)
-			width = world.width();
+		steps = arguments.getSteps();
+		stepDelay = arguments.getStepDelay();
+		historyLength = arguments.getHistoryLength();
+		outputFormat = arguments.getOutputFormat();
+		quietMode = arguments.isQuietMode();
 	}
 
 	public void runSimulation() {
@@ -182,9 +149,9 @@ public class GameOfLife {
 	}
 
 	private void printWorldLine(String line) {
-		if (isAtSigns)
+		if (outputFormat == OutputFormat.AT_SIGNS)
 			System.out.println(line.replace("#", "@ ").replace("-", ". "));
-		else if (isOSigns)
+		else if (outputFormat == OutputFormat.O_SIGNS)
 			System.out.println(line.replace("#", "O"));
 		else
 			System.out.println(line);
