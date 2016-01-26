@@ -6,18 +6,6 @@ import java.util.List;
 
 public class GameOfLife {
 
-	public static void main(String[] args) {
-		GameOfLife game = new GameOfLife();
-
-		ArgumentParser parser = new ArgumentParser(args);
-
-		if (parser.parse(game)) {
-			game.init();
-
-			game.runSimulation();
-		}
-	}
-
 	static void line(String s) {
 		System.out.println(s);
 	}

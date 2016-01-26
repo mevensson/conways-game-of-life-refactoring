@@ -12,7 +12,7 @@ public class SeparateProcessExecutor implements Executor {
 	@Override
 	public void executeProgram(String args, Result result) {
 		try {
-			String command = "java -cp bin/ gol.GameOfLife " + args;
+			String command = "java -cp bin/ gol.Main " + args;
 			p = Runtime.getRuntime().exec(command);
 
 			// Need to consume large outputs or else it will 
