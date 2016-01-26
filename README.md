@@ -38,12 +38,12 @@ Add new features to the program. A new feature could be to read and write [the R
 
 Use the flag **-?** to display usage help.
 
->    **`$ java gol.GameOfLife -?`**
+>    **`$ java gol.Main -?`**
 
 >     Help requested
 >      
 >     Usage
->      java gol.GameOfLife [ARGUMENTS...]
+>      java gol.Main [ARGUMENTS...]
 >     
 >      arguments:
 >        -?              Prints this usage help.
@@ -61,15 +61,15 @@ Use the flag **-?** to display usage help.
 	
 The following set of arguments would result in a 1000 steps simulation, detecting loops of max length 200, with view port size of 70x40, using @-signs for displaying cells and using a 150 ms delay between each simulation step.
 
->    **`$ java gol.GameOfLife -s 1000 -l 200 -w 70 -h 40 -@ -t 150`**
+>    **`$ java gol.Main -s 1000 -l 200 -w 70 -h 40 -@ -t 150`**
 
 The default values also work fine. If running from the project root folder, use class path.
 
->   **`$ java -cp bin/ gol.GameOfLife`**
+>   **`$ java -cp bin/ gol.Main`**
 
 There are some example start states in the **examples**-folder in the project root. One of these is a 100-steps oscillator called *centinal*.
 
->   **`$ java -cp bin/ gol.GameOfLife -f examples/centinal -t 100 -O`**
+>   **`$ java -cp bin/ gol.Main -f examples/centinal -t 100 -O`**
 
 
 

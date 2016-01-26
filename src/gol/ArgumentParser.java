@@ -81,7 +81,7 @@ public class ArgumentParser {
 		line(message);
 		line("");
 		line("Usage");
-		line(" java gol.GameOfLife [ARGUMENTS...]");
+		line(" java gol.Main [ARGUMENTS...]");
 		line("");
 		line(" arguments:");
 		line("   -?              Prints this usage help.");

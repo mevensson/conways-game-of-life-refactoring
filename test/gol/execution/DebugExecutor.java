@@ -1,6 +1,6 @@
 package gol.execution;
 
-import gol.GameOfLife;
+import gol.Main;
 import gol.util.Expectation;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 /**
  * <p>
- * This debug executor just calls the method {@link GameOfLife#main(String[])}
+ * This debug executor just calls the method {@link Main#main(String[])}
  * with given arguments, to enable easy debugging and code coverage analysis.
  * </p>
  * 
@@ -30,7 +30,7 @@ public class DebugExecutor implements Executor {
 
 	@Override
 	public void executeProgram(String args, Result result) {
-		GameOfLife.main(tokenize(args));
+		Main.main(tokenize(args));
 	}
 
 	private String[] tokenize(String rawText) {

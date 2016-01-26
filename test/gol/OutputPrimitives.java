@@ -9,7 +9,7 @@ public class OutputPrimitives {
 	public static Consumer<Text> usage = out -> {
 		out.ln();
 		out.ln("Usage");
-		out.ln(" java gol.GameOfLife [ARGUMENTS...]");
+		out.ln(" java gol.Main [ARGUMENTS...]");
 		out.ln();
 		out.ln(" arguments:");
 		out.ln("   -?              Prints this usage help.");
