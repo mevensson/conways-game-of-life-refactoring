@@ -2,14 +2,13 @@ package gol;
 
 public class Main {
 	public static void main(String[] args) {
-		GameOfLife game = new GameOfLife();
-
 		ArgumentParser parser = new ArgumentParser(args);
-
-		if (parser.parse(game)) {
-			game.init();
-
+		try {
+			Arguments arguments = parser.parse();
+			GameOfLife game = new GameOfLife(arguments);
 			game.runSimulation();
+		} catch(Exception e) {
+			parser.usage(e.getMessage());
 		}
 	}
 }
