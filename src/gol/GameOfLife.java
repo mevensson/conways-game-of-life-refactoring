@@ -36,9 +36,11 @@ public class GameOfLife {
 
 	public void runSimulation() {
 		while (stepCount <= steps) {
-			stepWorld();
+			if (stepCount != 0) {
+				stepWorld();
+			}
 
-			if (!quietMode || stepCount == steps || loopDetector.hasLoop(world)) {
+			if (!quietMode || simulationDone()) {
 				worldPrinter.printWorld(world);
 				printStepCount();
 				line("");
@@ -57,10 +59,12 @@ public class GameOfLife {
 	}
 
 	private void stepWorld() {
-		if (stepCount != 0) {
-			history.add(world);
-			world = new WorldStepper().step(world);
-		}
+		history.add(world);
+		world = new WorldStepper().step(world);
+	}
+
+	private boolean simulationDone() {
+		return stepCount >= steps || loopDetector.hasLoop(world);
 	}
 
 	private void printStepCount() {
