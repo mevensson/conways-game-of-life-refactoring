@@ -23,7 +23,7 @@ public class SetWorld implements World {
 
 		@Override
 		public int hashCode() {
-			final int prime = 31;
+			final int prime = 49157;
 			int result = 1;
 			result = prime * result + x;
 			result = prime * result + y;
