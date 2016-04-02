@@ -8,7 +8,7 @@ import java.util.Set;
 public class WorldStepper {
 
 	public World step(World oldWorld) {
-		World newWorld = new SetWorld();
+		World newWorld = new SetWorld(oldWorld.numAlive());
 		Map<Point, Integer> aliveNeighbors = countAliveNeighbors(oldWorld);
 		for (int y = oldWorld.heightOffset() - 1;
 				y < oldWorld.heightOffset() + oldWorld.height() + 1;
@@ -30,7 +30,7 @@ public class WorldStepper {
 	}
 
 	private Map<Point, Integer> countAliveNeighbors(World world) {
-		Map<Point, Integer> aliveNeighbors = new HashMap<>();
+		Map<Point, Integer> aliveNeighbors = new HashMap<>(world.numAlive());
 		for (Point point : world) {
 			for (Point neighbor : neighbors(point)) {
 				int alive = aliveNeighbors.getOrDefault(neighbor, 0);

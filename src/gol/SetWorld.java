@@ -5,12 +5,20 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class SetWorld implements World {
-	private final Set<Point> world = new HashSet<>();
+	private final Set<Point> world;
 
 	private int minX = Integer.MAX_VALUE;
 	private int maxX = Integer.MIN_VALUE;
 	private int minY = Integer.MAX_VALUE;
 	private int maxY = Integer.MIN_VALUE;
+
+	public SetWorld() {
+		world = new HashSet<>();
+	}
+
+	public SetWorld(int sizeEstimate) {
+		world = new HashSet<>(sizeEstimate);
+	}
 
 	@Override
 	public int heightOffset() {
@@ -77,5 +85,10 @@ public class SetWorld implements World {
 	@Override
 	public Iterator<Point> iterator() {
 		return world.iterator();
+	}
+
+	@Override
+	public int numAlive() {
+		return world.size();
 	}
 }
