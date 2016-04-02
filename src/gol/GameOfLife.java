@@ -23,7 +23,7 @@ public class GameOfLife {
 		} else {
 			viewPortHeight = arguments.getHeight();
 			viewPortWidth = arguments.getWidth();
-			world = new StringArrayWorld(viewPortWidth, viewPortHeight);
+			world = (StringArrayWorld) new RandomWorldGenerator().generate(viewPortWidth, viewPortHeight);
 		}
 		steps = arguments.getSteps();
 		quietMode = arguments.isQuietMode();

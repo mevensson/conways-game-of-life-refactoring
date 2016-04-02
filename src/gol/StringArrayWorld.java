@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,24 +45,14 @@ public class StringArrayWorld implements World {
 		}
 	}
 
-	public StringArrayWorld(int width, int height) {
-		world = new ArrayList<String>();
-
-		Random rand = new Random();
-		for (int h = 0; h < height; h++) {
-			String line = "";
-			for (int w = 0; w < width; w++) {
-
-				line += rand.nextBoolean() ? '#' : '-';
-			}
-			world.add(line);
-		}
-	}
-
 	public StringArrayWorld(List<String> world, int heightOffset, int widthOffset) {
 		this.world = world;
 		this.heightOffset = heightOffset;
 		this.widthOffset = widthOffset;
+	}
+
+	public StringArrayWorld() {
+		world = new ArrayList<String>();
 	}
 
 	@Override
@@ -96,15 +85,11 @@ public class StringArrayWorld implements World {
 	}
 
 	public void addMargins() {
-		world.add(emptyLine());
-		world.add(0, emptyLine());
-		heightOffset--;
+		addTopEmptyLine();
+		addBottomEmptyLine();
 
-		for (int i = 0; i < height(); i++) {
-			String line = world.get(i);
-			world.set(i, '-' + line + '-');
-		}
-		widthOffset--;
+		addLeftEmptyColumn();
+		addRightEmptyColumn();
 	}
 
 	private String emptyLine() {
@@ -207,12 +192,6 @@ public class StringArrayWorld implements World {
 		return n;
 	}
 
-	private boolean isAliveLocal(int x, int y) {
-		char c = world.get(y).charAt(x);
-
-		return c == '#';
-	}
-
 	@Override
 	public boolean isAlive(int x, int y) {
 		if (y < heightOffset || y >= heightOffset + height()) {
@@ -224,5 +203,68 @@ public class StringArrayWorld implements World {
 		}
 
 		return isAliveLocal(x - widthOffset, y - heightOffset);
+	}
+
+	private boolean isAliveLocal(int x, int y) {
+		char c = world.get(y).charAt(x);
+		return c == '#';
+	}
+
+	@Override
+	public void setAlive(int x, int y) {
+		while (y < heightOffset) {
+			addTopEmptyLine();
+		}
+
+		while (y >= heightOffset + height()) {
+			addBottomEmptyLine();
+		}
+
+		while (x < widthOffset) {
+			addLeftEmptyColumn();
+		}
+
+		while (x >= widthOffset + width()) {
+			addRightEmptyColumn();
+		}
+
+		setAliveLocal(x - widthOffset, y - heightOffset);
+	}
+
+	private void setAliveLocal(int x, int y) {
+		String line = world.get(y);
+		String newLine = "";
+		if (x > 0) {
+			newLine += line.substring(0, x);
+		}
+		newLine += '#';
+		if (x + 1 < width()) {
+			newLine += line.substring(x + 1, width());
+		}
+		world.set(y, newLine);
+	}
+
+	private void addLeftEmptyColumn() {
+		for (int y = 0; y < height(); y++) {
+			String line = world.get(y);
+			world.set(y, '-' + line);
+		}
+		widthOffset--;
+	}
+
+	private void addRightEmptyColumn() {
+		for (int i = 0; i < height(); i++) {
+			String line = world.get(i);
+			world.set(i, line + '-');
+		}
+	}
+
+	private void addTopEmptyLine() {
+		world.add(0, emptyLine());
+		heightOffset--;
+	}
+
+	private void addBottomEmptyLine() {
+		world.add(emptyLine());
 	}
 }
