@@ -3,7 +3,7 @@ package gol;
 import java.io.FileNotFoundException;
 
 public class GameOfLife {
-	private StringArrayWorld world;
+	private World world;
 	private int steps;
 	private boolean quietMode;
 	private History history;
@@ -18,13 +18,13 @@ public class GameOfLife {
 		final int viewPortWidth;
 		if (arguments.getFilename().isPresent()) {
 			FileWorldReader fileWorldReader = new FileWorldReader();
-			world = (StringArrayWorld) fileWorldReader.read(arguments.getFilename().get());
+			world = fileWorldReader.read(arguments.getFilename().get());
 			viewPortHeight = arguments.getHeightOrElse(() -> fileWorldReader.getHeight());
 			viewPortWidth = arguments.getWidthOrElse(() -> fileWorldReader.getWidth());
 		} else {
 			viewPortHeight = arguments.getHeight();
 			viewPortWidth = arguments.getWidth();
-			world = (StringArrayWorld) new RandomWorldGenerator().generate(viewPortWidth, viewPortHeight);
+			world = new RandomWorldGenerator().generate(viewPortWidth, viewPortHeight);
 		}
 		steps = arguments.getSteps();
 		quietMode = arguments.isQuietMode();
@@ -63,7 +63,7 @@ public class GameOfLife {
 	private void stepWorld() {
 		if (stepCount != 0) {
 			history.add(world);
-			world = (StringArrayWorld) new WorldStepper().step(world);
+			world = new WorldStepper().step(world);
 		}
 	}
 

@@ -6,12 +6,12 @@ public class LoopDetector {
 	public LoopDetector(History history) {
 		this.history = history;
 	}
-	
-	public boolean hasLoop(StringArrayWorld world) {
+
+	public boolean hasLoop(World world) {
 		return history.indexOf(world) != -1;
 	}
-	
-	public String getLoopString(StringArrayWorld world) {
+
+	public String getLoopString(World world) {
 		String loopDetection = "";
 		int index = history.indexOf(world);
 		if (index != -1) {

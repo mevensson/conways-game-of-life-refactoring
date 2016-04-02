@@ -4,20 +4,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class History {
-	private List<StringArrayWorld> history = new LinkedList<StringArrayWorld>();
-	private int historyLength;
+	private List<World> history = new LinkedList<World>();
+	private int maxHistoryLength;
 
 	public History(Arguments arguments) {
-		historyLength = arguments.getHistoryLength();
+		maxHistoryLength = arguments.getHistoryLength();
 	}
-	
-	int indexOf(StringArrayWorld world) {
+
+	int indexOf(World world) {
 		return history.indexOf(world);
 	}
-	
-	void add(StringArrayWorld world) {
+
+	void add(World world) {
 		history.add(0, world);
-		if (history.size() == historyLength + 1)
-			history.remove(historyLength);
+		if (history.size() == maxHistoryLength + 1)
+			history.remove(maxHistoryLength);
 	}
 }
