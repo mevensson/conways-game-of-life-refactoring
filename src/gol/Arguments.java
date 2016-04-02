@@ -1,10 +1,15 @@
 package gol;
 
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class Arguments {
+	private static final int DEFAULT_HEIGHT = 15;
+	private static final int DEFAULT_WIDTH = 20;
+	private static final int DEFAULT_STEPS = 100;
+	private static final int DEFAULT_STEP_DELAY = -1;
+	private static final int DEFAULT_HISTORY_LENGTH = 0;
+
 	private Optional<String> filename = Optional.empty();
 	private Optional<Integer> height = Optional.empty();
 	private Optional<Integer> width = Optional.empty();
@@ -23,7 +28,7 @@ public class Arguments {
 	}
 
 	public int getHeight() {
-		return height.orElse(15);
+		return height.orElse(DEFAULT_HEIGHT);
 	}
 
 	public int getHeightOrElse(Supplier<? extends Integer> other) {
@@ -35,7 +40,7 @@ public class Arguments {
 	}
 
 	public int getWidth() {
-		return width.orElse(20);
+		return width.orElse(DEFAULT_WIDTH);
 	}
 
 	public int getWidthOrElse(Supplier<? extends Integer> other) {
@@ -47,7 +52,7 @@ public class Arguments {
 	}
 
 	public int getSteps() {
-		return steps.orElse(100);
+		return steps.orElse(DEFAULT_STEPS);
 	}
 
 	public void setSteps(int steps) {
@@ -55,7 +60,7 @@ public class Arguments {
 	}
 
 	public int getStepDelay() {
-		return stepDelay.orElse(-1);
+		return stepDelay.orElse(DEFAULT_STEP_DELAY);
 	}
 
 	public void setStepDelay(int stepDelay) {
@@ -63,7 +68,7 @@ public class Arguments {
 	}
 
 	public int getHistoryLength() {
-		return historyLength.orElse(0);
+		return historyLength.orElse(DEFAULT_HISTORY_LENGTH);
 	}
 
 	public void setHistoryLength(int historyLength) {
