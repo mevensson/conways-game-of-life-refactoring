@@ -40,12 +40,8 @@ public class GameOfLife {
 
 			if (!quietMode || stepCount == steps || loopDetector.hasLoop(world)) {
 				worldPrinter.printWorld(world);
-
-				if (stepCount == 0) {
-					System.out.println("start");
-				} else
-					line("step " + stepCount + loopDetector.getLoopString(world));
-				System.out.println();
+				printStepCount();
+				line("");
 			}
 
 			stepCount++;
@@ -64,6 +60,14 @@ public class GameOfLife {
 		if (stepCount != 0) {
 			history.add(world);
 			world = new WorldStepper().step(world);
+		}
+	}
+
+	private void printStepCount() {
+		if (stepCount == 0) {
+			line("start");
+		} else {
+			line("step " + stepCount + loopDetector.getLoopString(world));
 		}
 	}
 
