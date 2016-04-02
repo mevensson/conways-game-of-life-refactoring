@@ -91,15 +91,15 @@ public class StringArrayWorld implements World {
 
 	private void setAliveLocal(int x, int y) {
 		String line = world.get(y);
-		String newLine = "";
+		StringBuilder newLine = new StringBuilder();
 		if (x > 0) {
-			newLine += line.substring(0, x);
+			newLine.append(line.substring(0, x));
 		}
-		newLine += '#';
+		newLine.append('#');
 		if (x + 1 < width()) {
-			newLine += line.substring(x + 1, width());
+			newLine.append(line.substring(x + 1, width()));
 		}
-		world.set(y, newLine);
+		world.set(y, newLine.toString());
 	}
 
 	private void addLeftEmptyColumn() {
@@ -129,9 +129,9 @@ public class StringArrayWorld implements World {
 	private String emptyLine() {
 		if (world.isEmpty())
 			return "";
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		while (result.length() < world.get(0).length())
-			result += '-';
-		return result;
+			result.append('-');
+		return result.toString();
 	}
 }

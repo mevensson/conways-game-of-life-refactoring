@@ -13,12 +13,12 @@ public class WorldPrinter {
 
 	public void printWorld(World world) {
 		for (int y = 0; y < viewPortHeight; ++y) {
-			String line = "";
+			StringBuilder line = new StringBuilder();
 			for (int x = 0; x < viewPortWidth; ++x) {
 				boolean alive = world.isAlive(x, y);
-				line += getSign(alive);
+				line.append(getSign(alive));
 			}
-			System.out.println(line);
+			System.out.println(line.toString());
 		}
 	}
 
