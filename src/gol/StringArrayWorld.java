@@ -39,120 +39,24 @@ public class StringArrayWorld implements World {
 		return true;
 	}
 
+	@Override
+	public int heightOffset() {
+		return heightOffset;
+	}
+
+	@Override
+	public int widthOffset() {
+		return widthOffset;
+	}
+
+	@Override
 	public int height() {
 		return world.size();
 	}
 
+	@Override
 	public int width() {
 		return world.isEmpty() ? 0 : world.get(0).length();
-	}
-
-	public void addMargins() {
-		addTopEmptyLine();
-		addBottomEmptyLine();
-
-		addLeftEmptyColumn();
-		addRightEmptyColumn();
-	}
-
-	private String emptyLine() {
-		if (world.isEmpty())
-			return "";
-		String result = "";
-		while (result.length() < world.get(0).length())
-			result += '-';
-		return result;
-	}
-
-	public void stripMargins() {
-		while (!world.isEmpty() && world.get(0).equals(emptyLine())) {
-			world.remove(0);
-			heightOffset++;
-		}
-		while (!world.isEmpty()
-				&& world.get(height() - 1).equals(emptyLine())) {
-			world.remove(height() - 1);
-		}
-
-		while (!world.isEmpty() && world.get(0).length() != 0
-				&& isColumnEmpty(0)) {
-			for (int i = 0; i < height(); i++) {
-				String line = world.get(i);
-				world.set(i, line.substring(1));
-			}
-			widthOffset++;
-		}
-
-		while (!world.isEmpty() && world.get(0).length() != 0
-				&& isColumnEmpty(world.get(0).length() - 1)) {
-			for (int i = 0; i < height(); i++) {
-				String line = world.get(i);
-				world.set(i, line.substring(0, world.get(i).length() - 1));
-			}
-		}
-	}
-
-	private boolean isColumnEmpty(int column) {
-		for (int i = 0; i < height(); i++) {
-			if (world.get(i).charAt(column) == '#')
-				return false;
-		}
-		return true;
-	}
-
-	public StringArrayWorld step() {
-		StringArrayWorld newWorld = new StringArrayWorld(new ArrayList<>(),
-				heightOffset, widthOffset);
-
-		for (int h = 0; h < height(); h++) {
-			String line = "";
-			for (int w = 0; w < world.get(0).length(); w++) {
-				int n = countAliveNeighbors(h, w);
-
-				char cell = '-';
-
-				if (isAliveLocal(w, h)) {
-					if (n == 2 || n == 3)
-						cell = '#';
-				} else {
-					if (n == 3)
-						cell = '#';
-				}
-
-				line += cell;
-			}
-			newWorld.world.add(line);
-		}
-		return newWorld;
-	}
-
-	private int countAliveNeighbors(int h, int w) {
-		int n = 0;
-
-		if (h != 0 && w != 0 && isAliveLocal(w - 1, h - 1))
-			n++;
-		if (h != 0 && isAliveLocal(w, h - 1))
-			n++;
-		if (h != 0 && w != world.get(0).length() - 1
-				&& isAliveLocal(w + 1, h - 1))
-			n++;
-
-		if (w != 0 && isAliveLocal(w - 1, h))
-			n++;
-
-		if (w != world.get(0).length() - 1 && isAliveLocal(w + 1, h))
-			n++;
-
-		if (h != height() - 1 && w != 0
-				&& isAliveLocal(w - 1, h + 1))
-			n++;
-		if (h != height() - 1 && isAliveLocal(w, h + 1))
-			n++;
-		if (h != height() - 1
-				&& w != world.get(0).length() - 1
-				&& isAliveLocal(w + 1, h + 1))
-			n++;
-		return n;
 	}
 
 	@Override
@@ -229,5 +133,14 @@ public class StringArrayWorld implements World {
 
 	private void addBottomEmptyLine() {
 		world.add(emptyLine());
+	}
+
+	private String emptyLine() {
+		if (world.isEmpty())
+			return "";
+		String result = "";
+		while (result.length() < world.get(0).length())
+			result += '-';
+		return result;
 	}
 }

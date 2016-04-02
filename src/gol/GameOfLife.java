@@ -62,17 +62,8 @@ public class GameOfLife {
 
 	private void stepWorld() {
 		if (stepCount != 0) {
-			world.addMargins();
-
-			StringArrayWorld newWorld = world.step();
-
-			world.stripMargins();
-
 			history.add(world);
-
-			world = newWorld;
-
-			world.stripMargins();
+			world = (StringArrayWorld) new WorldStepper().step(world);
 		}
 	}
 
