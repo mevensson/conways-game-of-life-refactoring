@@ -17,9 +17,10 @@ public class GameOfLife {
 		final int viewPortHeight;
 		final int viewPortWidth;
 		if (arguments.getFilename().isPresent()) {
-			world = new StringArrayWorld(arguments.getFilename().get());
-			viewPortHeight = arguments.getHeightOrElse(() -> world.height());
-			viewPortWidth = arguments.getWidthOrElse(() -> world.width());
+			FileWorldReader fileWorldReader = new FileWorldReader();
+			world = (StringArrayWorld) fileWorldReader.read(arguments.getFilename().get());
+			viewPortHeight = arguments.getHeightOrElse(() -> fileWorldReader.getHeight());
+			viewPortWidth = arguments.getWidthOrElse(() -> fileWorldReader.getWidth());
 		} else {
 			viewPortHeight = arguments.getHeight();
 			viewPortWidth = arguments.getWidth();
