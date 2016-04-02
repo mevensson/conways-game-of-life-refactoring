@@ -1,7 +1,6 @@
 package gol;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public class Arguments {
 	private static final int DEFAULT_HEIGHT = 15;
@@ -31,8 +30,8 @@ public class Arguments {
 		return height.orElse(DEFAULT_HEIGHT);
 	}
 
-	public int getHeightOrElse(Supplier<? extends Integer> other) {
-		return height.orElseGet(other);
+	public int getHeightOrElse(int other) {
+		return height.orElse(other);
 	}
 
 	public void setHeight(int height) {
@@ -43,8 +42,8 @@ public class Arguments {
 		return width.orElse(DEFAULT_WIDTH);
 	}
 
-	public int getWidthOrElse(Supplier<? extends Integer> other) {
-		return width.orElseGet(other);
+	public int getWidthOrElse(int other) {
+		return width.orElse(other);
 	}
 
 	public void setWidth(int width) {
