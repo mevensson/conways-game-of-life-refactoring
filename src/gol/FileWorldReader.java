@@ -20,7 +20,7 @@ public class FileWorldReader {
 
 	public World read(String filePath) throws FileNotFoundException {
 		Scanner scanner = new Scanner(new File(filePath));
-		World world = new StringArrayWorld();
+		World world = new SetWorld();
 		int lineNumber = 1;
 		int maxWidth = 0;
 		while (scanner.hasNextLine()) {
