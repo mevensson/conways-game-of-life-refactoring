@@ -1,13 +1,14 @@
 package gol;
 
 public class StepDelayer {
-	private long computationTimeStart = System.currentTimeMillis();
-	private int stepDelay;
+	private final int stepDelay;
 
-	public StepDelayer(Arguments arguments) {
-		stepDelay = arguments.getStepDelay();
+	private long computationTimeStart = System.currentTimeMillis();
+
+	public StepDelayer(int stepDelay) {
+		this.stepDelay = stepDelay;
 	}
-	
+
 	public void delay() {
 		long computationTime = System.currentTimeMillis()
 				- computationTimeStart;

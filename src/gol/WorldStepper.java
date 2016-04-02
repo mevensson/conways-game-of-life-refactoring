@@ -1,12 +1,9 @@
 package gol;
 
-import java.util.ArrayList;
-
 public class WorldStepper {
 
 	public World step(World oldWorld) {
-		StringArrayWorld newWorld = new StringArrayWorld(new ArrayList<>(),
-				oldWorld.heightOffset(), oldWorld.widthOffset());
+		StringArrayWorld newWorld = new StringArrayWorld();
 
 		for (int y = oldWorld.heightOffset() - 1;
 				y < oldWorld.heightOffset() + oldWorld.height() + 1;

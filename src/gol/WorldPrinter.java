@@ -1,9 +1,9 @@
 package gol;
 
 public class WorldPrinter {
-	private OutputFormat outputFormat;
-	private int viewPortWidth;
-	private int viewPortHeight;
+	private final OutputFormat outputFormat;
+	private final int viewPortWidth;
+	private final int viewPortHeight;
 
 	public WorldPrinter(OutputFormat outputFormat, int width, int height) {
 		this.outputFormat = outputFormat;

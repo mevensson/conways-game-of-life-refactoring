@@ -4,11 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class History {
-	private List<World> history = new LinkedList<World>();
-	private int maxHistoryLength;
+	private final List<World> history = new LinkedList<World>();
+	private final int maxHistoryLength;
 
-	public History(Arguments arguments) {
-		maxHistoryLength = arguments.getHistoryLength();
+	public History(int maxHistoryLength) {
+		this.maxHistoryLength = maxHistoryLength;
 	}
 
 	int indexOf(World world) {

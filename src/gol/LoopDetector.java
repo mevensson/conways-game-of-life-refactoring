@@ -1,7 +1,7 @@
 package gol;
 
 public class LoopDetector {
-	private History history;
+	private final History history;
 
 	public LoopDetector(History history) {
 		this.history = history;

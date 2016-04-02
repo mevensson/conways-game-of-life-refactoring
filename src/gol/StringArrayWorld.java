@@ -4,19 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringArrayWorld implements World {
-	private List<String> world;
+	private final List<String> world = new ArrayList<String>();
+
 	private int heightOffset;
 	private int widthOffset;
-
-	public StringArrayWorld(List<String> world, int heightOffset, int widthOffset) {
-		this.world = world;
-		this.heightOffset = heightOffset;
-		this.widthOffset = widthOffset;
-	}
-
-	public StringArrayWorld() {
-		world = new ArrayList<String>();
-	}
 
 	@Override
 	public boolean equals(Object obj) {

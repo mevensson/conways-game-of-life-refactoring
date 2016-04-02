@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ArgumentParser {
-	List<String> argList;
+	private final List<String> argList;
 
 	public ArgumentParser(String[] args) {
 		argList = new LinkedList<String>(Arrays.asList(args));

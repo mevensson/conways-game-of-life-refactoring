@@ -1,41 +1,30 @@
 package gol;
 
-import java.io.FileNotFoundException;
-
 public class GameOfLife {
-	private World world;
-	private int steps;
-	private boolean quietMode;
-	private History history;
-	private StepDelayer stepDelayer;
-	private LoopDetector loopDetector;
-	private WorldPrinter worldPrinter;
+	private final History history;
+	private final StepDelayer stepDelayer;
+	private final LoopDetector loopDetector;
+	private final WorldPrinter worldPrinter;
+	private final int maxSteps;
+	private final boolean quietMode;
 
+	private World world;
 	private int stepCount = 0;
 
-	public GameOfLife(Arguments arguments) throws FileNotFoundException {
-		final int viewPortHeight;
-		final int viewPortWidth;
-		if (arguments.getFilename().isPresent()) {
-			FileWorldReader fileWorldReader = new FileWorldReader();
-			world = fileWorldReader.read(arguments.getFilename().get());
-			viewPortHeight = arguments.getHeightOrElse(fileWorldReader.getHeight());
-			viewPortWidth = arguments.getWidthOrElse(fileWorldReader.getWidth());
-		} else {
-			viewPortHeight = arguments.getHeight();
-			viewPortWidth = arguments.getWidth();
-			world = new RandomWorldGenerator().generate(viewPortWidth, viewPortHeight);
-		}
-		steps = arguments.getSteps();
-		quietMode = arguments.isQuietMode();
-		history = new History(arguments);
-		stepDelayer = new StepDelayer(arguments);
-		loopDetector = new LoopDetector(history);
-		worldPrinter = new WorldPrinter(arguments.getOutputFormat(), viewPortWidth, viewPortHeight);
+	public GameOfLife(World world, History history, StepDelayer stepDelayer,
+			LoopDetector loopDetector, WorldPrinter worldPrinter,
+			int maxSteps, boolean quietMode) {
+		this.world = world;
+		this.history = history;
+		this.stepDelayer = stepDelayer;
+		this.loopDetector = loopDetector;
+		this.worldPrinter = worldPrinter;
+		this.maxSteps = maxSteps;
+		this.quietMode = quietMode;
 	}
 
 	public void runSimulation() {
-		while (stepCount <= steps) {
+		while (stepCount <= maxSteps) {
 			if (stepCount != 0) {
 				stepWorld();
 			}
@@ -64,7 +53,7 @@ public class GameOfLife {
 	}
 
 	private boolean simulationDone() {
-		return stepCount >= steps || loopDetector.hasLoop(world);
+		return stepCount >= maxSteps || loopDetector.hasLoop(world);
 	}
 
 	private void printStepCount() {
