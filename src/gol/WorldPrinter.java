@@ -12,58 +12,26 @@ public class WorldPrinter {
 	}
 
 	public void printWorld(World world) {
-		String linePrefix = "";
-		for (int i = 0; i < world.widthOffset; i++) {
-			linePrefix += '-';
-		}
-
-		String lineSuffix = "";
-		int worldWidth = world.width();
-		for (int i = 0; i < viewPortWidth - worldWidth - world.widthOffset; i++) {
-			lineSuffix += '-';
-		}
-
-		int printHeight = 0;
-		for (int i = 0; i < Math.min(world.heightOffset, viewPortHeight); i++) {
+		for (int y = 0; y < viewPortHeight; ++y) {
 			String line = "";
-			while (line.length() < viewPortWidth) {
-				line += '-';
+			for (int x = 0; x < viewPortWidth; ++x) {
+				boolean alive = world.isAlive(x, y);
+				line += getSign(alive);
 			}
-			printWorldLine(line);
-			printHeight++;
-		}
-
-		for (int i = Math.max(0, -world.heightOffset); i < world.height(); i++) {
-			if (printHeight == viewPortHeight)
-				break;
-			String line = world.world.get(i);
-
-			line = linePrefix + line + lineSuffix;
-
-			if (world.widthOffset < 0)
-				line = line.substring(-world.widthOffset);
-
-			if (line.length() > viewPortWidth)
-				line = line.substring(0, viewPortWidth);
-			printWorldLine(line);
-			printHeight++;
-		}
-
-		for (; printHeight < viewPortHeight; printHeight++) {
-			String line = "";
-			while (line.length() < viewPortWidth) {
-				line += '-';
-			}
-			printWorldLine(line);
+			System.out.println(line);
 		}
 	}
 
-	private void printWorldLine(String line) {
-		if (outputFormat == OutputFormat.AT_SIGNS)
-			System.out.println(line.replace("#", "@ ").replace("-", ". "));
-		else if (outputFormat == OutputFormat.O_SIGNS)
-			System.out.println(line.replace("#", "O"));
-		else
-			System.out.println(line);
+	private String getSign(boolean alive) {
+		switch (outputFormat) {
+		case AT_SIGNS:
+			return alive ? "@ " : ". ";
+
+		case O_SIGNS:
+			return alive ? "O" : "-";
+
+		default:
+			return alive ? "#" : "-";
+		}
 	}
 }

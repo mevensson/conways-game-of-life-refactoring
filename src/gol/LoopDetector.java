@@ -7,11 +7,11 @@ public class LoopDetector {
 		this.history = history;
 	}
 	
-	public boolean hasLoop(World world) {
+	public boolean hasLoop(StringArrayWorld world) {
 		return history.indexOf(world) != -1;
 	}
 	
-	public String getLoopString(World world) {
+	public String getLoopString(StringArrayWorld world) {
 		String loopDetection = "";
 		int index = history.indexOf(world);
 		if (index != -1) {
