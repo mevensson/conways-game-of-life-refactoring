@@ -1,46 +1,10 @@
 package gol;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class SetWorld implements World {
-	public static class Point {
-		private final int x;
-		private final int y;
-
-		public Point(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-
-		public int getX() {
-			return x;
-		}
-
-		public int getY() {
-			return y;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 49157;
-			int result = 1;
-			result = prime * result + x;
-			result = prime * result + y;
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			Point other = (Point) obj;
-			if (x != other.x)
-				return false;
-			if (y != other.y)
-				return false;
-			return true;
-		}
-	}
-
 	private final Set<Point> world = new HashSet<>();
 
 	private int minX = Integer.MAX_VALUE;
@@ -108,5 +72,10 @@ public class SetWorld implements World {
 		} else if (!world.equals(other.world))
 			return false;
 		return true;
+	}
+
+	@Override
+	public Iterator<Point> iterator() {
+		return world.iterator();
 	}
 }

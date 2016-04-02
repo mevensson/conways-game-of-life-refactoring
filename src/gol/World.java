@@ -1,6 +1,6 @@
 package gol;
 
-public interface World {
+public interface World extends Iterable<Point> {
 
 	int heightOffset();
 	int widthOffset();
