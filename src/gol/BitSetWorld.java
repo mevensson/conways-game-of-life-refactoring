@@ -2,7 +2,10 @@ package gol;
 
 import java.util.BitSet;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Stream;
 
 public class BitSetWorld implements World {
 	public static class Row {
@@ -19,8 +22,7 @@ public class BitSetWorld implements World {
 		public void setALive(int x) {
 			if (alive.isEmpty()) {
 				minX = Math.floorDiv(x, 64) * 64;
-			}
-			if (x < minX) {
+			} else if (x < minX) {
 				long[] oldArray = alive.toLongArray();
 				int newMinX = Math.floorDiv(x, 64) * 64;
 				int numLongsToAdd = minX - newMinX;
@@ -49,6 +51,10 @@ public class BitSetWorld implements World {
 			if (minX != other.minX)
 				return false;
 			return true;
+		}
+
+		public Stream<Point> stream(int y) {
+			return alive.stream().mapToObj(x -> new Point(x + minX, y));
 		}
 	}
 	private final Map<Integer, Row> world = new HashMap<>();
@@ -116,6 +122,16 @@ public class BitSetWorld implements World {
 			world.put(y, row);
 		}
 		row.setALive(x);
+	}
+
+	@Override
+	public Iterator<Point> iterator() {
+		Stream<Point> stream = Stream.empty();
+		for (Entry<Integer, Row> entry : world.entrySet()) {
+			Stream<Point> rowStream = entry.getValue().stream(entry.getKey());
+			stream = Stream.concat(stream, rowStream);
+		}
+		return stream.iterator();
 	}
 
 	@Override
