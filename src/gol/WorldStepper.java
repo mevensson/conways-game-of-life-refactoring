@@ -1,10 +1,10 @@
 package gol;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 public class WorldStepper {
 
@@ -34,8 +34,8 @@ public class WorldStepper {
 		return aliveNeighbors;
 	}
 
-	private Set<Point> neighbors(Point point) {
-		Set<Point> neighbors = new HashSet<>();
+	private List<Point> neighbors(Point point) {
+		List<Point> neighbors = new ArrayList<>();
 		neighbors.add(new Point(point.getX() - 1, point.getY() - 1));
 		neighbors.add(new Point(point.getX()    , point.getY() - 1));
 		neighbors.add(new Point(point.getX() + 1, point.getY() - 1));
