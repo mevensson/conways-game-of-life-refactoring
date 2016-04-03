@@ -1,30 +1,23 @@
 package gol;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Map.Entry;
 
 public class WorldStepper {
 
 	public World step(World oldWorld) {
 		World newWorld = new BitSetWorld();
-		Map<Point, Integer> aliveNeighbors = countAliveNeighbors(oldWorld);
-
-		for (int y = oldWorld.heightOffset() - 1;
-				y < oldWorld.heightOffset() + oldWorld.height() + 1;
-				++y) {
-			for (int x = oldWorld.widthOffset() - 1;
-					x < oldWorld.widthOffset() + oldWorld.width() + 1;
-					++x) {
-				int n = aliveNeighbors.getOrDefault(new Point(x, y), 0);
-				if (oldWorld.isAlive(x, y)) {
-					if (n == 2 || n == 3)
-						newWorld.setAlive(x, y);
-				} else {
-					if (n == 3)
-						newWorld.setAlive(x, y);
-				}
+		Map<Point, Integer> aliveNeighborsMap = countAliveNeighbors(oldWorld);
+		for (Entry<Point, Integer> entry : aliveNeighborsMap.entrySet()) {
+			int n = entry.getValue();
+			Point p = entry.getKey();
+			if (n == 3) {
+				newWorld.setAlive(p.getX(), p.getY());
+			} else if (n == 2 && oldWorld.isAlive(p.getX(), p.getY())) {
+				newWorld.setAlive(p.getX(), p.getY());
 			}
 		}
 		return newWorld;
@@ -41,8 +34,8 @@ public class WorldStepper {
 		return aliveNeighbors;
 	}
 
-	private Set<Point> neighbors(Point point) {
-		Set<Point> neighbors = new HashSet<>();
+	private List<Point> neighbors(Point point) {
+		List<Point> neighbors = new ArrayList<>();
 		neighbors.add(new Point(point.getX() - 1, point.getY() - 1));
 		neighbors.add(new Point(point.getX()    , point.getY() - 1));
 		neighbors.add(new Point(point.getX() + 1, point.getY() - 1));

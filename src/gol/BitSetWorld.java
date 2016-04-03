@@ -19,17 +19,18 @@ public class BitSetWorld implements World {
 			return alive.get(x - minX);
 		}
 
-		public void setALive(int x) {
+		public void setAlive(int x) {
 			if (alive.isEmpty()) {
 				minX = Math.floorDiv(x, 64) * 64;
 			} else if (x < minX) {
 				long[] oldArray = alive.toLongArray();
 				int newMinX = Math.floorDiv(x, 64) * 64;
-				int numLongsToAdd = minX - newMinX;
+				int numLongsToAdd = (minX - newMinX) / 64;
 				long[] newArray = new long[oldArray.length + numLongsToAdd];
 				System.arraycopy(oldArray, 0, newArray, numLongsToAdd,
 						oldArray.length);
 				alive = BitSet.valueOf(newArray);
+				minX = newMinX;
 			}
 			alive.set(x - minX);
 		}
@@ -57,48 +58,8 @@ public class BitSetWorld implements World {
 			return alive.stream().mapToObj(x -> new Point(x + minX, y));
 		}
 	}
+
 	private final Map<Integer, Row> world = new HashMap<>();
-
-	private int minX = Integer.MAX_VALUE;
-	private int maxX = Integer.MIN_VALUE;
-	private int minY = Integer.MAX_VALUE;
-	private int maxY = Integer.MIN_VALUE;
-
-	@Override
-	public int heightOffset() {
-		if (world.isEmpty()) {
-			return 0;
-		}
-
-		return minY;
-	}
-
-	@Override
-	public int widthOffset() {
-		if (world.isEmpty()) {
-			return 0;
-		}
-
-		return minX;
-	}
-
-	@Override
-	public int height() {
-		if (world.isEmpty()) {
-			return 0;
-		}
-
-		return maxY - minY + 1;
-	}
-
-	@Override
-	public int width() {
-		if (world.isEmpty()) {
-			return 0;
-		}
-
-		return maxX - minX + 1;
-	}
 
 	@Override
 	public boolean isAlive(int x, int y) {
@@ -111,17 +72,12 @@ public class BitSetWorld implements World {
 
 	@Override
 	public void setAlive(int x, int y) {
-		minX = Math.min(minX, x);
-		maxX = Math.max(maxX, x);
-		minY = Math.min(minY, y);
-		maxY = Math.max(maxY, y);
-
 		Row row = world.get(y);
 		if (row == null) {
 			row = new Row();
 			world.put(y, row);
 		}
-		row.setALive(x);
+		row.setAlive(x);
 	}
 
 	@Override
