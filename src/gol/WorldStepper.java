@@ -3,27 +3,21 @@ package gol;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 public class WorldStepper {
 
 	public World step(World oldWorld) {
 		World newWorld = new SetWorld(oldWorld.numAlive());
-		Map<Point, Integer> aliveNeighbors = countAliveNeighbors(oldWorld);
-		for (int y = oldWorld.heightOffset() - 1;
-				y < oldWorld.heightOffset() + oldWorld.height() + 1;
-				++y) {
-			for (int x = oldWorld.widthOffset() - 1;
-					x < oldWorld.widthOffset() + oldWorld.width() + 1;
-					++x) {
-				int n = aliveNeighbors.getOrDefault(new Point(x, y), 0);
-				if (oldWorld.isAlive(x, y)) {
-					if (n == 2 || n == 3)
-						newWorld.setAlive(x, y);
-				} else {
-					if (n == 3)
-						newWorld.setAlive(x, y);
-				}
+		Map<Point, Integer> aliveNeighborsMap = countAliveNeighbors(oldWorld);
+		for (Entry<Point, Integer> entry : aliveNeighborsMap.entrySet()) {
+			int n = entry.getValue();
+			Point p = entry.getKey();
+			if (n == 3) {
+				newWorld.setAlive(p.getX(), p.getY());
+			} else if (n == 2 && oldWorld.isAlive(p.getX(), p.getY())) {
+				newWorld.setAlive(p.getX(), p.getY());
 			}
 		}
 		return newWorld;
