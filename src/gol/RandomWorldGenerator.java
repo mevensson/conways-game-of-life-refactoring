@@ -5,7 +5,7 @@ import java.util.Random;
 public class RandomWorldGenerator {
 
 	public World generate(int width, int height) {
-		World world = new SetWorld();
+		World world = new SetWorld(width * height);
 
 		Random rand = new Random();
 		for (int y = 0; y < height; ++y) {
