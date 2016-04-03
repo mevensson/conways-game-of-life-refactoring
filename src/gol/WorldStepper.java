@@ -3,7 +3,7 @@ package gol;
 public class WorldStepper {
 
 	public World step(World oldWorld) {
-		World newWorld = new SetWorld();
+		World newWorld = new BitSetWorld();
 
 		for (int y = oldWorld.heightOffset() - 1;
 				y < oldWorld.heightOffset() + oldWorld.height() + 1;
