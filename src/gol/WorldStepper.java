@@ -24,7 +24,7 @@ public class WorldStepper {
 	}
 
 	private Map<Point, Integer> countAliveNeighbors(World world) {
-		Map<Point, Integer> aliveNeighbors = new HashMap<>(world.numAlive());
+		Map<Point, Integer> aliveNeighbors = new HashMap<>(world.numAlive() * 4);
 		for (Point point : world) {
 			for (Point neighbor : neighbors(point)) {
 				int alive = aliveNeighbors.getOrDefault(neighbor, 0);
