@@ -1,18 +1,14 @@
 package gol;
 
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class SetWorld implements World {
 	private final Set<Point> world;
 
 	public SetWorld() {
-		world = new HashSet<>();
-	}
-
-	public SetWorld(int sizeEstimate) {
-		world = new HashSet<>(sizeEstimate);
+		world = new TreeSet<>();
 	}
 
 	@Override

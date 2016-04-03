@@ -1,6 +1,6 @@
 package gol;
 
-public class Point {
+public class Point implements Comparable<Point> {
 	private final int x;
 	private final int y;
 
@@ -34,5 +34,14 @@ public class Point {
 		if (y != other.y)
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Point o) {
+		int rowDiff = Integer.compare(y, o.y);
+		if (rowDiff == 0) {
+			return Integer.compare(x, o.x);
+		}
+		return rowDiff;
 	}
 }

@@ -1,15 +1,15 @@
 package gol;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 public class WorldStepper {
 
 	public World step(World oldWorld) {
-		World newWorld = new SetWorld(oldWorld.numAlive());
+		World newWorld = new SetWorld();
 		Map<Point, Integer> aliveNeighborsMap = countAliveNeighbors(oldWorld);
 		for (Entry<Point, Integer> entry : aliveNeighborsMap.entrySet()) {
 			int n = entry.getValue();
@@ -24,7 +24,7 @@ public class WorldStepper {
 	}
 
 	private Map<Point, Integer> countAliveNeighbors(World world) {
-		Map<Point, Integer> aliveNeighbors = new HashMap<>(world.numAlive() * 4);
+		Map<Point, Integer> aliveNeighbors = new TreeMap<>();
 		for (Point point : world) {
 			for (Point neighbor : neighbors(point)) {
 				int alive = aliveNeighbors.getOrDefault(neighbor, 0);
