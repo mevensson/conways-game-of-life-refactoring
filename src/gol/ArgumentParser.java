@@ -5,13 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ArgumentParser {
-	private final List<String> argList;
 
-	public ArgumentParser(final String[] args) {
+	private List<String> argList;
+
+	public Arguments parse(final String[] args) throws Exception {
 		argList = new LinkedList<String>(Arrays.asList(args));
-	}
-
-	public Arguments parse() throws Exception {
 		final Arguments arguments = new Arguments();
 		while (argList.size() > 0) {
 			parseArgument(arguments);
