@@ -7,19 +7,19 @@ import java.util.List;
 public class ArgumentParser {
 	private final List<String> argList;
 
-	public ArgumentParser(String[] args) {
+	public ArgumentParser(final String[] args) {
 		argList = new LinkedList<String>(Arrays.asList(args));
 	}
 
 	public Arguments parse() throws Exception {
-		Arguments arguments = new Arguments();
+		final Arguments arguments = new Arguments();
 		while (argList.size() > 0) {
 			parseArgument(arguments);
 		}
 		return arguments;
 	}
 
-	private void parseArgument(Arguments arguments) throws Exception {
+	private void parseArgument(final Arguments arguments) throws Exception {
 		final String arg = getArg();
 		switch (arg) {
 		case "-f":
@@ -56,20 +56,20 @@ public class ArgumentParser {
 		}
 	}
 	private String getArg() {
-		String arg = argList.get(0);
+		final String arg = argList.get(0);
 		argList.remove(0);
 		return arg;
 	}
 
 	private int getIntArg() {
-		String arg = getArg();
-		int n = Integer.parseInt(arg);
+		final String arg = getArg();
+		final int n = Integer.parseInt(arg);
 		if (n < 0)
 			throw new RuntimeException("Invalid argument value " + n);
 		return n;
 	}
 
-	public void usage(String message) {
+	public void usage(final String message) {
 		line(message);
 		line("");
 		line("Usage");
@@ -88,7 +88,7 @@ public class ArgumentParser {
 		line("   -q              Quiet mode. Only outputs the last step in a simulation. Ignores time delay.");
 	}
 
-	void line(String s) {
+	void line(final String s) {
 		System.out.println(s);
 	}
 }

@@ -5,17 +5,18 @@ public class WorldPrinter {
 	private final int viewPortWidth;
 	private final int viewPortHeight;
 
-	public WorldPrinter(OutputFormat outputFormat, int width, int height) {
+	public WorldPrinter(final OutputFormat outputFormat, final int width,
+			final int height) {
 		this.outputFormat = outputFormat;
-		this.viewPortWidth = width;
-		this.viewPortHeight = height;
+		viewPortWidth = width;
+		viewPortHeight = height;
 	}
 
-	public void printWorld(World world) {
-		StringBuilder worldString = new StringBuilder();
+	public void printWorld(final World world) {
+		final StringBuilder worldString = new StringBuilder();
 		for (int y = 0; y < viewPortHeight; ++y) {
 			for (int x = 0; x < viewPortWidth; ++x) {
-				boolean alive = world.isAlive(x, y);
+				final boolean alive = world.isAlive(x, y);
 				worldString.append(getSign(alive));
 			}
 			worldString.append("\n");
@@ -23,7 +24,7 @@ public class WorldPrinter {
 		System.out.print(worldString.toString());
 	}
 
-	private String getSign(boolean alive) {
+	private String getSign(final boolean alive) {
 		switch (outputFormat) {
 		case AT_SIGNS:
 			return alive ? "@ " : ". ";

@@ -12,21 +12,21 @@ public class BitSetWorld implements World {
 		private BitSet alive = new BitSet();
 		private int minX = Integer.MAX_VALUE;
 
-		public boolean isAlive(int x) {
+		public boolean isAlive(final int x) {
 			if (x < minX) {
 				return false;
 			}
 			return alive.get(x - minX);
 		}
 
-		public void setAlive(int x) {
+		public void setAlive(final int x) {
 			if (alive.isEmpty()) {
 				minX = Math.floorDiv(x, 64) * 64;
 			} else if (x < minX) {
-				long[] oldArray = alive.toLongArray();
-				int newMinX = Math.floorDiv(x, 64) * 64;
-				int numLongsToAdd = (minX - newMinX) / 64;
-				long[] newArray = new long[oldArray.length + numLongsToAdd];
+				final long[] oldArray = alive.toLongArray();
+				final int newMinX = Math.floorDiv(x, 64) * 64;
+				final int numLongsToAdd = (minX - newMinX) / 64;
+				final long[] newArray = new long[oldArray.length + numLongsToAdd];
 				System.arraycopy(oldArray, 0, newArray, numLongsToAdd,
 						oldArray.length);
 				alive = BitSet.valueOf(newArray);
@@ -36,14 +36,14 @@ public class BitSetWorld implements World {
 		}
 
 		@Override
-		public boolean equals(Object obj) {
+		public boolean equals(final Object obj) {
 			if (this == obj)
 				return true;
 			if (obj == null)
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			Row other = (Row) obj;
+			final Row other = (Row) obj;
 			if (alive == null) {
 				if (other.alive != null)
 					return false;
@@ -54,7 +54,7 @@ public class BitSetWorld implements World {
 			return true;
 		}
 
-		public Stream<Point> stream(int y) {
+		public Stream<Point> stream(final int y) {
 			return alive.stream().mapToObj(x -> new Point(x + minX, y));
 		}
 	}
@@ -62,8 +62,8 @@ public class BitSetWorld implements World {
 	private final Map<Integer, Row> world = new HashMap<>();
 
 	@Override
-	public boolean isAlive(int x, int y) {
-		Row row = world.get(y);
+	public boolean isAlive(final int x, final int y) {
+		final Row row = world.get(y);
 		if (row == null) {
 			return false;
 		}
@@ -71,7 +71,7 @@ public class BitSetWorld implements World {
 	}
 
 	@Override
-	public void setAlive(int x, int y) {
+	public void setAlive(final int x, final int y) {
 		Row row = world.get(y);
 		if (row == null) {
 			row = new Row();
@@ -83,22 +83,22 @@ public class BitSetWorld implements World {
 	@Override
 	public Iterator<Point> iterator() {
 		Stream<Point> stream = Stream.empty();
-		for (Entry<Integer, Row> entry : world.entrySet()) {
-			Stream<Point> rowStream = entry.getValue().stream(entry.getKey());
+		for (final Entry<Integer, Row> entry : world.entrySet()) {
+			final Stream<Point> rowStream = entry.getValue().stream(entry.getKey());
 			stream = Stream.concat(stream, rowStream);
 		}
 		return stream.iterator();
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BitSetWorld other = (BitSetWorld) obj;
+		final BitSetWorld other = (BitSetWorld) obj;
 		if (world == null) {
 			if (other.world != null)
 				return false;

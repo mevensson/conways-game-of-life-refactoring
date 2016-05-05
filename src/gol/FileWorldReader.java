@@ -18,15 +18,15 @@ public class FileWorldReader {
 		return height;
 	}
 
-	public World read(String filePath) throws FileNotFoundException {
-		Scanner scanner = new Scanner(new File(filePath));
-		World world = new BitSetWorld();
+	public World read(final String filePath) throws FileNotFoundException {
+		final Scanner scanner = new Scanner(new File(filePath));
+		final World world = new BitSetWorld();
 		int lineNumber = 1;
 		int maxWidth = 0;
 		while (scanner.hasNextLine()) {
-			String line = scanner.nextLine();
-			Pattern pattern = Pattern.compile("[^#-]");
-			Matcher matcher = pattern.matcher(line);
+			final String line = scanner.nextLine();
+			final Pattern pattern = Pattern.compile("[^#-]");
+			final Matcher matcher = pattern.matcher(line);
 			if (matcher.find()) {
 				scanner.close();
 				throw new RuntimeException("Invalid character '"
@@ -47,7 +47,7 @@ public class FileWorldReader {
 		return world;
 	}
 
-	private void setLine(World world, int lineNumber, String line) {
+	private void setLine(final World world, final int lineNumber, final String line) {
 		for (int x = 0; x < line.length(); ++x) {
 			if (line.charAt(x) == '#') {
 				world.setAlive(x, lineNumber - 1);

@@ -4,10 +4,10 @@ import java.util.Random;
 
 public class RandomWorldGenerator {
 
-	public World generate(int width, int height) {
-		World world = new BitSetWorld();
+	public World generate(final int width, final int height) {
+		final World world = new BitSetWorld();
 
-		Random rand = new Random();
+		final Random rand = new Random();
 		for (int y = 0; y < height; ++y) {
 			for (int x = 0; x < width; ++x) {
 				if (rand.nextBoolean()) {

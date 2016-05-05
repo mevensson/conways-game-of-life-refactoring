@@ -5,17 +5,17 @@ public class StepDelayer {
 
 	private long computationTimeStart = System.currentTimeMillis();
 
-	public StepDelayer(int stepDelay) {
+	public StepDelayer(final int stepDelay) {
 		this.stepDelay = stepDelay;
 	}
 
 	public void delay() {
-		long computationTime = System.currentTimeMillis()
+		final long computationTime = System.currentTimeMillis()
 				- computationTimeStart;
 		if (stepDelay - computationTime >= 0) {
 			try {
 				Thread.sleep(stepDelay - computationTime);
-			} catch (InterruptedException ex) {
+			} catch (final InterruptedException ex) {
 				Thread.currentThread().interrupt();
 			}
 		}

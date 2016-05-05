@@ -8,12 +8,12 @@ import java.util.Map.Entry;
 
 public class WorldStepper {
 
-	public World step(World oldWorld) {
-		World newWorld = new BitSetWorld();
-		Map<Point, Integer> aliveNeighborsMap = countAliveNeighbors(oldWorld);
-		for (Entry<Point, Integer> entry : aliveNeighborsMap.entrySet()) {
-			int n = entry.getValue();
-			Point p = entry.getKey();
+	public World step(final World oldWorld) {
+		final World newWorld = new BitSetWorld();
+		final Map<Point, Integer> aliveNeighborsMap = countAliveNeighbors(oldWorld);
+		for (final Entry<Point, Integer> entry : aliveNeighborsMap.entrySet()) {
+			final int n = entry.getValue();
+			final Point p = entry.getKey();
 			if (n == 3) {
 				newWorld.setAlive(p.getX(), p.getY());
 			} else if (n == 2 && oldWorld.isAlive(p.getX(), p.getY())) {
@@ -23,19 +23,19 @@ public class WorldStepper {
 		return newWorld;
 	}
 
-	private Map<Point, Integer> countAliveNeighbors(World world) {
-		Map<Point, Integer> aliveNeighbors = new HashMap<>();
-		for (Point point : world) {
-			for (Point neighbor : neighbors(point)) {
-				int alive = aliveNeighbors.getOrDefault(neighbor, 0);
+	private Map<Point, Integer> countAliveNeighbors(final World world) {
+		final Map<Point, Integer> aliveNeighbors = new HashMap<>();
+		for (final Point point : world) {
+			for (final Point neighbor : neighbors(point)) {
+				final int alive = aliveNeighbors.getOrDefault(neighbor, 0);
 				aliveNeighbors.put(neighbor, alive + 1);
 			}
 		}
 		return aliveNeighbors;
 	}
 
-	private List<Point> neighbors(Point point) {
-		List<Point> neighbors = new ArrayList<>();
+	private List<Point> neighbors(final Point point) {
+		final List<Point> neighbors = new ArrayList<>();
 		neighbors.add(new Point(point.getX() - 1, point.getY() - 1));
 		neighbors.add(new Point(point.getX()    , point.getY() - 1));
 		neighbors.add(new Point(point.getX() + 1, point.getY() - 1));

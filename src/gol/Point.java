@@ -4,7 +4,7 @@ public class Point {
 	private final int x;
 	private final int y;
 
-	public Point(int x, int y) {
+	public Point(final int x, final int y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -27,8 +27,8 @@ public class Point {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		Point other = (Point) obj;
+	public boolean equals(final Object obj) {
+		final Point other = (Point) obj;
 		if (x != other.x)
 			return false;
 		if (y != other.y)
