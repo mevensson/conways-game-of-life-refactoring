@@ -5,8 +5,7 @@ import gol.argument_parser.ArgumentParser;
 public class Main {
 	public static void main(final String[] args) {
 		final ArgumentParser parser = new ArgumentParser();
-		final Arguments arguments = new Arguments();
-		arguments.registerArguments(parser);
+		final Arguments arguments = new Arguments(parser);
 		try {
 			parser.parse(args);
 			final GameOfLifeScope gameOfLifeScope = new GameOfLifeScope(arguments);

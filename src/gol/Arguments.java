@@ -70,6 +70,18 @@ public class Arguments {
 					"-q",
 					"Quiet mode. Only outputs the last step in a simulation. Ignores time delay.");
 
+	public Arguments(final ArgumentParser parser) {
+		parser.registerArgument(width);
+		parser.registerArgument(height);
+		parser.registerArgument(filename);
+		parser.registerArgument(atFormat);
+		parser.registerArgument(oFormat);
+		parser.registerArgument(steps);
+		parser.registerArgument(historyLength);
+		parser.registerArgument(stepDelay);
+		parser.registerArgument(quietMode);
+	}
+
 	public Optional<String> getFilename() {
 		return filename.getArgument();
 	}
@@ -114,17 +126,5 @@ public class Arguments {
 
 	public boolean isQuietMode() {
 		return quietMode.isSet();
-	}
-
-	public void registerArguments(final ArgumentParser parser) {
-		parser.registerArgument(width);
-		parser.registerArgument(height);
-		parser.registerArgument(filename);
-		parser.registerArgument(atFormat);
-		parser.registerArgument(oFormat);
-		parser.registerArgument(steps);
-		parser.registerArgument(historyLength);
-		parser.registerArgument(stepDelay);
-		parser.registerArgument(quietMode);
 	}
 }
