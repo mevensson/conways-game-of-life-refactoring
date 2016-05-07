@@ -10,6 +10,7 @@ public class GameOfLife {
 	private final Delayer stepDelayer;
 	private final LoopDetector<World> loopDetector;
 	private final WorldPrinter worldPrinter;
+	private final WorldStepper worldStepper;
 	private final int maxSteps;
 	private final boolean quietMode;
 
@@ -18,13 +19,14 @@ public class GameOfLife {
 
 	public GameOfLife(final World world, final History<World> history,
 			final Delayer stepDelayer, final LoopDetector<World> loopDetector,
-			final WorldPrinter worldPrinter, final int maxSteps,
-			final boolean quietMode) {
+			final WorldPrinter worldPrinter, final WorldStepper worldStepper,
+			final int maxSteps, final boolean quietMode) {
 		this.world = world;
 		this.history = history;
 		this.stepDelayer = stepDelayer;
 		this.loopDetector = loopDetector;
 		this.worldPrinter = worldPrinter;
+		this.worldStepper = worldStepper;
 		this.maxSteps = maxSteps;
 		this.quietMode = quietMode;
 	}
@@ -41,18 +43,18 @@ public class GameOfLife {
 				line("");
 			}
 
-			stepCount++;
 			stepDelayer.delay();
 
 			if (loopDetector.hasLoop(world)) {
 				break;
 			}
+			stepCount++;
 		}
 	}
 
 	private void stepWorld() {
 		history.add(world);
-		world = new WorldStepper().step(world);
+		world = worldStepper.step(world);
 	}
 
 	private boolean simulationDone() {

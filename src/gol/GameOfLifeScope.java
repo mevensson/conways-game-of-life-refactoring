@@ -16,6 +16,7 @@ public class GameOfLifeScope {
 	private Delayer delayer;
 	private LoopDetector<World> loopDetector;
 	private WorldPrinter worldPrinter;
+	private WorldStepper worldStepper;
 	private World world;
 	private Optional<Integer> viewPortHeight = Optional.empty();
 	private Optional<Integer> viewPortWidth = Optional.empty();
@@ -26,7 +27,8 @@ public class GameOfLifeScope {
 
 	public GameOfLife gameOfLife() throws FileNotFoundException {
 		return new GameOfLife(world(), history(), delayer(), loopDetector(),
-				worldPrinter(), arguments.getSteps(), arguments.isQuietMode());
+				worldPrinter(), worldStepper(), arguments.getSteps(),
+				arguments.isQuietMode());
 	}
 
 	private World world() throws FileNotFoundException {
@@ -99,6 +101,13 @@ public class GameOfLifeScope {
 					viewPortWidth(), viewPortHeight());
 		}
 		return worldPrinter;
+	}
+
+	private WorldStepper worldStepper() {
+		if (worldStepper == null) {
+			worldStepper = new WorldStepper(BitSetWorld::new);
+		}
+		return worldStepper;
 	}
 
 	private int viewPortWidth() throws FileNotFoundException {

@@ -5,11 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Supplier;
 
 public class WorldStepper {
 
+	private final Supplier<World> emptyWorldSupplier;
+
+	public WorldStepper(final Supplier<World> emptyWorldSupplier) {
+		this.emptyWorldSupplier = emptyWorldSupplier;
+	}
+
 	public World step(final World oldWorld) {
-		final World newWorld = new BitSetWorld();
+		final World newWorld = emptyWorldSupplier.get();
 		final Map<Point, Integer> aliveNeighborsMap = countAliveNeighbors(oldWorld);
 		for (final Entry<Point, Integer> entry : aliveNeighborsMap.entrySet()) {
 			final int n = entry.getValue();
