@@ -8,6 +8,7 @@ import gol.delayer.NoDelayDelayer;
 import gol.delayer.SleepDelayer;
 import gol.history.History;
 import gol.history.LoopDetector;
+import gol.stdout_output.WorldPrinter;
 
 public class GameOfLifeScope {
 	private final Arguments arguments;

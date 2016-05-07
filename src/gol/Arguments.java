@@ -6,6 +6,7 @@ import gol.argument_parser.ArgumentParser;
 import gol.argument_parser.BoolArgument;
 import gol.argument_parser.IntegerArgument;
 import gol.argument_parser.StringArgument;
+import gol.stdout_output.OutputFormat;
 
 public class Arguments {
 	private static final int DEFAULT_HEIGHT = 15;
