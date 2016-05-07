@@ -7,8 +7,9 @@ public class StringArgument extends Argument {
 
 	private Optional<String> argument = Optional.empty();
 
-	public StringArgument(final String flag, final String help) {
-		super(flag, help);
+	public StringArgument(final String flag, final String parameter,
+			final String help) {
+		super(flag, Optional.of(parameter), help);
 	}
 
 	public Optional<String> getArgument() {

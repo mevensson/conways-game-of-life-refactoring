@@ -1,5 +1,6 @@
 package gol;
 
+import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Queue;
 
@@ -8,8 +9,9 @@ public class IntegerArgument extends Argument {
 	private OptionalInt argument = OptionalInt.empty();
 	private final int defaultValue;
 
-	public IntegerArgument(final String flag, final String help, final int defaultValue) {
-		super(flag, help);
+	public IntegerArgument(final String flag, final String parameter,
+			final String help, final int defaultValue) {
+		super(flag, Optional.of(parameter), help);
 		this.defaultValue = defaultValue;
 	}
 
