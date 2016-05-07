@@ -9,84 +9,94 @@ public class Arguments {
 	private static final int DEFAULT_STEP_DELAY = -1;
 	private static final int DEFAULT_HISTORY_LENGTH = 0;
 
-	private Optional<String> filename = Optional.empty();
-	private Optional<Integer> height = Optional.empty();
-	private Optional<Integer> width = Optional.empty();
-	private Optional<Integer> steps = Optional.empty();
-	private Optional<Integer> stepDelay = Optional.empty();
-	private Optional<Integer> historyLength = Optional.empty();
-	private OutputFormat outputFormat = OutputFormat.DEFAULT;
-	private boolean quietMode = false;
+	private final StringArgument filename = new StringArgument(
+			"-f",
+			"-f <FILE_PATH>  File with start state. Default is a random start state.");
+	private final IntegerArgument height = new IntegerArgument(
+			"-h",
+			"-h <HEIGHT>     Height of simulation view port. Default is 15.",
+			DEFAULT_HEIGHT);
+	private final IntegerArgument width = new IntegerArgument(
+			"-w",
+			"-w <WIDTH>      Width of simulation view port. Default is 20.",
+			DEFAULT_WIDTH);
+	private final IntegerArgument steps = new IntegerArgument(
+			"-s",
+			"-s <STEPS>      Number of maximum generation steps. Default is 100.",
+			DEFAULT_STEPS);
+	private final IntegerArgument stepDelay = new IntegerArgument(
+			"-t",
+			"-t <MS>         Time delay (ms) to wait between each step. Default is 0 ms.",
+			DEFAULT_STEP_DELAY);
+	private final IntegerArgument historyLength = new IntegerArgument(
+			"-l",
+			"-l <X>          Detect loops of maximum length x. Default is 0 - no loop detection.",
+			DEFAULT_HISTORY_LENGTH);
+	private final BoolArgument atFormat = new BoolArgument(
+			"-@",
+			"-@              Use spaced '@' and '.' instead of default '#' and '-'.");
+	private final BoolArgument oFormat = new BoolArgument(
+			"-O",
+			"-O              Use 'O' instead of default '#'.");
+	private final BoolArgument quietMode = new BoolArgument(
+			"-q",
+			"-q              Quiet mode. Only outputs the last step in a simulation. Ignores time delay.");
 
 	public Optional<String> getFilename() {
-		return filename;
-	}
-
-	public void setFilename(final String filename) {
-		this.filename = Optional.of(filename);
+		return filename.getArgument();
 	}
 
 	public int getHeight() {
-		return height.orElse(DEFAULT_HEIGHT);
+		return height.getArgumentWithDefault();
 	}
 
 	public int getHeightOrElse(final int other) {
-		return height.orElse(other);
-	}
-
-	public void setHeight(final int height) {
-		this.height = Optional.of(height);
+		return height.getArgumentWithoutDefault().orElse(other);
 	}
 
 	public int getWidth() {
-		return width.orElse(DEFAULT_WIDTH);
+		return width.getArgumentWithDefault();
 	}
 
 	public int getWidthOrElse(final int other) {
-		return width.orElse(other);
-	}
-
-	public void setWidth(final int width) {
-		this.width = Optional.of(width);
+		return width.getArgumentWithoutDefault().orElse(other);
 	}
 
 	public int getSteps() {
-		return steps.orElse(DEFAULT_STEPS);
-	}
-
-	public void setSteps(final int steps) {
-		this.steps = Optional.of(steps);
+		return steps.getArgumentWithDefault();
 	}
 
 	public int getStepDelay() {
-		return stepDelay.orElse(DEFAULT_STEP_DELAY);
-	}
-
-	public void setStepDelay(final int stepDelay) {
-		this.stepDelay = Optional.of(stepDelay);
+		return stepDelay.getArgumentWithDefault();
 	}
 
 	public int getHistoryLength() {
-		return historyLength.orElse(DEFAULT_HISTORY_LENGTH);
-	}
-
-	public void setHistoryLength(final int historyLength) {
-		this.historyLength = Optional.of(historyLength);
+		return historyLength.getArgumentWithDefault();
 	}
 
 	public OutputFormat getOutputFormat() {
-		return outputFormat;
-	}
-
-	public void setOutputFormat(final OutputFormat outputFormat) {
-		this.outputFormat = outputFormat;
+		if (atFormat.isSet()) {
+			return OutputFormat.AT_SIGNS;
+		}
+		if (oFormat.isSet()) {
+			return OutputFormat.O_SIGNS;
+		}
+		return OutputFormat.DEFAULT;
 	}
 
 	public boolean isQuietMode() {
-		return quietMode;
+		return quietMode.isSet();
 	}
 
-	public void setQuietMode(final boolean quietMode) {
-		this.quietMode = quietMode;
+	public void registerArguments(final ArgumentParser parser) {
+		parser.registerArgument(width);
+		parser.registerArgument(height);
+		parser.registerArgument(filename);
+		parser.registerArgument(atFormat);
+		parser.registerArgument(oFormat);
+		parser.registerArgument(steps);
+		parser.registerArgument(historyLength);
+		parser.registerArgument(stepDelay);
+		parser.registerArgument(quietMode);
 	}
 }
