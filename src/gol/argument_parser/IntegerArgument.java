@@ -1,4 +1,4 @@
-package gol;
+package gol.argument_parser;
 
 import java.util.Optional;
 import java.util.OptionalInt;

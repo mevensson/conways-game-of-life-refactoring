@@ -1,5 +1,7 @@
 package gol;
 
+import gol.argument_parser.ArgumentParser;
+
 public class Main {
 	public static void main(final String[] args) {
 		final ArgumentParser parser = new ArgumentParser();

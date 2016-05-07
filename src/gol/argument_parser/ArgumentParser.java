@@ -1,4 +1,4 @@
-package gol;
+package gol.argument_parser;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -65,7 +65,8 @@ public class ArgumentParser {
 		final String parameterNameHelp = arg.getParameterName().
 				map(ArgumentParser::getParameterNameHelp).
 				orElse("");
-		final String spaces = getSpaces(maxParameterNameHelpWidth - parameterNameHelp.length());
+		final String spaces = getSpaces(
+				maxParameterNameHelpWidth - parameterNameHelp.length());
 		return arg.getFlag() + parameterNameHelp + spaces + arg.getHelp();
 	}
 

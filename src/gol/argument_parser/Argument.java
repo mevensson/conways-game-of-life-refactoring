@@ -1,4 +1,4 @@
-package gol;
+package gol.argument_parser;
 
 import java.util.Optional;
 import java.util.Queue;
@@ -9,7 +9,8 @@ public abstract class Argument {
 	private final Optional<String> parameter;
 	private final String help;
 
-	public Argument(final String flag, final Optional<String> parameter, final String help) {
+	public Argument(final String flag, final Optional<String> parameter,
+			final String help) {
 		this.flag = flag;
 		this.parameter = parameter;
 		this.help = help;
