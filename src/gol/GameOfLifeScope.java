@@ -3,13 +3,16 @@ package gol;
 import java.io.FileNotFoundException;
 import java.util.Optional;
 
+import gol.delayer.Delayer;
+import gol.delayer.NoDelayDelayer;
+import gol.delayer.SleepDelayer;
 import gol.history.History;
 import gol.history.LoopDetector;
 
 public class GameOfLifeScope {
 	private final Arguments arguments;
 	private History<World> history;
-	private StepDelayer stepDelayer;
+	private Delayer delayer;
 	private LoopDetector<World> loopDetector;
 	private WorldPrinter worldPrinter;
 	private World world;
@@ -21,7 +24,7 @@ public class GameOfLifeScope {
 	}
 
 	public GameOfLife gameOfLife() throws FileNotFoundException {
-		return new GameOfLife(world(), history(), stepDelayer(), loopDetector(),
+		return new GameOfLife(world(), history(), delayer(), loopDetector(),
 				worldPrinter(), arguments.getSteps(), arguments.isQuietMode());
 	}
 
@@ -63,11 +66,23 @@ public class GameOfLifeScope {
 		return history;
 	}
 
-	private StepDelayer stepDelayer() {
-		if (stepDelayer == null) {
-			stepDelayer = new StepDelayer(arguments.getStepDelay());
+	private Delayer delayer() {
+		if (delayer == null) {
+			if (arguments.isQuietMode()) {
+				delayer = noDelayDelayer();
+			} else {
+				delayer = sleepDelayer();
+			}
 		}
-		return stepDelayer;
+		return delayer;
+	}
+
+	private Delayer noDelayDelayer() {
+		return new NoDelayDelayer();
+	}
+
+	private Delayer sleepDelayer() {
+		return new SleepDelayer(arguments.getStepDelay());
 	}
 
 	private LoopDetector<World> loopDetector() {

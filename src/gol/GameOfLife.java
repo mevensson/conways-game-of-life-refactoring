@@ -1,11 +1,12 @@
 package gol;
 
+import gol.delayer.Delayer;
 import gol.history.History;
 import gol.history.LoopDetector;
 
 public class GameOfLife {
 	private final History<World> history;
-	private final StepDelayer stepDelayer;
+	private final Delayer stepDelayer;
 	private final LoopDetector<World> loopDetector;
 	private final WorldPrinter worldPrinter;
 	private final int maxSteps;
@@ -15,7 +16,7 @@ public class GameOfLife {
 	private int stepCount = 0;
 
 	public GameOfLife(final World world, final History<World> history,
-			final StepDelayer stepDelayer, final LoopDetector<World> loopDetector,
+			final Delayer stepDelayer, final LoopDetector<World> loopDetector,
 			final WorldPrinter worldPrinter, final int maxSteps,
 			final boolean quietMode) {
 		this.world = world;
@@ -40,10 +41,7 @@ public class GameOfLife {
 			}
 
 			stepCount++;
-
-			if (!quietMode) {
-				stepDelayer.delay();
-			}
+			stepDelayer.delay();
 
 			if (loopDetector.hasLoop(world)) {
 				break;
