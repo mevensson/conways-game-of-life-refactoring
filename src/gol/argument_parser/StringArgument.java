@@ -3,7 +3,7 @@ package gol.argument_parser;
 import java.util.Optional;
 import java.util.Queue;
 
-public class StringArgument extends Argument {
+public final class StringArgument extends Argument {
 
 	private Optional<String> argument = Optional.empty();
 

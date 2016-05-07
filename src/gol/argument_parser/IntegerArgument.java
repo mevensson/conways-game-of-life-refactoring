@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Queue;
 
-public class IntegerArgument extends Argument {
+public final class IntegerArgument extends Argument {
 
 	private OptionalInt argument = OptionalInt.empty();
 	private final int defaultValue;

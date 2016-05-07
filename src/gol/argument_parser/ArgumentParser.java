@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 
-public class ArgumentParser {
+public final class ArgumentParser {
 
 	private final Map<String, Argument> argumentMap = new LinkedHashMap<>();
 	private int maxParameterNameHelpWidth =

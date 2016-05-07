@@ -3,7 +3,7 @@ package gol.argument_parser;
 import java.util.Optional;
 import java.util.Queue;
 
-public class BoolArgument extends Argument {
+public final class BoolArgument extends Argument {
 
 	private boolean set;
 

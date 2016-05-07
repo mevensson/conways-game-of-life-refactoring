@@ -20,7 +20,7 @@ public abstract class Argument {
 		return flag;
 	}
 
-	public Optional<String> getParameterName() {
+	public final Optional<String> getParameterName() {
 		return parameter;
 	}
 
