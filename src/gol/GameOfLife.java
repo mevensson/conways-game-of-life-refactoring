@@ -1,7 +1,9 @@
 package gol;
 
+import gol.history.History;
+
 public class GameOfLife {
-	private final History history;
+	private final History<World> history;
 	private final StepDelayer stepDelayer;
 	private final LoopDetector loopDetector;
 	private final WorldPrinter worldPrinter;
@@ -11,9 +13,10 @@ public class GameOfLife {
 	private World world;
 	private int stepCount = 0;
 
-	public GameOfLife(World world, History history, StepDelayer stepDelayer,
-			LoopDetector loopDetector, WorldPrinter worldPrinter,
-			int maxSteps, boolean quietMode) {
+	public GameOfLife(final World world, final History<World> history,
+			final StepDelayer stepDelayer, final LoopDetector loopDetector,
+			final WorldPrinter worldPrinter, final int maxSteps,
+			final boolean quietMode) {
 		this.world = world;
 		this.history = history;
 		this.stepDelayer = stepDelayer;
@@ -64,7 +67,7 @@ public class GameOfLife {
 		}
 	}
 
-	private void line(String s) {
+	private void line(final String s) {
 		System.out.println(s);
 	}
 }

@@ -3,9 +3,11 @@ package gol;
 import java.io.FileNotFoundException;
 import java.util.Optional;
 
+import gol.history.History;
+
 public class GameOfLifeScope {
 	private final Arguments arguments;
-	private History history;
+	private History<World> history;
 	private StepDelayer stepDelayer;
 	private LoopDetector loopDetector;
 	private WorldPrinter worldPrinter;
@@ -13,7 +15,7 @@ public class GameOfLifeScope {
 	private Optional<Integer> viewPortHeight = Optional.empty();
 	private Optional<Integer> viewPortWidth = Optional.empty();
 
-	public GameOfLifeScope(Arguments arguments) {
+	public GameOfLifeScope(final Arguments arguments) {
 		this.arguments = arguments;
 	}
 
@@ -38,7 +40,7 @@ public class GameOfLifeScope {
 	}
 
 	private void createFileWorld() throws FileNotFoundException {
-		FileWorldReader fileWorldReader = new FileWorldReader();
+		final FileWorldReader fileWorldReader = new FileWorldReader();
 		world = fileWorldReader.read(arguments.getFilename().get());
 		viewPortHeight = Optional.of(
 				arguments.getHeightOrElse(fileWorldReader.getHeight()));
@@ -53,9 +55,9 @@ public class GameOfLifeScope {
 				viewPortWidth.get(), viewPortHeight.get());
 	}
 
-	private History history() {
+	private History<World> history() {
 		if (history == null) {
-			history = new History(arguments.getHistoryLength());
+			history = new History<World>(arguments.getHistoryLength());
 		}
 		return history;
 	}

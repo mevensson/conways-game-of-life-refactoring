@@ -1,9 +1,11 @@
 package gol;
 
-public class LoopDetector {
-	private final History history;
+import gol.history.History;
 
-	public LoopDetector(final History history) {
+public class LoopDetector {
+	private final History<World> history;
+
+	public LoopDetector(final History<World> history) {
 		this.history = history;
 	}
 

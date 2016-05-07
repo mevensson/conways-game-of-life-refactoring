@@ -1,22 +1,22 @@
-package gol;
+package gol.history;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class History {
-	private final List<World> history = new LinkedList<World>();
+public final class History<Item> {
+	private final List<Item> history = new LinkedList<Item>();
 	private final int maxHistoryLength;
 
 	public History(final int maxHistoryLength) {
 		this.maxHistoryLength = maxHistoryLength;
 	}
 
-	int indexOf(final World world) {
-		return history.indexOf(world);
+	public int indexOf(final Item item) {
+		return history.indexOf(item);
 	}
 
-	void add(final World world) {
-		history.add(0, world);
+	public void add(final Item item) {
+		history.add(0, item);
 		if (history.size() == maxHistoryLength + 1)
 			history.remove(maxHistoryLength);
 	}
