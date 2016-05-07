@@ -4,12 +4,13 @@ import java.io.FileNotFoundException;
 import java.util.Optional;
 
 import gol.history.History;
+import gol.history.LoopDetector;
 
 public class GameOfLifeScope {
 	private final Arguments arguments;
 	private History<World> history;
 	private StepDelayer stepDelayer;
-	private LoopDetector loopDetector;
+	private LoopDetector<World> loopDetector;
 	private WorldPrinter worldPrinter;
 	private World world;
 	private Optional<Integer> viewPortHeight = Optional.empty();
@@ -69,9 +70,9 @@ public class GameOfLifeScope {
 		return stepDelayer;
 	}
 
-	private LoopDetector loopDetector() {
+	private LoopDetector<World> loopDetector() {
 		if (loopDetector == null) {
-			loopDetector = new LoopDetector(history());
+			loopDetector = new LoopDetector<World>(history());
 		}
 		return loopDetector;
 	}
