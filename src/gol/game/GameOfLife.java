@@ -12,22 +12,24 @@ public class GameOfLife {
 	private final LoopDetector<World> loopDetector;
 	private final WorldPrinter worldPrinter;
 	private final WorldStepper worldStepper;
+	private final StepCounter stepCounter;
 	private final int maxSteps;
 	private final boolean quietMode;
 
 	private World world;
-	private int stepCount = 0;
 
 	public GameOfLife(final World world, final History<World> history,
 			final Delayer stepDelayer, final LoopDetector<World> loopDetector,
 			final WorldPrinter worldPrinter, final WorldStepper worldStepper,
-			final int maxSteps, final boolean quietMode) {
+			final StepCounter stepCounter, final int maxSteps,
+			final boolean quietMode) {
 		this.world = world;
 		this.history = history;
 		this.stepDelayer = stepDelayer;
 		this.loopDetector = loopDetector;
 		this.worldPrinter = worldPrinter;
 		this.worldStepper = worldStepper;
+		this.stepCounter = stepCounter;
 		this.maxSteps = maxSteps;
 		this.quietMode = quietMode;
 	}
@@ -52,18 +54,18 @@ public class GameOfLife {
 
 	private void printStartWorld() {
 		worldPrinter.printWorld(world);
-		line("start");
+		line(stepCounter.toString());
 		line("");
 	}
 
 	private boolean isDone() {
-		return stepCount >= maxSteps || loopDetector.hasLoop(world);
+		return stepCounter.getCount() >= maxSteps || loopDetector.hasLoop(world);
 	}
 
 	private void stepWorld() {
 		history.add(world);
 		world = worldStepper.step(world);
-		stepCount++;
+		stepCounter.increaseCount();
 	}
 	private boolean shouldPrintWorld() {
 		return !quietMode || simulationDone();
@@ -71,12 +73,12 @@ public class GameOfLife {
 
 	private void printWorld() {
 		worldPrinter.printWorld(world);
-		line("step " + stepCount + loopDetector.getLoopString(world));
+		line(stepCounter.toString() + loopDetector.getLoopString(world));
 		line("");
 	}
 
 	private boolean simulationDone() {
-		return stepCount >= maxSteps || loopDetector.hasLoop(world);
+		return stepCounter.getCount() >= maxSteps || loopDetector.hasLoop(world);
 	}
 
 	private void line(final String s) {

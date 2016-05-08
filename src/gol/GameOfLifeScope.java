@@ -9,6 +9,7 @@ import gol.delayer.SleepDelayer;
 import gol.game.AliveNeighborCounter;
 import gol.game.AliveNeighborsWorldStepper;
 import gol.game.GameOfLife;
+import gol.game.StepCounter;
 import gol.game.WorldStepper;
 import gol.game.input.FileWorldReader;
 import gol.game.input.RandomWorldGenerator;
@@ -25,6 +26,7 @@ public class GameOfLifeScope {
 	private LoopDetector<World> loopDetector;
 	private WorldPrinter worldPrinter;
 	private WorldStepper worldStepper;
+	private StepCounter stepCounter;
 	private World world;
 	private Optional<Integer> viewPortHeight = Optional.empty();
 	private Optional<Integer> viewPortWidth = Optional.empty();
@@ -35,8 +37,8 @@ public class GameOfLifeScope {
 
 	public GameOfLife gameOfLife() throws FileNotFoundException {
 		return new GameOfLife(world(), history(), delayer(), loopDetector(),
-				worldPrinter(), worldStepper(), arguments.getSteps(),
-				arguments.isQuietMode());
+				worldPrinter(), worldStepper(), stepCounter(),
+				arguments.getSteps(), arguments.isQuietMode());
 	}
 
 	private World world() throws FileNotFoundException {
@@ -117,6 +119,11 @@ public class GameOfLifeScope {
 					BitSetWorld::new, new AliveNeighborCounter());
 		}
 		return worldStepper;
+	}
+
+	private StepCounter stepCounter() {
+		stepCounter = new StepCounter();
+		return stepCounter;
 	}
 
 	private int viewPortWidth() throws FileNotFoundException {
