@@ -1,4 +1,4 @@
-package gol.stdout_output;
+package gol.game.output;
 
 import gol.game.world.World;
 

@@ -1,10 +1,10 @@
 package gol.game;
 
 import gol.delayer.Delayer;
+import gol.game.output.WorldPrinter;
 import gol.game.world.World;
 import gol.history.History;
 import gol.history.LoopDetector;
-import gol.stdout_output.WorldPrinter;
 
 public class GameOfLife {
 	private final History<World> history;

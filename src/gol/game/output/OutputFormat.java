@@ -1,4 +1,4 @@
-package gol.stdout_output;
+package gol.game.output;
 
 public enum OutputFormat {
 	DEFAULT("#", "-"),

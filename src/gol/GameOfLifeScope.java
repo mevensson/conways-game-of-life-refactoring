@@ -12,11 +12,11 @@ import gol.game.GameOfLife;
 import gol.game.WorldStepper;
 import gol.game.input.FileWorldReader;
 import gol.game.input.RandomWorldGenerator;
+import gol.game.output.WorldPrinter;
 import gol.game.world.BitSetWorld;
 import gol.game.world.World;
 import gol.history.History;
 import gol.history.LoopDetector;
-import gol.stdout_output.WorldPrinter;
 
 public class GameOfLifeScope {
 	private final Arguments arguments;
