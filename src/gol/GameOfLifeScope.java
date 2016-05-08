@@ -105,7 +105,7 @@ public class GameOfLifeScope {
 
 	private WorldStepper worldStepper() {
 		if (worldStepper == null) {
-			worldStepper = new WorldStepper(
+			worldStepper = new AliveNeighborsWorldStepper(
 					BitSetWorld::new, new AliveNeighborCounter());
 		}
 		return worldStepper;
