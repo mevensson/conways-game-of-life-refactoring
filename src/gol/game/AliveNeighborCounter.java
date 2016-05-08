@@ -1,4 +1,4 @@
-package gol;
+package gol.game;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
+import gol.World;
 
 public class AliveNeighborCounter {
 

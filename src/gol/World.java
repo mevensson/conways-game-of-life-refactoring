@@ -1,5 +1,7 @@
 package gol;
 
+import gol.game.Point;
+
 public interface World extends Iterable<Point> {
 
 	boolean isAlive(int x, int y);

@@ -1,4 +1,4 @@
-package gol;
+package gol.game;
 
 public class Point {
 	public final int x;

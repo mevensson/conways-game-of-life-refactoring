@@ -1,5 +1,6 @@
-package gol;
+package gol.game;
 
+import gol.World;
 import gol.delayer.Delayer;
 import gol.history.History;
 import gol.history.LoopDetector;

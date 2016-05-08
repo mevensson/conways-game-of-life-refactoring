@@ -1,4 +1,6 @@
-package gol;
+package gol.game;
+
+import gol.World;
 
 public interface WorldStepper {
 

@@ -1,6 +1,7 @@
 package gol;
 
 import gol.argument_parser.ArgumentParser;
+import gol.game.GameOfLife;
 
 public class Main {
 	public static void main(final String[] args) {

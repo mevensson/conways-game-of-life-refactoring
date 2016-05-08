@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
 
+import gol.game.Point;
+
 public class BitSetWorld implements World {
 	public static class Row {
 		private BitSet alive = new BitSet();
