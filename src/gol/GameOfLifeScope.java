@@ -10,6 +10,8 @@ import gol.game.AliveNeighborCounter;
 import gol.game.AliveNeighborsWorldStepper;
 import gol.game.GameOfLife;
 import gol.game.WorldStepper;
+import gol.game.world.BitSetWorld;
+import gol.game.world.World;
 import gol.history.History;
 import gol.history.LoopDetector;
 import gol.stdout_output.WorldPrinter;

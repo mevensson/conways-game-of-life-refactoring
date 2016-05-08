@@ -6,6 +6,9 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gol.game.world.BitSetWorld;
+import gol.game.world.World;
+
 public class FileWorldReader {
 	private int width;
 	private int height;

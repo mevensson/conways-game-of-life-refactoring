@@ -2,6 +2,9 @@ package gol;
 
 import java.util.Random;
 
+import gol.game.world.BitSetWorld;
+import gol.game.world.World;
+
 public class RandomWorldGenerator {
 
 	public World generate(final int width, final int height) {

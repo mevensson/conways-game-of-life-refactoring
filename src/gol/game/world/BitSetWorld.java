@@ -1,4 +1,4 @@
-package gol;
+package gol.game.world;
 
 import java.util.BitSet;
 import java.util.HashMap;

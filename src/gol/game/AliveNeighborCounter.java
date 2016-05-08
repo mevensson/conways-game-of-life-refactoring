@@ -8,7 +8,7 @@ import java.util.stream.Collector;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import gol.World;
+import gol.game.world.World;
 
 public class AliveNeighborCounter {
 

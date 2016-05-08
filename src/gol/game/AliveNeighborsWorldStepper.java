@@ -2,7 +2,7 @@ package gol.game;
 
 import java.util.function.Supplier;
 
-import gol.World;
+import gol.game.world.World;
 
 public class AliveNeighborsWorldStepper implements WorldStepper {
 

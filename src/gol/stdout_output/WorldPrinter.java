@@ -1,6 +1,6 @@
 package gol.stdout_output;
 
-import gol.World;
+import gol.game.world.World;
 
 public final class WorldPrinter {
 	private final OutputFormat outputFormat;

@@ -1,7 +1,7 @@
 package gol.game;
 
-import gol.World;
 import gol.delayer.Delayer;
+import gol.game.world.World;
 import gol.history.History;
 import gol.history.LoopDetector;
 import gol.stdout_output.WorldPrinter;
