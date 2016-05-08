@@ -9,10 +9,24 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public class AliveNeighborCounter {
-	public Map<Point, Integer> count(final World world) {
+
+	public static class AliveNeighbors {
+		public final Point point;
+		public final int count;
+
+		public AliveNeighbors(final Point point, final int count) {
+			this.point = point;
+			this.count = count;
+		}
+	}
+
+	public Stream<AliveNeighbors> count(final World world) {
 		return alivePoints(world)
 				.flatMap(p -> neighbors(p))
-				.collect(countUnique());
+				.collect(countUnique())
+				.entrySet()
+				.stream()
+				.map((e) -> new AliveNeighbors(e.getKey(), e.getValue()));
 	}
 
 	private <T> Collector<T, ?, Map<T, Integer>> countUnique() {
@@ -25,13 +39,13 @@ public class AliveNeighborCounter {
 
 	private Stream<Point> neighbors(final Point point) {
 		return Stream.of(
-				new Point(point.getX() - 1, point.getY() - 1),
-				new Point(point.getX()    , point.getY() - 1),
-				new Point(point.getX() + 1, point.getY() - 1),
-				new Point(point.getX() - 1, point.getY()),
-				new Point(point.getX() + 1, point.getY()),
-				new Point(point.getX() - 1, point.getY() + 1),
-				new Point(point.getX()    , point.getY() + 1),
-				new Point(point.getX() + 1, point.getY() + 1));
+				new Point(point.x - 1, point.y - 1),
+				new Point(point.x    , point.y - 1),
+				new Point(point.x + 1, point.y - 1),
+				new Point(point.x - 1, point.y),
+				new Point(point.x + 1, point.y),
+				new Point(point.x - 1, point.y + 1),
+				new Point(point.x    , point.y + 1),
+				new Point(point.x + 1, point.y + 1));
 	}
 }

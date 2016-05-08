@@ -1,7 +1,5 @@
 package gol;
 
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.function.Supplier;
 
 public class WorldStepper {
@@ -10,23 +8,22 @@ public class WorldStepper {
 	private final AliveNeighborCounter aliveNeighborCounter;
 
 	public WorldStepper(final Supplier<World> emptyWorldSupplier,
-			final AliveNeighborCounter aliveNeighbors) {
+			final AliveNeighborCounter aliveNeighborCounter) {
 		this.emptyWorldSupplier = emptyWorldSupplier;
-		aliveNeighborCounter = aliveNeighbors;
+		this.aliveNeighborCounter = aliveNeighborCounter;
 	}
 
 	public World step(final World oldWorld) {
 		final World newWorld = emptyWorldSupplier.get();
-		final Map<Point, Integer> aliveNeighborMap = aliveNeighborCounter.count(oldWorld);
-		for (final Entry<Point, Integer> entry : aliveNeighborMap.entrySet()) {
-			final int n = entry.getValue();
-			final Point p = entry.getKey();
-			if (n == 3) {
-				newWorld.setAlive(p.getX(), p.getY());
-			} else if (n == 2 && oldWorld.isAlive(p.getX(), p.getY())) {
-				newWorld.setAlive(p.getX(), p.getY());
-			}
-		}
+		aliveNeighborCounter.count(oldWorld)
+			.filter((a) -> shouldBeAlive(a.point, a.count, oldWorld))
+			.forEach((a) -> newWorld.setAlive(a.point.x, a.point.y));
 		return newWorld;
+	}
+
+	private boolean shouldBeAlive(final Point point, final int aliveCount,
+			final World oldWorld) {
+		return aliveCount == 3 ||
+				(aliveCount == 2 && oldWorld.isAlive(point.x, point.y));
 	}
 }
