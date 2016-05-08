@@ -33,41 +33,50 @@ public class GameOfLife {
 	}
 
 	public void runSimulation() {
-		while (stepCount <= maxSteps) {
-			if (stepCount != 0) {
-				stepWorld();
-			}
-
-			if (!quietMode || simulationDone()) {
-				worldPrinter.printWorld(world);
-				printStepCount();
-				line("");
-			}
-
-			stepDelayer.delay();
-
-			if (loopDetector.hasLoop(world)) {
-				break;
-			}
-			stepCount++;
+		if (shouldPrintStartWorld()) {
+			printStartWorld();
 		}
+
+		while (!isDone()) {
+			stepWorld();
+			if (shouldPrintWorld()) {
+				printWorld();
+			}
+			stepDelayer.delay();
+		}
+	}
+
+	private boolean shouldPrintStartWorld() {
+		return !quietMode || maxSteps == 0;
+	}
+
+	private void printStartWorld() {
+		worldPrinter.printWorld(world);
+		line("start");
+		line("");
+	}
+
+	private boolean isDone() {
+		return stepCount >= maxSteps || loopDetector.hasLoop(world);
 	}
 
 	private void stepWorld() {
 		history.add(world);
 		world = worldStepper.step(world);
+		stepCount++;
+	}
+	private boolean shouldPrintWorld() {
+		return !quietMode || simulationDone();
+	}
+
+	private void printWorld() {
+		worldPrinter.printWorld(world);
+		line("step " + stepCount + loopDetector.getLoopString(world));
+		line("");
 	}
 
 	private boolean simulationDone() {
 		return stepCount >= maxSteps || loopDetector.hasLoop(world);
-	}
-
-	private void printStepCount() {
-		if (stepCount == 0) {
-			line("start");
-		} else {
-			line("step " + stepCount + loopDetector.getLoopString(world));
-		}
 	}
 
 	private void line(final String s) {
