@@ -1,4 +1,4 @@
-package gol;
+package gol.game.input;
 
 import java.util.Random;
 
