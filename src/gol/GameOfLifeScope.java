@@ -13,6 +13,7 @@ import gol.game.StepCounter;
 import gol.game.WorldStepper;
 import gol.game.input.FileWorldReader;
 import gol.game.input.RandomWorldGenerator;
+import gol.game.output.GamePrinter;
 import gol.game.output.WorldPrinter;
 import gol.game.world.BitSetWorld;
 import gol.game.world.World;
@@ -24,6 +25,7 @@ public class GameOfLifeScope {
 	private History<World> history;
 	private Delayer delayer;
 	private LoopDetector<World> loopDetector;
+	private GamePrinter gamePrinter;
 	private WorldPrinter worldPrinter;
 	private WorldStepper worldStepper;
 	private StepCounter stepCounter;
@@ -37,8 +39,8 @@ public class GameOfLifeScope {
 
 	public GameOfLife gameOfLife() throws FileNotFoundException {
 		return new GameOfLife(world(), history(), delayer(), loopDetector(),
-				worldPrinter(), worldStepper(), stepCounter(),
-				arguments.getSteps(), arguments.isQuietMode());
+				gamePrinter(), worldStepper(), stepCounter(),
+				arguments.getSteps());
 	}
 
 	private World world() throws FileNotFoundException {
@@ -105,6 +107,14 @@ public class GameOfLifeScope {
 		return loopDetector;
 	}
 
+	private GamePrinter gamePrinter() throws FileNotFoundException {
+		if (gamePrinter == null) {
+			gamePrinter = new GamePrinter(loopDetector(), worldPrinter(),
+					stepCounter(), arguments.getSteps(), arguments.isQuietMode());
+		}
+		return gamePrinter;
+	}
+
 	private WorldPrinter worldPrinter() throws FileNotFoundException {
 		if (worldPrinter == null) {
 			worldPrinter = new WorldPrinter(arguments.getOutputFormat(),
@@ -122,7 +132,9 @@ public class GameOfLifeScope {
 	}
 
 	private StepCounter stepCounter() {
-		stepCounter = new StepCounter();
+		if (stepCounter == null) {
+			stepCounter = new StepCounter();
+		}
 		return stepCounter;
 	}
 
