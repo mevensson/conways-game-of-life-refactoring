@@ -59,7 +59,7 @@ public class GameOfLifeScope {
 	}
 
 	private void createFileWorld() throws FileNotFoundException {
-		final FileWorldReader fileWorldReader = new FileWorldReader();
+		final FileWorldReader fileWorldReader = new FileWorldReader(BitSetWorld::new);
 		world = fileWorldReader.read(arguments.getFilename().get());
 		viewPortHeight = Optional.of(
 				arguments.getHeightOrElse(fileWorldReader.getHeight()));
@@ -70,7 +70,7 @@ public class GameOfLifeScope {
 	private void createRandomWorld() {
 		viewPortHeight = Optional.of(arguments.getHeight());
 		viewPortWidth = Optional.of(arguments.getWidth());
-		world = new RandomWorldGenerator().generate(
+		world = new RandomWorldGenerator(BitSetWorld::new).generate(
 				viewPortWidth.get(), viewPortHeight.get());
 	}
 

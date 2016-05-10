@@ -3,15 +3,21 @@ package gol.game.input;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import gol.game.world.BitSetWorld;
 import gol.game.world.World;
 
 public class FileWorldReader {
+	private final Supplier<World> emptyWorldSupplier;
+
 	private int width;
 	private int height;
+
+	public FileWorldReader(final Supplier<World> emptyWorldSupplier) {
+		this.emptyWorldSupplier = emptyWorldSupplier;
+	}
 
 	public int getWidth() {
 		return width;
@@ -23,7 +29,7 @@ public class FileWorldReader {
 
 	public World read(final String filePath) throws FileNotFoundException {
 		final Scanner scanner = new Scanner(new File(filePath));
-		final World world = new BitSetWorld();
+		final World world = emptyWorldSupplier.get();
 		int lineNumber = 1;
 		int maxWidth = 0;
 		while (scanner.hasNextLine()) {
