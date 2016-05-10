@@ -6,7 +6,6 @@ import static java.util.stream.Collectors.toMap;
 import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import gol.game.world.World;
 
@@ -23,7 +22,7 @@ public class AliveNeighborCounter {
 	}
 
 	public Stream<AliveNeighbors> count(final World world) {
-		return alivePoints(world)
+		return world.stream()
 				.flatMap(p -> neighbors(p))
 				.collect(countUnique())
 				.entrySet()
@@ -33,10 +32,6 @@ public class AliveNeighborCounter {
 
 	private <T> Collector<T, ?, Map<T, Integer>> countUnique() {
 		return toMap(identity(), (k) -> 1, (v1, v2) -> v1 + v2);
-	}
-
-	private Stream<Point> alivePoints(final World world) {
-		return StreamSupport.stream(world.spliterator(), false);
 	}
 
 	private Stream<Point> neighbors(final Point point) {

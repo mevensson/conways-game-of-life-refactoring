@@ -1,8 +1,8 @@
 package gol.game.world;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import gol.game.Point;
 
@@ -35,7 +35,7 @@ public class SetWorld implements World {
 	}
 
 	@Override
-	public Iterator<Point> iterator() {
-		return world.iterator();
+	public Stream<Point> stream() {
+		return world.stream();
 	}
 }
