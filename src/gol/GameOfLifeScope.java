@@ -15,7 +15,7 @@ import gol.game.input.FileWorldReader;
 import gol.game.input.RandomWorldGenerator;
 import gol.game.output.GamePrinter;
 import gol.game.output.WorldPrinter;
-import gol.game.world.BitSetWorld;
+import gol.game.world.SetWorld;
 import gol.game.world.World;
 import gol.history.History;
 import gol.history.LoopDetector;
@@ -59,7 +59,7 @@ public class GameOfLifeScope {
 	}
 
 	private void createFileWorld() throws FileNotFoundException {
-		final FileWorldReader fileWorldReader = new FileWorldReader(BitSetWorld::new);
+		final FileWorldReader fileWorldReader = new FileWorldReader(SetWorld::new);
 		world = fileWorldReader.read(arguments.getFilename().get());
 		viewPortHeight = Optional.of(
 				arguments.getHeightOrElse(fileWorldReader.getHeight()));
@@ -70,7 +70,7 @@ public class GameOfLifeScope {
 	private void createRandomWorld() {
 		viewPortHeight = Optional.of(arguments.getHeight());
 		viewPortWidth = Optional.of(arguments.getWidth());
-		world = new RandomWorldGenerator(BitSetWorld::new).generate(
+		world = new RandomWorldGenerator(SetWorld::new).generate(
 				viewPortWidth.get(), viewPortHeight.get());
 	}
 
@@ -126,7 +126,7 @@ public class GameOfLifeScope {
 	private WorldStepper worldStepper() {
 		if (worldStepper == null) {
 			worldStepper = new AliveNeighborsWorldStepper(
-					BitSetWorld::new, new AliveNeighborCounter());
+					SetWorld::new, new AliveNeighborCounter());
 		}
 		return worldStepper;
 	}
