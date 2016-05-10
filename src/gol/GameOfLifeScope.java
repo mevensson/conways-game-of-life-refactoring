@@ -1,7 +1,7 @@
 package gol;
 
 import java.io.FileNotFoundException;
-import java.util.Optional;
+import java.util.function.Supplier;
 
 import gol.delayer.Delayer;
 import gol.delayer.NoDelayDelayer;
@@ -9,6 +9,9 @@ import gol.delayer.SleepDelayer;
 import gol.game.AliveNeighborCounter;
 import gol.game.AliveNeighborsWorldStepper;
 import gol.game.GameOfLife;
+import gol.game.StartWorld;
+import gol.game.StartWorldCreatedScope;
+import gol.game.StartWorldFactory;
 import gol.game.StepCounter;
 import gol.game.WorldStepper;
 import gol.game.input.FileWorldReader;
@@ -25,53 +28,49 @@ public class GameOfLifeScope {
 	private History<World> history;
 	private Delayer delayer;
 	private LoopDetector<World> loopDetector;
-	private GamePrinter gamePrinter;
-	private WorldPrinter worldPrinter;
 	private WorldStepper worldStepper;
 	private StepCounter stepCounter;
-	private World world;
-	private Optional<Integer> viewPortHeight = Optional.empty();
-	private Optional<Integer> viewPortWidth = Optional.empty();
 
 	public GameOfLifeScope(final Arguments arguments) {
 		this.arguments = arguments;
 	}
 
 	public GameOfLife gameOfLife() throws FileNotFoundException {
-		return new GameOfLife(world(), history(), delayer(), loopDetector(),
-				gamePrinter(), worldStepper(), stepCounter(),
-				arguments.getSteps());
+		return new GameOfLife(
+				startWorldGenerator(), startWorldCreatedScopeEntrance(),
+				history(), delayer(), loopDetector(), worldStepper(),
+				stepCounter(), arguments.getSteps());
 	}
 
-	private World world() throws FileNotFoundException {
-		if (world == null) {
-			createWorld();
-		}
-		return world;
+	private Supplier<StartWorld> startWorldGenerator() {
+		return new StartWorldFactory(
+				fileWorldReader(),
+				randomWorldGenerator(),
+				arguments.getWidth(),
+				arguments.getHeight(),
+				arguments.getFilename());
 	}
 
-	private void createWorld() throws FileNotFoundException {
-		if (arguments.getFilename().isPresent()) {
-			createFileWorld();
-		} else {
-			createRandomWorld();
-		}
+	private FileWorldReader fileWorldReader() {
+		return new FileWorldReader(SetWorld::new);
 	}
 
-	private void createFileWorld() throws FileNotFoundException {
-		final FileWorldReader fileWorldReader = new FileWorldReader(SetWorld::new);
-		world = fileWorldReader.read(arguments.getFilename().get());
-		viewPortHeight = Optional.of(
-				arguments.getHeightOrElse(fileWorldReader.getHeight()));
-		viewPortWidth = Optional.of(
-				arguments.getWidthOrElse(fileWorldReader.getWidth()));
+	private RandomWorldGenerator randomWorldGenerator() {
+		return new RandomWorldGenerator(SetWorld::new);
 	}
 
-	private void createRandomWorld() {
-		viewPortHeight = Optional.of(arguments.getHeight());
-		viewPortWidth = Optional.of(arguments.getWidth());
-		world = new RandomWorldGenerator(SetWorld::new).generate(
-				viewPortWidth.get(), viewPortHeight.get());
+	private ScopeEntrance<GamePrinter, StartWorldCreatedScope> startWorldCreatedScopeEntrance() {
+		return (scope) -> injectGamePrinter(scope);
+	}
+
+	private GamePrinter injectGamePrinter(final StartWorldCreatedScope scope) {
+		return new GamePrinter(loopDetector(), worldPrinter(scope),
+				stepCounter(), arguments.getSteps(), arguments.isQuietMode());
+	}
+
+	private WorldPrinter worldPrinter(final StartWorldCreatedScope scope) {
+		return new WorldPrinter(arguments.getOutputFormat(),
+				scope.getWidth(), scope.getHeight());
 	}
 
 	private History<World> history() {
@@ -107,22 +106,6 @@ public class GameOfLifeScope {
 		return loopDetector;
 	}
 
-	private GamePrinter gamePrinter() throws FileNotFoundException {
-		if (gamePrinter == null) {
-			gamePrinter = new GamePrinter(loopDetector(), worldPrinter(),
-					stepCounter(), arguments.getSteps(), arguments.isQuietMode());
-		}
-		return gamePrinter;
-	}
-
-	private WorldPrinter worldPrinter() throws FileNotFoundException {
-		if (worldPrinter == null) {
-			worldPrinter = new WorldPrinter(arguments.getOutputFormat(),
-					viewPortWidth(), viewPortHeight());
-		}
-		return worldPrinter;
-	}
-
 	private WorldStepper worldStepper() {
 		if (worldStepper == null) {
 			worldStepper = new AliveNeighborsWorldStepper(
@@ -136,19 +119,5 @@ public class GameOfLifeScope {
 			stepCounter = new StepCounter();
 		}
 		return stepCounter;
-	}
-
-	private int viewPortWidth() throws FileNotFoundException {
-		if (!viewPortWidth.isPresent()) {
-			createWorld();
-		}
-		return viewPortWidth.get();
-	}
-
-	private int viewPortHeight() throws FileNotFoundException {
-		if (!viewPortHeight.isPresent()) {
-			createWorld();
-		}
-		return viewPortHeight.get();
 	}
 }

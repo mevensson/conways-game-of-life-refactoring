@@ -1,6 +1,7 @@
 package gol;
 
 import java.util.Optional;
+import java.util.OptionalInt;
 
 import gol.argument_parser.ArgumentParser;
 import gol.argument_parser.BoolArgument;
@@ -9,8 +10,9 @@ import gol.argument_parser.StringArgument;
 import gol.game.output.OutputFormat;
 
 public class Arguments {
-	private static final int DEFAULT_HEIGHT = 15;
-	private static final int DEFAULT_WIDTH = 20;
+	public static final int DEFAULT_HEIGHT = 15;
+	public static final int DEFAULT_WIDTH = 20;
+
 	private static final int DEFAULT_STEPS = 100;
 	private static final int DEFAULT_HISTORY_LENGTH = 0;
 	private static final int DEFAULT_STEP_DELAY = -1;
@@ -87,20 +89,12 @@ public class Arguments {
 		return filename.getArgument();
 	}
 
-	public int getHeight() {
-		return height.getArgumentWithDefault();
+	public OptionalInt getHeight() {
+		return height.getArgumentWithoutDefault();
 	}
 
-	public int getHeightOrElse(final int other) {
-		return height.getArgumentWithoutDefault().orElse(other);
-	}
-
-	public int getWidth() {
-		return width.getArgumentWithDefault();
-	}
-
-	public int getWidthOrElse(final int other) {
-		return width.getArgumentWithoutDefault().orElse(other);
+	public OptionalInt getWidth() {
+		return width.getArgumentWithoutDefault();
 	}
 
 	public int getSteps() {
