@@ -8,6 +8,7 @@ import gol.delayer.NoDelayDelayer;
 import gol.delayer.SleepDelayer;
 import gol.game.AliveNeighborCounter;
 import gol.game.AliveNeighborsWorldStepper;
+import gol.game.DelayChooser;
 import gol.game.GameOfLife;
 import gol.game.StartWorld;
 import gol.game.StartWorldCreatedScope;
@@ -82,17 +83,13 @@ public class GameOfLifeScope {
 
 	private Delayer delayer() {
 		if (delayer == null) {
-			if (arguments.isQuietMode()) {
-				delayer = noDelayDelayer();
-			} else {
-				delayer = sleepDelayer();
-			}
+			final DelayChooser delayChooser = new DelayChooser(
+					NoDelayDelayer::new,
+					() -> sleepDelayer(),
+					arguments.isQuietMode());
+			delayer = delayChooser.get();
 		}
 		return delayer;
-	}
-
-	private Delayer noDelayDelayer() {
-		return new NoDelayDelayer();
 	}
 
 	private Delayer sleepDelayer() {
