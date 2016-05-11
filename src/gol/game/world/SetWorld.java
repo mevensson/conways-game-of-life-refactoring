@@ -5,11 +5,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class SetWorld implements World {
-	private final Set<Point> world;
-
-	public SetWorld() {
-		world = new HashSet<>();
-	}
+	private final Set<Point> world = new HashSet<>();
 
 	@Override
 	public boolean isAlive(final int x, final int y) {
