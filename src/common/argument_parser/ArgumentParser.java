@@ -1,4 +1,4 @@
-package gol.argument_parser;
+package common.argument_parser;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;

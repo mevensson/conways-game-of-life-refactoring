@@ -1,6 +1,6 @@
 package gol;
 
-import gol.argument_parser.ArgumentParser;
+import common.argument_parser.ArgumentParser;
 import gol.game.GameOfLife;
 
 public class GameOfLifeApplication {

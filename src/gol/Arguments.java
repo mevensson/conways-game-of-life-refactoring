@@ -3,10 +3,10 @@ package gol;
 import java.util.Optional;
 import java.util.OptionalInt;
 
-import gol.argument_parser.ArgumentParser;
-import gol.argument_parser.BoolArgument;
-import gol.argument_parser.IntegerArgument;
-import gol.argument_parser.StringArgument;
+import common.argument_parser.ArgumentParser;
+import common.argument_parser.BoolArgument;
+import common.argument_parser.IntegerArgument;
+import common.argument_parser.StringArgument;
 import gol.game.output.OutputFormat;
 
 public class Arguments {

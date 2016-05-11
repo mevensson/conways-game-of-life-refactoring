@@ -1,4 +1,4 @@
-package gol.delayer;
+package common.delayer;
 
 public final class SleepDelayer implements Delayer {
 	private final int delay;

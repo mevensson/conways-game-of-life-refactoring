@@ -1,4 +1,4 @@
-package gol.delayer;
+package common.delayer;
 
 public final class NoDelayDelayer implements Delayer {
 

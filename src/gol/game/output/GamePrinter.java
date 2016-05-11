@@ -1,8 +1,8 @@
 package gol.game.output;
 
+import common.history.LoopDetector;
 import gol.game.StepCounter;
 import gol.game.world.World;
-import gol.history.LoopDetector;
 
 public class GamePrinter {
 

@@ -2,12 +2,12 @@ package gol.game;
 
 import java.util.function.Supplier;
 
+import common.delayer.Delayer;
+import common.history.History;
+import common.history.LoopDetector;
 import gol.ScopeEntrance;
-import gol.delayer.Delayer;
 import gol.game.output.GamePrinter;
 import gol.game.world.World;
-import gol.history.History;
-import gol.history.LoopDetector;
 
 public class GameOfLife {
 	private final Supplier<StartWorld> startWorldSupplier;

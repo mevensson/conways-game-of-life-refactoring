@@ -2,10 +2,10 @@ package gol;
 
 import java.util.function.Supplier;
 
+import common.history.History;
+import common.history.LoopDetector;
 import gol.game.StepCounter;
 import gol.game.world.World;
-import gol.history.History;
-import gol.history.LoopDetector;
 
 public class GameOfLifeScope {
 	private final Arguments arguments;

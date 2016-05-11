@@ -2,7 +2,7 @@ package gol.game;
 
 import java.util.function.Supplier;
 
-import gol.delayer.Delayer;
+import common.delayer.Delayer;
 
 public class DelayChooser implements Supplier<Delayer> {
 

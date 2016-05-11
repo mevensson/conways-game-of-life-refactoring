@@ -1,4 +1,4 @@
-package gol.history;
+package common.history;
 
 import java.util.LinkedList;
 import java.util.List;

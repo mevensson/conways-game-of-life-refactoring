@@ -2,9 +2,11 @@ package gol;
 
 import java.util.function.Supplier;
 
-import gol.delayer.Delayer;
-import gol.delayer.NoDelayDelayer;
-import gol.delayer.SleepDelayer;
+import common.delayer.Delayer;
+import common.delayer.NoDelayDelayer;
+import common.delayer.SleepDelayer;
+import common.history.History;
+import common.history.LoopDetector;
 import gol.game.AliveNeighborCounter;
 import gol.game.AliveNeighborsWorldStepper;
 import gol.game.DelayChooser;
@@ -20,8 +22,6 @@ import gol.game.output.GamePrinter;
 import gol.game.output.WorldPrinter;
 import gol.game.world.SetWorld;
 import gol.game.world.World;
-import gol.history.History;
-import gol.history.LoopDetector;
 
 public class GameOfLifeInjector {
 

@@ -2,7 +2,7 @@ package gol;
 
 import java.util.function.Supplier;
 
-import gol.argument_parser.ArgumentParser;
+import common.argument_parser.ArgumentParser;
 
 public class ApplicationScope {
 

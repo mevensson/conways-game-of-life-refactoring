@@ -1,4 +1,4 @@
-package gol.history;
+package common.history;
 
 public final class LoopDetector<Item> {
 	private final History<Item> history;

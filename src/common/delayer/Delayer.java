@@ -1,4 +1,4 @@
-package gol.delayer;
+package common.delayer;
 
 public interface Delayer {
 
