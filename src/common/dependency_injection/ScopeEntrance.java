@@ -1,4 +1,4 @@
-package gol;
+package common.dependency_injection;
 
 public interface ScopeEntrance<Result, Scope> {
 

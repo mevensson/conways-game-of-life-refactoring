@@ -2,6 +2,7 @@ package gol;
 
 import java.util.function.Supplier;
 
+import common.dependency_injection.Cache;
 import common.history.History;
 import common.history.LoopDetector;
 import gol.game.StepCounter;

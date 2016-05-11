@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import common.delayer.Delayer;
 import common.delayer.NoDelayDelayer;
 import common.delayer.SleepDelayer;
+import common.dependency_injection.ScopeEntrance;
 import common.history.History;
 import common.history.LoopDetector;
 import gol.game.AliveNeighborCounter;

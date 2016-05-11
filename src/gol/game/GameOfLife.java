@@ -3,9 +3,9 @@ package gol.game;
 import java.util.function.Supplier;
 
 import common.delayer.Delayer;
+import common.dependency_injection.ScopeEntrance;
 import common.history.History;
 import common.history.LoopDetector;
-import gol.ScopeEntrance;
 import gol.game.output.GamePrinter;
 import gol.game.world.World;
 

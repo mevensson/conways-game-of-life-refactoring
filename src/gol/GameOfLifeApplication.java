@@ -1,6 +1,7 @@
 package gol;
 
 import common.argument_parser.ArgumentParser;
+import common.dependency_injection.ScopeEntrance;
 import gol.game.GameOfLife;
 
 public class GameOfLifeApplication {

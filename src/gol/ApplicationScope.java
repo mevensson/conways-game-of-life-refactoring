@@ -3,6 +3,7 @@ package gol;
 import java.util.function.Supplier;
 
 import common.argument_parser.ArgumentParser;
+import common.dependency_injection.Cache;
 
 public class ApplicationScope {
 

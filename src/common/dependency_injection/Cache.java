@@ -1,4 +1,4 @@
-package gol;
+package common.dependency_injection;
 
 import java.util.function.Supplier;
 
