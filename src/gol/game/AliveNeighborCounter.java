@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
+import gol.game.world.Point;
 import gol.game.world.World;
 
 public class AliveNeighborCounter {

@@ -4,8 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import gol.game.Point;
-
 public class SetWorld implements World {
 	private final Set<Point> world;
 
